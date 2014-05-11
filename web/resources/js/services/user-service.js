@@ -14,7 +14,14 @@ angular
         var loginUrl = API_URL + "login", UserFactory = {};
 
         UserFactory.getUser = function () {
-            return $http.get(loginUrl);
+            var deferred = $q.defer();
+            $http.get(loginUrl).success(function(success){
+                deferred.resolve(success);
+            },
+            function(reason){
+                deferred.reject(reason);
+            });
+            return deferred.promise;
         };
 
         UserFactory.saveData = function (User) {

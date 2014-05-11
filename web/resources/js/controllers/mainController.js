@@ -26,7 +26,7 @@ angular
             };
 
             UserFactory.getUser().then(function(succes){
-                $scope.user = succes.data;
+                $scope.user = succes;
                 AuthFactory.setUser($scope.user);
             }).finally(function(){
                 $scope.$emit(LOADING_CONTENT_EVENT, false);
