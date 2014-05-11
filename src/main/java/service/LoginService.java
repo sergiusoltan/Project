@@ -42,6 +42,7 @@ public class LoginService {
 
 //        return gson.toJsonTree(userStatus, UserStatus.class).toString();
 
+        //default user
         UserStatus defaultMock = new UserStatus(Boolean.TRUE);
         defaultMock.setName("Mock User");
         defaultMock.setEmail("mock@home.com");
