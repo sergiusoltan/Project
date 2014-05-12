@@ -213,3 +213,10 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+*.xml
+*.xml
+.idea/compiler.xml
+.idea/libraries/AppEngine_API.xml
+.idea/libraries/google_gson_2_2.xml
+.idea/misc.xml
+.idea/workspace.xml
