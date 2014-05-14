@@ -4,11 +4,11 @@ package main.java.model;
  * User: Sergiu Soltan
  */
 public enum UserProperties {
-    USER_URL("userUrl"),
     NAME("name"),
     EMAIL("email"),
-    IS_LOGGED("isLogged"),
-    USER_ID("id");
+    DATE("date"),
+    IS_LOGGED("date"),
+    PASSWORD("password");
 
     private String key;
 

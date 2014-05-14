@@ -1,5 +1,8 @@
 package main.java.model;
 
+import main.java.util.UserServiceUtil;
+import main.java.util.Utils;
+
 /**
  * User: Sergiu Soltan
  */
@@ -10,8 +13,13 @@ public class UserStatus {
     private String id;
     private Boolean isLogged;
 
+    public static UserStatus getUserStatus(String json){
+        return Utils.getInstance().fromJson(json,UserStatus.class);
+    }
+
     public UserStatus(Boolean logged) {
         isLogged = logged;
+        userUrl = UserServiceUtil.getUserUrl(logged);
     }
 
     public String getUserUrl() {
