@@ -17,8 +17,10 @@
 </head>
 <body>
 
-    <header id="header" ng-show="{{user.isLogged}}" ng-class="{'is-loading': loading.header}" ng-include="'resources/views/templates/header.html'" ng-controller="HeaderCtrl"></header>
-    <section id="content" ng-class="{'is-loading' : loading.content}" ng-view></section>
+    <header id="header" ng-class="{'is-loading': loading.header}" ng-include="'resources/views/templates/header.html'" ng-controller="HeaderCtrl"></header>
+    <section id="content" ng-class="{'is-loading' : loading.content}" style="margin-top: 50px;" ng-view></section>
+
+    <!--<footer id="footer" ng-class="{'is-loading': loading.header}" ng-include="'resources/views/templates/footer.html'"></footer>-->
 
     <!-- Angular files -->
     <script src="resources/angular/angular.js"></script>
