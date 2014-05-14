@@ -9,15 +9,15 @@
 
 angular
     .module('core')
-    .factory('AuthFactory', ['UserFactory',function () {
-        var currentUser;
-        return{
-            setUser:function(user){
-                currentUser = user;
-            },
+    .factory('AuthFactory', ['UserFactory', function () {
+    var currentUser;
+    return{
+        setUser:function (user) {
+            currentUser = user;
+        },
 
-            isAuthenticated:function(){
-                return (currentUser && currentUser.isLogged) ? true : false;
-            }
+        isAuthenticated:function () {
+            return (currentUser && currentUser.isLogged) ? true : false;
         }
-    }]);
+    };
+}]);

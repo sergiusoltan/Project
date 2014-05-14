@@ -8,3 +8,9 @@
 //Events
 LOADING_HEADER_EVENT = "application.loading.header";
 LOADING_CONTENT_EVENT = "application.loading.content";
+GOOGLE_LOGIN_EVENT = "application.google.login";
+
+//PATHS
+HOME = '/';
+LOGIN = '/login';
+SIGNIN = '/signin';

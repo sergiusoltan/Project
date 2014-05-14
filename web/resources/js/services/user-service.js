@@ -11,21 +11,47 @@ angular
     .module('core')
     .factory('UserFactory', ['$http', '$q', 'API_URL', function ($http, $q, API_URL) {
 
-        var loginUrl = API_URL + "login", UserFactory = {};
+    var loginUrl = API_URL.rest + "auth/find",
+        saveUserUrl = API_URL.rest + "auth/save",
+        loginUserUrl = API_URL.rest + "auth/login",
+        UserFactory = {};
 
-        UserFactory.getUser = function () {
-            var deferred = $q.defer();
-            $http.get(loginUrl).success(function(success){
+    UserFactory.getUser = function () {
+        var deferred = $q.defer();
+        $http.get(loginUrl).success(function (success) {
                 deferred.resolve(success);
             },
-            function(reason){
+            function (reason) {
                 deferred.reject(reason);
             });
-            return deferred.promise;
-        };
+        return deferred.promise;
+    };
 
-        UserFactory.saveData = function (User) {
-        };
+    UserFactory.saveUser = function (properties) {
+        var deferred = $q.defer();
 
-        return UserFactory;
-    }]);
+        $http['post'](saveUserUrl, properties)
+            .success(function (success) {
+                deferred.resolve(success);
+            }).error(function (error) {
+                deferred.reject(error);
+            });
+
+        return deferred.promise;
+    };
+
+    UserFactory.loginUser = function (properties) {
+        var deferred = $q.defer();
+
+        $http['post'](loginUserUrl, properties)
+            .success(function (success) {
+                deferred.resolve(success);
+            }).error(function (error) {
+                deferred.reject(error);
+            });
+
+        return deferred.promise;
+    };
+
+    return UserFactory;
+}]);

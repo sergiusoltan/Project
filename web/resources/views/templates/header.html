@@ -1,3 +1,12 @@
-<nav ng-if="user.isLogged">
-    <h2>{{title}} : {{username}}</h2>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container" style="height: 50px;">
+        <div class="navbar">
+            <ul class="nav navbar-nav">
+                <li ng-class="navClass('')"><a href='/'>Home</a></li>
+                <li ng-class="navClass('signin')"><a href='/signin'>Sing In</a></li>
+                <li ng-class="navClass('login')"><a href='/login'>Login In</a></li>
+                <li ng-class="navClass('logout')" ng-click="logout()"><a href="#">Logout</a></li>
+            </ul>
+        </div>
+    </div>
 </nav>

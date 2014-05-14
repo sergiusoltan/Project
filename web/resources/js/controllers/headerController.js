@@ -7,12 +7,20 @@
  */
 angular
     .module('mainApp')
-    .controller('HeaderCtrl', ['$scope', function($scope) {
+    .controller('HeaderCtrl', ['$scope' , '$location', function ($scope, $location) {
 
+    $scope.title = 'Header Controller';
 
-        $scope.title = 'Header Controller';
+    $scope.navClass = function (page) {
+        var currentRoute = $location.path().substring(1) || '';
+        return page === currentRoute ? 'active' : 'innactive';
+    };
 
-        $scope.$on(LOADING_HEADER_EVENT, function (e, value) {
-            $scope.loading.header = value;
-        });
+    $scope.logout = function () {
+        alert('logout');
+    };
+
+    $scope.$on(LOADING_HEADER_EVENT, function (e, value) {
+        $scope.loading.header = value;
+    });
 }]);
