@@ -32,7 +32,7 @@ public class AuthService {
             userStatus.setName(user.getNickname());
             userStatus.setId(user.getUserId());
         }
-        String responseEntity = getInstance().toJsonTree(userStatus, UserStatus.class).toString();
+        String responseEntity = getInstance().toJson(userStatus, UserStatus.class);
         return oKResponse(responseEntity);
     }
 
