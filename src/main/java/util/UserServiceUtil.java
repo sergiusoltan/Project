@@ -4,8 +4,8 @@ import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import main.java.model.*;
-import main.java.model.Entities;
+import main.java.model.auth.AuthModel;
+import main.java.model.auth.UserStatus;
 import main.java.validations.EntityNotFoundRuntimeException;
 
 import java.security.MessageDigest;
@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static main.java.model.UserProperties.*;
+import static main.java.util.UserProperties.*;
 import static main.java.util.Utils.getUserKey;
 
 /**

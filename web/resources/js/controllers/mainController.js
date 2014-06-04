@@ -36,7 +36,8 @@ angular
         UserFactory.loginUser(JSON.stringify(properties)).then(function (success) {
             $scope.user = success.myHashMap.data;
             AuthFactory.setUser($scope.user);
-            alert(success.myHashMap.messages);
+            $location.path(HOME);
+            //alert(success.myHashMap.messages);
         });
     };
 
@@ -56,9 +57,9 @@ angular
             header:true,
             content:true
         };
-        $scope.name = "";
-        $scope.email = "";
-        $scope.password = "";
+        $scope.name = "test";
+        $scope.email = "test@test.test";
+        $scope.password = "testtest";
         $scope.rememberme = false;
 
         loadUser();
@@ -68,7 +69,6 @@ angular
         UserFactory.getUser().then(function (succes) {
             $scope.user = succes;
             AuthFactory.setUser($scope.user);
-//                $location.path(HOME);
         }).finally(function () {
                 $scope.$emit(LOADING_CONTENT_EVENT, false);
                 $scope.$emit(LOADING_HEADER_EVENT, false);
@@ -82,7 +82,10 @@ angular
         .otherwise({redirectTo:HOME })
         .when(LOGIN, {templateUrl:'resources/views/loginform.html', controller:'MainCtrl'})
         .when(SIGNIN, {templateUrl:'resources/views/signinform.html', controller:'MainCtrl'})
-        .when(HOME, {templateUrl:'resources/views/empty.html', controller:'MainCtrl'});
+        .when(HOME, {templateUrl:'resources/views/dashboard.html', controller:'DashboardCtrl'})
+        .when(CUSTOMERS, {templateUrl:'resources/views/customers.html', controller:'CustomersCtrl'})
+        .when(ABOUT, {templateUrl:'resources/views/about.html', controller:'MainCtrl'})
+        .when(ORDERS, {templateUrl:'resources/views/orders.html', controller:'OrdersCtrl'});
 
     $locationProvider.html5Mode(true);
 }])

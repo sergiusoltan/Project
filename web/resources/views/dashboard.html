@@ -1,0 +1,121 @@
+<div class="container-fluid" ng-controller="DashboardCtrl">
+    {{title}}
+    <div class="row">
+
+        <div class="col-md-3 col-sm-6 col-sx-6">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="label label-primary">120% +</span>
+                    <h3 class="panel-title">Sales</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="daily-stats">
+                        <h1 class="number">$4595</h1>
+                        <p class="avg">Total Sale</p>
+                        <ul class="details">
+                            <li>
+                                <h4 class="num">1239</h4>
+                                <small>Customers</small>
+                            </li>
+                            <li>
+                                <h4 class="num">125</h4>
+                                <small>Products</small>
+                            </li>
+                            <li>
+                                <h4 class="num">2295</h4>
+                                <small>Orders</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-footer clearfix">
+                    <a href="#" class="pull-left">View more...</a>
+                    <span class="pull-right" id="sales"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-sx-6">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="label label-primary">35% +</span>
+                    <h3 class="panel-title">Products</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="daily-stats">
+                        <h1 class="number primary">7692</h1>
+                        <p class="avg">Total Products</p>
+                        <div class="progress progress-small">
+                            <div class="progress-bar progress-bar-success" style="width: 40%">
+                            </div>
+                            <div class="progress-bar progress-bar-primary" style="width: 60%">
+                            </div>
+                        </div>
+                        <ul class="min-max">
+                            <li>
+                                <h4 class="num"><small>Min</small>2579</h4>
+                            </li>
+                            <li>
+                                <h4 class="num"><small>Max</small>4475</h4>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-footer clearfix">
+                    <a href="#" class="pull-left">View more...</a>
+                    <span class="pull-right" id="products"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-sx-6">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="label label-warning">45% +</span>
+                    <h3 class="panel-title">Conversion Rate</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="daily-stats">
+                        <h1 class="number primary">1.989%</h1>
+                        <p class="avg">Average</p>
+                        <div class="bar-graph" id="conversion-graph">&nbsp;</div>
+                    </div>
+                </div>
+                <div class="panel-footer clearfix">
+                    <a href="#" class="pull-left">View more...</a>
+                    <span class="pull-right" id="conversion-rate"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-sx-6">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="label label-primary">90% +</span>
+                    <h3 class="panel-title">Users Demography</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="daily-stats">
+                        <h1 class="number primary">3295</h1>
+                        <p class="avg">Average</p>
+                        <ul class="demography">
+                            <li>
+                                <i class="icon-male"></i>
+                                <h4 class="num">47239 <small>Male</small></h4>
+                            </li>
+                            <li>
+                                <i class="icon-female"></i>
+                                <h4 class="num">21925 <small>Female</small></h4>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-footer clearfix">
+                    <a href="#" class="pull-left">View more...</a>
+                    <span class="pull-right" id="new-users"></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

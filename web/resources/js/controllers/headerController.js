@@ -23,4 +23,5 @@ angular
     $scope.$on(LOADING_HEADER_EVENT, function (e, value) {
         $scope.loading.header = value;
     });
-}]);
+    }
+]);

@@ -1,4 +1,4 @@
-package main.java.model;
+package main.java.model.auth;
 
 import main.java.util.Utils;
 

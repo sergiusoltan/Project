@@ -2,8 +2,8 @@ package main.java.service;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
-import main.java.model.AuthModel;
-import main.java.model.UserStatus;
+import main.java.model.auth.AuthModel;
+import main.java.model.auth.UserStatus;
 import main.java.util.UserServiceUtil;
 
 import javax.ws.rs.*;
@@ -32,7 +32,6 @@ public class AuthService {
             userStatus.setName(user.getNickname());
             userStatus.setId(user.getUserId());
         }
-        userStatus.setUserUrl(UserServiceUtil.getUserUrl(isLogged));
         String responseEntity = getInstance().toJsonTree(userStatus, UserStatus.class).toString();
         return oKResponse(responseEntity);
     }

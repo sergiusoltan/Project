@@ -14,3 +14,6 @@ GOOGLE_LOGIN_EVENT = "application.google.login";
 HOME = '/';
 LOGIN = '/login';
 SIGNIN = '/signin';
+CUSTOMERS = '/customers';
+ABOUT = '/about';
+ORDERS = '/orders';

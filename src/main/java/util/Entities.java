@@ -1,10 +1,12 @@
-package main.java.model;
+package main.java.util;
 
 /**
  * @author Serghei Soltan (soltan@spmsoftware.com)
  */
 public enum Entities {
-    USER("USER");
+    USER("USER"),
+    ORDERS("ORDERS"),
+    EVENTS("EVENTS");
 
     private String id;
 

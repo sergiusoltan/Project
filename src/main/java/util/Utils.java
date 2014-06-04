@@ -6,13 +6,12 @@ import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import main.java.model.Entities;
 
 import javax.ws.rs.core.Response;
 
 import java.util.List;
 
-import static main.java.model.Entities.*;
+import static main.java.util.Entities.*;
 
 /**
  * @author Serghei Soltan (soltan@spmsoftware.com)
