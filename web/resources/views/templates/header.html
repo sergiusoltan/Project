@@ -5,7 +5,16 @@
 
             <ul class="nav navbar-nav navbar-left">
                 <li ng-class="navClass('')"><a href='/'>Home</a></li>
-                <li ng-class="navClass('customers')"><a href='/customers'>Customers</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" toggle="dropdown">
+                        <b class="caret"></b> <span class="text-right">People</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ng-class="navClass('distributors')"><a href='/distributors'>Distributors</a></li>
+                        <li ng-class="navClass('clients')"><a href='/clients'>Clients</a></li>
+                        <li ng-class="navClass('contacts')"><a href='/contacts'>Contacts</a></li>
+                    </ul>
+                </li>
                 <li ng-class="navClass('orders')"><a href='/orders'>Orders</a></li>
             </ul>
 

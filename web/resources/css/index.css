@@ -45,3 +45,27 @@
     min-width: 100px;
 
 }
+button.btn.btn-info.pull-right{
+    margin-top: -7px;
+}
+.clickable:hover{
+    cursor: pointer;
+}
+
+.sortable{
+    margin-right: 10px;
+    cursor: pointer;
+    margin-top: 4px;
+}
+th input{
+    font-weight: normal;
+    -webkit-border-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-radius: 4px;
+    border-bottom-left-radius: 5px;
+    padding-left: 2px;
+    margin-left: 5px;
+    width: 130px;
+}

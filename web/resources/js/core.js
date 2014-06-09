@@ -7,4 +7,4 @@
  */
 'use strict';
 angular
-    .module('core', ['ui.bootstrap']);
+    .module('core', ['ui.bootstrap','ui.bootstrap.modal']);

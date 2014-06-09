@@ -1,0 +1,71 @@
+<div class="container-fluid">
+
+    <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Clients
+            <button type="button" class="btn btn-info pull-right" ng-click="openClient('lg')">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </div>
+
+
+        <!-- Table -->
+        <table id="clients" class="table table-bordered table-condensed table-hover">
+            <tbody>
+            <tr>
+                <th>Name
+                    <input ng-model="filterModel.name" placeholder="Filter by name">
+                    <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
+                          ng-click="predicate = 'name'"></span>
+                    <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
+                          ng-click="predicate = '-name'"  ></span>
+                </th>
+                <th>Telephone
+                    <input ng-model="filterModel.phone" placeholder="Filter by phone">
+                    <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
+                          ng-click="predicate = 'phone'"></span>
+                    <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
+                          ng-click="predicate = '-phone'"  ></span>
+                </th>
+                <th>Email
+                    <input ng-model="filterModel.email" placeholder="Filter by email">
+                    <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
+                          ng-click="predicate = 'email'"></span>
+                    <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
+                          ng-click="predicate = '-email'"  ></span>
+                </th>
+            </tr>
+            <tr ng-repeat="client in clients | filter:filterModel | orderBy:predicate"
+                class="clickable" ng-click="openClient('lg', client)">
+                <td>{{client.name}}</td>
+                <td>{{client.phone}}</td>
+                <td>{{client.email}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/ng-template" id="addEditClientTemplate.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{title}}</h3>
+        </div>
+        <div class="modal-body">
+            <div class="input-group">
+                <span class="input-group-addon">Name</span>
+                <input type="text" class="form-control" value="{{item.name}}" placeholder="Insert name here" required autofocus>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Phone</span>
+                <input type="tel" class="form-control" value="{{item.phone}}" placeholder="Insert phone here" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Email</span>
+                <input type="email" class="form-control" value="{{item.email}}" placeholder="Email address">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+</div>

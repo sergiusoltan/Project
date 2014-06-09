@@ -83,7 +83,12 @@ angular
         .when(LOGIN, {templateUrl:'resources/views/loginform.html', controller:'MainCtrl'})
         .when(SIGNIN, {templateUrl:'resources/views/signinform.html', controller:'MainCtrl'})
         .when(HOME, {templateUrl:'resources/views/dashboard.html', controller:'DashboardCtrl'})
-        .when(CUSTOMERS, {templateUrl:'resources/views/customers.html', controller:'CustomersCtrl'})
+        .when(DISTRIBUTORS, {templateUrl:'resources/views/people/distributors.html', controller:'DistributorsCtrl'})
+        .when(VIEW_DISTRIBUTOR, {templateUrl:'resources/views/people/view-distributor.html', controller:'DistributorsCtrl'})
+        .when(CLIENTS, {templateUrl:'resources/views/people/clients.html', controller:'ClientsCtrl'})
+        .when(VIEW_CLIENT, {templateUrl:'resources/views/people/clients.html', controller:'ClientsCtrl'})
+        .when(CONTACTS, {templateUrl:'resources/views/people/contacts.html', controller:'ContactsCtrl'})
+        .when(VIEW_CONTACTS, {templateUrl:'resources/views/people/contacts.html', controller:'ContactsCtrl'})
         .when(ABOUT, {templateUrl:'resources/views/about.html', controller:'MainCtrl'})
         .when(ORDERS, {templateUrl:'resources/views/orders.html', controller:'OrdersCtrl'});
 
