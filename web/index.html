@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="mainApp" ng-controller="MainCtrl">
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,11 +12,13 @@
     <meta name="viewport" id="view" content="user-scalable=yes, width=device-width, maximum-scale=1">
 
     <link rel="stylesheet" href="resources/css/index.css">
-    <link rel="stylesheet" href="resources/css/awesome/font-awesome.css">
+    <!--<link rel="stylesheet" href="resources/css/awesome/font-awesome.css">-->
     <link rel="stylesheet" href="resources/angular/bootstrap/css/bootstrap.css">
-    <title>{{title}}</title>
+    <script src="resources/angular/jsapi/jsapi.js"></script>
+    <!--<title>{{title}}</title>-->
+    <title>Titlu</title>
 </head>
-<body>
+<body ng-controller="MainCtrl">
 
     <header id="header" ng-class="{'is-loading': loading.header}" ng-include="'resources/views/templates/header.html'" ng-controller="HeaderCtrl"></header>
     <section id="content" ng-class="{'is-loading' : loading.content}" style="margin-top: 50px;" ng-view></section>
@@ -51,6 +53,8 @@
     <script src="resources/js/controllers/people/clientsController.js"></script>
     <script src="resources/js/controllers/people/contactsController.js"></script>
     <script src="resources/js/controllers/people/distributorsController.js"></script>
+    <script src="resources/js/controllers/people/productsController.js"></script>
+    <script src="resources/js/controllers/hierarchyController.js"></script>
 
 
 

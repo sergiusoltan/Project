@@ -11,6 +11,10 @@
 (function(angular) {
 
     var dependencies = ['ngRoute', 'ngAnimate', 'ngResource','core'];
-
     angular.module('mainApp', dependencies);
+
+    google.setOnLoadCallback(function() {
+        angular.bootstrap(document.body, ['mainApp']);
+    });
+    google.load('visualization', '1', {packages: ['corechart','table','orgchart']});
 })(angular);

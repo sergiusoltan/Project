@@ -89,6 +89,8 @@ angular
         .when(VIEW_CLIENT, {templateUrl:'resources/views/people/clients.html', controller:'ClientsCtrl'})
         .when(CONTACTS, {templateUrl:'resources/views/people/contacts.html', controller:'ContactsCtrl'})
         .when(VIEW_CONTACTS, {templateUrl:'resources/views/people/contacts.html', controller:'ContactsCtrl'})
+        .when(PRODUCTS, {templateUrl:'resources/views/products.html', controller:'ProductsCtrl'})
+        .when(HIERARCHY, {templateUrl:'resources/views/hierarchy.html', controller:'HierarchyCtrl'})
         .when(ABOUT, {templateUrl:'resources/views/about.html', controller:'MainCtrl'})
         .when(ORDERS, {templateUrl:'resources/views/orders.html', controller:'OrdersCtrl'});
 

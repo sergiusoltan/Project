@@ -20,5 +20,7 @@ CLIENTS = '/clients';
 VIEW_CLIENT = '/client/:id';
 CONTACTS = '/contacts';
 VIEW_CONTACTS = '/contact/:id';
+PRODUCTS = '/products';
+HIERARCHY = '/hierarchy';
 ABOUT = '/about';
 ORDERS = '/orders';
