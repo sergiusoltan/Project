@@ -7,7 +7,9 @@
  */
 'use strict';
 angular
-    .module('core', ['ui.bootstrap','ui.bootstrap.modal','googleCharts']);
+    .module('core', ['ui.bootstrap','ui.bootstrap.modal','googleCharts'])
+    .value('peopleType', ['Client', 'Contact', 'Member'])
+    .value('careerPositions', ['Distributor', 'Senior Consultant', 'Success Builder', 'Qualified Producer', 'Supervisor', 'World Team', 'Active World Team', 'Global Expansion Team', 'Millionaire Team', 'President\'s Team']);
 
 angular
     .module('googleCharts',[])
@@ -16,11 +18,9 @@ angular
             restrict: 'A',
             link: function($scope, $elm, $attr) {
                 var target = $attr.hierarchy;
-                console.log(target);
                 $scope.$watch(target, function(value) {
-                    console.log(value);
                     var chart = new google.visualization.OrgChart($elm[0]);
-                    chart.draw(value, {allowHtml:true});
+                    chart.draw(value, {allowHtml:true, allowCollapse:true, nodeClass:'hierachyNode',selectedNodeClass:'hierachyNodeSelected'});
                 }, true );
             }
         }

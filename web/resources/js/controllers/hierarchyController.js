@@ -9,21 +9,70 @@
 angular
     .module('mainApp')
     .controller('HierarchyCtrl', ['$scope', 'UserFactory', 'AuthFactory', '$location', '$modal', '$log', function ($scope, UserFactory, AuthFactory, $location, $modal, $log) {
-        init();
+        $scope.clients = [
+            {id:'1',name:'Mike',uri:'distributor/mike.scot',sponsor:'',position:'Supervisor'},
+            {id:'11', name:'Jim',uri:'distributor/mike.scot', sponsor:'1',position:'Supervisor'},
+            {id:'12',name:'Alice',uri:'distributor/mike.scot',sponsor:'11',position:'Supervisor'},
+            {id:'2',name:'Alice',uri:'distributor/mike.scot',sponsor:'1',position:'Distributor'},
+            {id:'21',name:'Bob',uri:'client/mike.scot',sponsor:'2',position:'Client'},
+            {id:'22',name:'Michael',uri:'distributor/mike.scot',sponsor:'2',position:'Contact'},
+            {id:'3',name:'Michael',uri:'contact/mike.scot',sponsor:'1',position:'Contact'},
+            {id:'31',name:'Eliot',uri:'contact/mike.scot',sponsor:'3',position:'Contact'},
+            {id:'32',name:'Elena',uri:'contact/mike.scot',sponsor:'3',position:'Contact'}
+        ];
 
-        function init(){
+        $scope.selected = $scope.clients[0];
+
+        init($scope.selected);
+
+        $scope.$watch('selected', function(value) {
+            var root = value;
+            if(!root.name){
+                root = JSON.parse(value);
+            }
+            init(root);
+        });
+
+        function init(root){
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Name');
             data.addColumn('string', 'Manager');
             data.addColumn('string', 'ToolTip');
-            data.addRows([
-                [{v:'Mike', f:'Mike<div style="color:red; font-style:italic">President</div>'}, '', 'The President'],
-                [{v:'Jim', f:'Jim<div style="color:red; font-style:italic">Vice President</div>'}, 'Mike', 'VP'],
-                ['Alice', 'Mike', ''],
-                ['Bob', 'Jim', 'Bob Sponge'],
-                ['Carol', 'Bob', '']
-            ]);
+            var rows = [];
+            traverse(root);
+            data.addRows(rows);
+
+            function traverse(root) {
+                var nextLevelClients = [],
+                    sponsors = [];
+                rows.push([getFormattedName(root),null,root.position]);
+                sponsors.push(root.id);
+                nextLevelClients = findDirect(sponsors);
+                while(sponsors.length){
+                    sponsors = [];
+                    $.each(nextLevelClients, function (index, client) {
+                        sponsors.push(client.id);
+                        rows.push([getFormattedName(client), client.sponsor + '', client.position]);
+                    });
+                    nextLevelClients = findDirect(sponsors);
+                }
+            }
             $scope.dataTable = data;
+        }
+
+        function getFormattedName(node){
+            return {
+                v:node.id,
+                f:node.name +
+                    "<div style='color: red'><a href='/"+node.uri+"'>"+node.position+" </a></div>"
+            }
+        }
+
+        function findDirect(ids){
+            var foundClients = $.grep($scope.clients, function(v) {
+                return ids.indexOf(v.sponsor) != -1;
+            });
+            return foundClients;
         }
 
         $scope.title = "Hierarchy Controller";

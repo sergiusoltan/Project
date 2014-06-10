@@ -9,15 +9,18 @@
 
 angular
     .module('mainApp')
-    .controller('ContactsCtrl', ['$scope', 'UserFactory', 'AuthFactory', '$location', '$modal', '$log', function ($scope, UserFactory, AuthFactory, $location, $modal, $log) {
+    .controller('ContactsCtrl', ['$scope', 'UserFactory', 'AuthFactory', '$location', '$modal','peopleType', function ($scope, UserFactory, AuthFactory, $location, $modal, peopleTypes) {
 
-        $scope.contacts = [ {name:'Jane Dawson',phone:78943332,email:'janedow@gmail.com', date:new Date()},
-            {name:'Jane Dawson',phone:78943332,email:'janedow@gmail.com', date:new Date()},
-            {name:'Jane Dawson',phone:78943332,email:'janedow@gmail.com', date:new Date()},
-            {name:'Jane Dawson',phone:78943332,email:'janedow@gmail.com', date:new Date()}];
+        $scope.contacts = [
+            {name: 'Jane Dawson', phone: 78943332, type: CONTACT, recomendedBy: "John1", date: new Date()},
+            {name: 'Jane Dawson', phone: 78943332, type: TEAM_MEMBER, recomendedBy: "John1", date: new Date()},
+            {name: 'Jane Dawson', phone: 78943332, type: CLIENT, recomendedBy: "John1", date: new Date()},
+            {name: 'Jane Dawson', phone: 78943332, type: CONTACT, recomendedBy: "John1", date: new Date()}
+        ];
 
         $scope.title = "Contact Controller";
         $scope.predicate = 'name';
+        $scope.types = peopleTypes;
 
         $scope.openContact = function (size, contact) {
             var modalInstance = $modal.open({
@@ -25,11 +28,14 @@ angular
                 controller: 'ModalPeopleCtrl',
                 size: size,
                 resolve: {
+                    items: function () {
+                        return $scope.contacts;
+                    },
                     item: function () {
                         if(contact != null){
                             return contact;
                         }
-                        return {};
+                        return {type:CONTACT};
                     },
                     title: function () {
                         if(contact != null){
@@ -44,7 +50,7 @@ angular
             modalInstance.result.then(function (selectedItem) {
                 $scope.selected = selectedItem;
             }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
+                console.log('modal dismissed');
             });
         };
 }]);

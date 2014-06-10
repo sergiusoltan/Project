@@ -24,3 +24,19 @@ PRODUCTS = '/products';
 HIERARCHY = '/hierarchy';
 ABOUT = '/about';
 ORDERS = '/orders';
+
+DISTRIBUTOR = 'Distributor';
+SENIOR_CONSULTANT = 'Senior Consultant';
+SUCCESS_BUILDER = 'Success Builder';
+QUALIFIED_PRODUCER = 'Qualified Producer';
+SUPERVISOR = 'Supervisor';
+WORLDT = 'World Team';
+ACTIVE_WORLDT = 'Active World Team';
+GLOBALT = 'Global Expansion Team';
+MILLIONAIRET = 'Millionaire Team';
+PRESIDENT = 'President\'s Team';
+
+TEAM_MEMBER = 'Member';
+CONTACT = 'Contact';
+CLIENT = 'Client';
+

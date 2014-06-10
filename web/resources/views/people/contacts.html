@@ -8,43 +8,74 @@
         </div>
 
         <!-- Table -->
-        <table id="contacts" class="table table-bordered table-condensed table-hover">
+        <table id="contacts" class="table table-bordered table-hover">
             <tbody>
             <tr>
-                <th>Name
-                    <input ng-model="filterModel.name" placeholder="Filter by name">
-                    <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
-                          ng-click="predicate = 'name'"></span>
-                    <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
+                <th><div>Name
+                        <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
+                              ng-click="predicate = 'name'"></span>
+                        <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
                           ng-click="predicate = '-name'"  ></span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Filter</span>
+                        <input ng-model="filterModel.name" placeholder="by name">
+                    </div>
                 </th>
-                <th>Telephone
-                    <input ng-model="filterModel.phone" placeholder="Filter by phone">
+                <th><div>Phone
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
                           ng-click="predicate = 'phone'"></span>
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
                           ng-click="predicate = '-phone'"  ></span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Filter</span>
+                        <input ng-model="filterModel.phone" placeholder="by phone">
+                    </div>
                 </th>
-                <th>Email
-                    <input ng-model="filterModel.email" placeholder="Filter by email">
+                <th><div>Recomended by
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
-                          ng-click="predicate = 'email'"></span>
+                          ng-click="predicate = 'recomendedBy'"></span>
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
-                          ng-click="predicate = '-email'"  ></span>
+                          ng-click="predicate = '-recomendedBy'"></span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Filter</span>
+                        <input ng-model="filterModel.recomendedBy" placeholder="by recomended">
+                    </div>
                 </th>
-                <th>When
-                    <input ng-model="filterModel.date" placeholder="Filter by date">
+                <th><div>Type
+                    <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
+                          ng-click="predicate = 'type'"></span>
+                    <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
+                          ng-click="predicate = '-type'"></span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Filter</span>
+                        <select ng-model="filterModel.type">
+                            <option value="" selected>None</option>
+                            <option value="{{type}}" ng-repeat="type in types">{{type}}</option>
+                        </select>
+                    </div>
+                </th>
+                <th><div>Contacted at
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
                           ng-click="predicate = 'date'"></span>
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
                           ng-click="predicate = '-date'"  ></span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Filter</span>
+                        <input ng-model="filterModel.date" placeholder="by date">
+                    </div>
                 </th>
             </tr>
             <tr ng-repeat="contact in contacts | filter:filterModel | orderBy:predicate"
                 class="clickable" ng-click="openContact('lg', contact)">
                 <td>{{contact.name}}</td>
                 <td>{{contact.phone}}</td>
-                <td>{{contact.email}}</td>
+                <td>{{contact.recomendedBy}}</td>
+                <td>{{contact.type}}</td>
                 <td>{{contact.date}}</td>
             </tr>
             </tbody>
@@ -65,8 +96,16 @@
                 <input type="tel" class="form-control" value="{{item.phone}}" placeholder="Insert phone here" required>
             </div>
             <div class="input-group">
-                <span class="input-group-addon">Email</span>
-                <input type="email" class="form-control" value="{{item.email}}" placeholder="Email address">
+                <span class="input-group-addon">Recomended By</span>
+                <select class="form-control" ng-model="item.recomendedBy">
+                    <option value="{{type.name}}" ng-repeat="type in items">{{type.name}}</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Type</span>
+                <select class="form-control" ng-model="item.type">
+                    <option value="{{item.type}}" selected>{{item.type}}</option>
+                </select>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Date</span>

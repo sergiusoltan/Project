@@ -11,10 +11,12 @@ angular
     .module('mainApp')
     .controller('ClientsCtrl', ['$scope', 'UserFactory', 'AuthFactory', '$location', '$modal', '$log', function ($scope, UserFactory, AuthFactory, $location, $modal, $log) {
 
-        $scope.clients = [{name:'Jane Doe1',phone:178943332,email:'janedow4@gmail.com'},
-            {name:'Jane Doe2',phone:278943332,email:'janedow3@gmail.com'},
-            {name:'Jane Doe3',phone:378943332,email:'janedow2@gmail.com'},
-            {name:'Jane Doe4',phone:478943332,email:'janedow1@gmail.com'}];
+        $scope.clients = [
+            {name: 'Jane Doe1', recomendedBy: '', type: CLIENT, phone: 178943332, email: 'janedow4@gmail.com'},
+            {name: 'Jane Doe2', recomendedBy: '', type: CLIENT, phone: 278943332, email: 'janedow3@gmail.com'},
+            {name: 'Jane Doe3', recomendedBy: '', type: CLIENT, phone: 378943332, email: 'janedow2@gmail.com'},
+            {name: 'Jane Doe4', recomendedBy: '', type: CLIENT, phone: 478943332, email: 'janedow1@gmail.com'}
+        ];
 
         $scope.title = "Clients Controller";
         $scope.predicate = 'name';
@@ -25,11 +27,14 @@ angular
                 controller: 'ModalPeopleCtrl',
                 size: size,
                 resolve: {
+                    items: function () {
+                        return $scope.clients;
+                    },
                     item: function () {
                         if(client != null){
                             return client;
                         }
-                        return {};
+                        return {type:CLIENT};
                     },
                     title: function () {
                         if(client != null){
@@ -50,10 +55,13 @@ angular
 
 angular
     .module('mainApp')
-    .controller('ModalPeopleCtrl', ['$scope', '$modalInstance','item','title', function ($scope, $modalInstance, item, title) {
+    .controller('ModalPeopleCtrl', ['$scope', '$modalInstance','items','item','title','careerPositions', function ($scope, $modalInstance,items, item, title, careerPositions) {
+
+        $scope.careerPositions = careerPositions;
 
         $scope.title = title;
         $scope.item = item;
+        $scope.items = items;
 
         $scope.ok = function () {
             $modalInstance.close($scope.item);
