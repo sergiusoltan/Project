@@ -73,8 +73,9 @@
                     </div>
                 </th>
             </tr>
-            <tr ng-repeat="contact in contacts | filter:filterModel | orderBy:predicate"
-                ng-class="{selectedRow: selectedItems[contact.id], clickable:true}" ng-dblclick="openContact('lg', contact)"
+            <tr ng-repeat="contact in contacts track by $index | filter:filterModel | orderBy:predicate"
+                ng-class="{selectedRow: selectedItems[contact.id], clickable: true}"
+                ng-dblclick="openContact('lg', contact)"
                 ng-click="onSelect(contact)">
                 <td>{{contact.name}}</td>
                 <td>{{contact.phone}}</td>
@@ -87,38 +88,50 @@
     </div>
 
     <script type="text/ng-template" id="addEditContactTemplate.html">
+    <form name="form" class="css-form" novalidate>
         <div class="modal-header">
             <h3 class="modal-title">{{title}}</h3>
         </div>
         <div class="modal-body">
             <div class="input-group">
                 <span class="input-group-addon">Name</span>
-                <input type="text" class="form-control" value="{{item.name}}" placeholder="Insert name here" required autofocus>
+                <input type="text" class="form-control" name="personName"
+                       ng-maxlength="50" ng-minlength="3"
+                       ng-pattern="/^[a-zA-Z]*$/"
+                       ng-class="{'alert-success':form.personName.$dirty && form.personName.$valid, 'alert-danger':form.personName.$invalid}"
+                       value="{{item.name}}" ng-model="item.name" placeholder="Insert name here" required>
             </div>
             <div class="input-group">
-                <span class="input-group-addon">Phone</span>
-                <input type="tel" class="form-control" value="{{item.phone}}" placeholder="Insert phone here" required>
+                    <span class="input-group-addon">Phone</span>
+                    <input name="phoneNumber" type="number" class="form-control"
+                           ng-minlength="9" ng-maxlength="15" ng-pattern="/^\d+$/"
+                           ng-class="{'alert-success':form.phoneNumber.$dirty && form.phoneNumber.$valid,'alert-danger':form.phoneNumber.$invalid}"
+                           value="{{item.phone}}" ng-model="item.phone" placeholder="Insert phone here" required>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Recomended By</span>
-                <select class="form-control" ng-model="item.recomendedBy">
-                    <option value="{{type.name}}" ng-repeat="type in items">{{type.name}}</option>
+                <select name="recomendedOption" class="form-control" ng-model="item.recomendedBy"
+                        ng-class="{'alert-success':form.recomendedOption.$dirty && form.recomendedOption.$valid, 'alert-danger':form.recomendedOption.$invalid}" required>
+                    <option value="{{type}}" ng-repeat="type in items track by $index">{{type.name}}</option>
                 </select>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Type</span>
-                <select class="form-control" ng-model="item.type">
+                <select name="typeOption" class="form-control" ng-model="item.type">
                     <option value="{{item.type}}" selected>{{item.type}}</option>
                 </select>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Date</span>
-                <input type="date" class="form-control" value="{{item.date}}" placeholder="Date">
+                <input name="date" type="date" class="form-control" value="{{item.date}}"
+                       ng-class="{'alert-success':form.date.$dirty && form.date.$valid, 'alert-danger':form.date.$invalid}"
+                       ng-model="item.date" placeholder="Date" required>
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="ok()">OK</button>
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
+    </form>
     </script>
 </div>

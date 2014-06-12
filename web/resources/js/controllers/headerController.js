@@ -20,14 +20,6 @@ angular
             return AuthFactory.getUser().isLogged;
         };
 
-        $scope.logout = function () {
-            var currentUser = AuthFactory.getUser();
-            UserFactory.logoutUser(currentUser).then(function(success){
-                AuthFactory.clear();
-                $location.path(LOGIN);
-            })
-        };
-
         $scope.$on(LOADING_HEADER_EVENT, function (e, value) {
             $scope.loading.header = value;
         });

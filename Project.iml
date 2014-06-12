@@ -27,15 +27,6 @@
     <orderEntry type="library" scope="PROVIDED" name="AppEngine Dev" level="application_server_libraries" />
     <orderEntry type="library" name="AppEngine API" level="project" />
     <orderEntry type="library" name="jersey-bundle-1.18.1" level="project" />
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../gae dev/GAE2/lib/gson-1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="library" name="gson-2.2.4-javadoc" level="project" />
   </component>
 </module>

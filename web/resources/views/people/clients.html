@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" xmlns="http://www.w3.org/1999/html">
 
     <div class="panel panel-primary" style="margin-top: 10px">
         <!-- Default panel contents -->
@@ -16,40 +16,44 @@
         <table id="clients" class="table table-bordered table-condensed ">
             <tbody>
             <tr>
-                <th><div>Name
+                <th>
+                    <div>Name
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
                           ng-click="predicate = 'name'"></span>
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
-                          ng-click="predicate = '-name'"  ></span>
+                          ng-click="predicate = '-name'"></span>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">Filter</span>
                         <input ng-model="filterModel.name" placeholder="Filter by name">
                     </div>
                 </th>
-                <th><div>Telephone
+                <th>
+                    <div>Telephone
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
                           ng-click="predicate = 'phone'"></span>
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
-                          ng-click="predicate = '-phone'"  ></span>
+                          ng-click="predicate = '-phone'"></span>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">Filter</span>
                         <input ng-model="filterModel.phone" placeholder="by phone">
                     </div>
                 </th>
-                <th><div>Email
+                <th>
+                    <div>Email
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
                           ng-click="predicate = 'email'"></span>
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
-                          ng-click="predicate = '-email'"  ></span>
+                          ng-click="predicate = '-email'"></span>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">Filter</span>
                         <input ng-model="filterModel.email" placeholder="by email">
                     </div>
                 </th>
-                <th><div>Recomended by
+                <th>
+                    <div>Recomended by
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
                           ng-click="predicate = 'recomendedBy'"></span>
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
@@ -65,8 +69,8 @@
                         <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
                               ng-click="predicate = 'date'"></span>
                         <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
-                              ng-click="predicate = '-date'"  ></span>
-                     </div>
+                              ng-click="predicate = '-date'"></span>
+                    </div>
                     <div class="input-group">
                         <span class="input-group-addon">Filter</span>
                         <input ng-model="filterModel.date" placeholder="by date">
@@ -74,8 +78,9 @@
                 </th>
             </tr>
             <tr ng-repeat="client in clients | filter:filterModel | orderBy:predicate"
-                ng-class="{selectedRow: selectedItems[contact.id], clickable:true}" ng-dblclick="openContact('lg', contact)"
-                ng-click="onSelect(contact)">
+                ng-class="{selectedRow: selectedItems[client.id], clickable:true}"
+                ng-dblclick="openClient('lg', client)"
+                ng-click="onSelect(client)">
                 <td>{{client.name}}</td>
                 <td>{{client.phone}}</td>
                 <td>{{client.email}}</td>
@@ -87,36 +92,51 @@
     </div>
 
     <script type="text/ng-template" id="addEditClientTemplate.html">
-        <div class="modal-header">
-            <h3 class="modal-title">{{title}}</h3>
-        </div>
-        <div class="modal-body">
-            <div class="input-group">
-                <span class="input-group-addon">Name</span>
-                <input type="text" class="form-control" value="{{item.name}}" placeholder="Insert name here" required autofocus>
+        <form name="form" novalidate>
+            <div class="modal-header">
+                <h3 class="modal-title">{{title}}</h3>
             </div>
-            <div class="input-group">
-                <span class="input-group-addon">Phone</span>
-                <input type="tel" class="form-control" value="{{item.phone}}" placeholder="Insert phone here" required>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">Name</span>
+                    <input name="personName" type="text" class="form-control" value="{{item.name}}"
+                           ng-maxlength="50" ng-minlength="3"
+                           ng-pattern="/^[a-zA-Z]*$/"
+                           ng-class="{'alert-success':form.personName.$dirty && form.personName.$valid, 'alert-danger':form.personName.$invalid}"
+                           placeholder="Insert name here" required autofocus>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Phone</span>
+                    <input name="phoneNumber" type="tel" class="form-control" value="{{item.phone}}"
+                           ng-minlength="9" ng-maxlength="15" ng-pattern="/^\d+$/"
+                           ng-class="{'alert-success':form.phoneNumber.$dirty && form.phoneNumber.$valid,'alert-danger':form.phoneNumber.$invalid}"
+                           placeholder="Insert phone here" required>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Email</span>
+                    <input name="email" type="email" class="form-control"
+                           ng-class="{'alert-success':form.email.$dirty && form.email.$valid,'alert-danger':form.email.$invalid}"
+                           value="{{item.email}}" placeholder="Email address">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Recomended By</span>
+                    <select name="recomendedOption" class="form-control" ng-model="item.recomendedBy"
+                            ng-class="{'alert-success':form.recomendedOption.$dirty && form.recomendedOption.$valid, 'alert-danger':form.recomendedOption.$invalid}"
+                            required>
+                        <option value="{{type.name}}" ng-repeat="type in items">{{type.name}}</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Date</span>
+                    <input name="date" type="date" class="form-control" value="{{item.date}}"
+                           ng-class="{'alert-success':form.date.$dirty && form.date.$valid, 'alert-danger':form.date.$invalid}"
+                           placeholder="Date">
+                </div>
             </div>
-            <div class="input-group">
-                <span class="input-group-addon">Email</span>
-                <input type="email" class="form-control" value="{{item.email}}" placeholder="Email address">
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="ok()">OK</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
             </div>
-            <div class="input-group">
-                <span class="input-group-addon">Recomended By</span>
-                <select class="form-control" ng-model="item.recomendedBy">
-                    <option value="{{type.name}}" ng-repeat="type in items">{{type.name}}</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">Date</span>
-                <input type="date" class="form-control" value="{{item.date}}" placeholder="Date">
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
+        </form>
     </script>
 </div>

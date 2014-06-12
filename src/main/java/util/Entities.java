@@ -6,7 +6,10 @@ package main.java.util;
 public enum Entities {
     USER("USER"),
     ORDERS("ORDERS"),
-    EVENTS("EVENTS");
+    EVENTS("EVENTS"),
+    CONTACT("CONTACT"),
+    CLIENT("CLIENT"),
+    DISTRIBUTOR("DISTRIBUTOR");
 
     private String id;
 
@@ -17,4 +20,5 @@ public enum Entities {
     public String getId() {
         return id;
     }
+
 }

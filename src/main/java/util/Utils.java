@@ -6,6 +6,7 @@ import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import main.java.model.auth.UserStatus;
 
 import javax.ws.rs.core.Response;
 
@@ -26,7 +27,9 @@ public class Utils {
 
     public static Gson getInstance(){
         if(gson == null){
-            gson = new GsonBuilder().create();
+            gson = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .create();
         }
         return gson;
     }
@@ -49,6 +52,13 @@ public class Utils {
         return Response
                 .status(code)
                 .entity(getInstance().toJson(object))
+                .build();
+    }
+
+    public static Response noAuthResponse(){
+        return Response
+                .status(Response.Status.UNAUTHORIZED)
+                .entity(getInstance().toJson(new UserStatus()))
                 .build();
     }
 }

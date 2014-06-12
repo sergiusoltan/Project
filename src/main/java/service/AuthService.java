@@ -1,8 +1,11 @@
 package main.java.service;
 
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.User;
+import com.google.appengine.labs.repackaged.com.google.common.collect.Lists;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import main.java.model.auth.AuthModel;
+import main.java.model.auth.Authorization;
 import main.java.model.auth.UserStatus;
 import main.java.util.UserServiceUtil;
 
@@ -23,17 +26,17 @@ public class AuthService {
     @GET
     @Path("/find")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getLoggedUser() throws JSONException {
-        Boolean isLogged = UserServiceUtil.isLoggedUser();
-        UserStatus userStatus = new UserStatus(isLogged);
-        if (isLogged) {
-            User user = UserServiceUtil.getCurrentUser();
-            userStatus.setEmail(user.getEmail());
-            userStatus.setName(user.getNickname());
-            userStatus.setId(user.getUserId());
+    public Response getLoggedUser(@HeaderParam("authorization") String authorization) throws JSONException {
+        if (authorization == null) {
+            return noAuthResponse();
         }
-        String responseEntity = getInstance().toJson(userStatus, UserStatus.class);
-        return oKResponse(responseEntity);
+        Authorization auth = new Authorization(authorization);
+        List<String> error = Lists.newArrayList();
+        UserStatus status = UserServiceUtil.findUser(auth.getEmail(), error);
+        if (!error.isEmpty() || !UserServiceUtil.isAuthorized(auth.getSessionToken(),status.getSessionToken())) {
+            return noAuthResponse();
+        }
+        return response(status, Response.Status.OK);
     }
 
     @POST

@@ -11,15 +11,10 @@ public class UserStatus {
     private String name;
     private String email;
     private String id;
-    private Boolean isLogged;
+    private String sessionToken;
 
     public static UserStatus getUserStatus(String json){
         return Utils.getInstance().fromJson(json,UserStatus.class);
-    }
-
-    public UserStatus(Boolean logged) {
-        isLogged = logged;
-        userUrl = UserServiceUtil.getUserUrl(logged);
     }
 
     public String getUserUrl() {
@@ -54,11 +49,11 @@ public class UserStatus {
         this.id = id;
     }
 
-    public Boolean getLogged() {
-        return isLogged;
+    public String getSessionToken() {
+        return sessionToken;
     }
 
-    public void setLogged(Boolean logged) {
-        isLogged = logged;
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
     }
 }

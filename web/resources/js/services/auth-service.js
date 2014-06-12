@@ -35,7 +35,14 @@ angular
             }
             console.log('AuthFactory -> isAuthenticated currentUser');
             console.log(currentUser);
-            return (currentUser && currentUser.isLogged) ? true : false;
+            return currentUser && currentUser.sessionToken != null;
+        },
+
+        getCredentials:function(){
+            if(this.isAuthenticated()){
+                return 'Basic ' + currentUser.email + ":" + currentUser.sessionToken;
+            }
+            return '';
         },
 
         clear:function(){

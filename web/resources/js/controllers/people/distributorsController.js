@@ -20,8 +20,14 @@ angular
 
         $scope.selectedItems = [];
 
-        $scope.onSelect = function(contact){
-            $scope.selectedItems[contact.id] = $scope.selectedItems[contact.id] ? false : true;
+        $scope.onSelect = function (contact) {
+            if ($scope.selectedItems[contact.id]) {
+                var index = $scope.selectedItems.indexOf(contact.id);
+                $scope.selectedItems.splice(index, 1);
+                console.log($scope.selectedItems);
+                return;
+            }
+            $scope.selectedItems[contact.id] = true;
             console.log($scope.selectedItems);
         };
 

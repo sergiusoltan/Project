@@ -14,14 +14,14 @@ angular
         var getAllContacts = API_URL.rest + "contact/findAll",
             saveContact = API_URL.rest + "contact/save",
             updateContact = API_URL.rest + "contact/update",
-            deleteContact = API_URL.rest + "contact/delete",
+            deleteContact = API_URL.rest + "contact/remove",
             ContactFactory = {};
 
         ContactFactory.getAllContacts = function () {
             var deferred = $q.defer();
             $http.get(getAllContacts).success(function (success) {
-                    deferred.resolve(success);
-                }).error(function (reason) {
+                deferred.resolve(success);
+            }).error(function (reason) {
                     deferred.reject(reason);
                 });
             return deferred.promise;
@@ -36,10 +36,10 @@ angular
                         deferred.resolve(success);
                     }).error(function (error) {
                         deferred.reject(error);
-                });
+                    });
             } else {
-                var url = updateContact + "/" + properties.instance.email;
-                $http.get(url).success(function (success) {
+                $http['post'](updateContact, properties.instance)
+                    .success(function (success) {
                         deferred.resolve(success);
                     }).error(function (reason) {
                         deferred.reject(reason);
@@ -49,14 +49,14 @@ angular
             return deferred.promise;
         };
 
-        ContactFactory.deleteContact = function (properties) {
+        ContactFactory.deleteContacts = function (properties) {
             var deferred = $q.defer();
-            $http['post'](saveContact, properties)
+            $http['delete'](deleteContact, properties)
                 .success(function (success) {
                     deferred.resolve(success);
                 }).error(function (error) {
                     deferred.reject(error);
-            });
+                });
 
             return deferred.promise;
         };

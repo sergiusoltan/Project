@@ -26,10 +26,10 @@
                         <b class="caret"></b> <span class="text-right">Menu</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li ng-show="!loggedUser" ng-class="navClass('signin')"><a href='/signin'>Sing In</a></li>
-                        <li ng-show="!loggedUser" ng-class="navClass('login')"><a href='/login'>Login In</a></li>
+                        <li ng-class="navClass('signin')"><a href='/signin'>Sing In</a></li>
+                        <li ng-class="navClass('login')"><a href='/login'>Login In</a></li>
                         <li class="divider"></li>
-                        <li ng-show="loggedUser" ng-class="navClass('logout')" ng-click="logout()"><a href="#">Logout</a></li>
+                        <li ng-class="navClass('logout')" ng-click="logout()"><a href="#">Logout</a></li>
                     </ul>
                 </li>
             </ul>

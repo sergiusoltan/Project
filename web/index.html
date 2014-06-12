@@ -20,8 +20,10 @@
 </head>
 <body ng-controller="MainCtrl">
 
-    <header id="header" ng-class="{'is-loading': loading.header}" ng-include="'resources/views/templates/header.html'"></header>
-    <section id="content" ng-class="{'is-loading' : loading.content}" style="margin-top: 50px;" ng-view></section>
+    <!--<header id="header" ng-class="{'is-loading': loading.header}" ng-include="'resources/views/templates/header.html'"></header>-->
+    <header id="header" ng-include="'resources/views/templates/header.html'"></header>
+    <!--<section id="content" ng-class="{'is-loading' : loading.content}" style="margin-top: 50px;" ng-view></section>-->
+    <section id="content" style="margin-top: 50px;" ng-view></section>
 
     <!--<footer id="footer" ng-class="{'is-loading': loading.header}" ng-include="'resources/views/templates/footer.html'"></footer>-->
 

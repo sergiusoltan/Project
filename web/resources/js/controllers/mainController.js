@@ -40,18 +40,26 @@ angular
             });
         };
 
+        $scope.logout = function () {
+            var currentUser = AuthFactory.getUser();
+            UserFactory.logoutUser(currentUser).then(function(success){
+                AuthFactory.clear();
+                $location.path(LOGIN);
+            })
+        };
 
-        $scope.$on(LOADING_CONTENT_EVENT, function (e, value) {
-            $scope.loading.content = value;
-        });
 
-        $scope.$on(GOOGLE_LOGIN_EVENT, function (e, value) {
-//            loadUser();
-        });
+//        $scope.$on(LOADING_CONTENT_EVENT, function (e, value) {
+//            $scope.loading.content = value;
+//        });
+//
+//        $scope.$on(GOOGLE_LOGIN_EVENT, function (e, value) {
+////            loadUser();
+//        });
 
         function init() {
             $scope.title = 'Main Controller';
-            $scope.$emit(LOADING_CONTENT_EVENT, true);
+//            $scope.$emit(LOADING_CONTENT_EVENT, true);
             $scope.loading = {
                 header: true,
                 content: true
@@ -68,10 +76,13 @@ angular
             UserFactory.getUser().then(function (succes) {
                 $scope.user = succes;
 //                AuthFactory.setUser($scope.user);
-            }).finally(function () {
-                    $scope.$emit(LOADING_CONTENT_EVENT, false);
-                    $scope.$emit(LOADING_HEADER_EVENT, false);
-                });
+            }, function(error){
+                alert(error);
+            });
+//                .finally(function () {
+//                    $scope.$emit(LOADING_CONTENT_EVENT, false);
+//                    $scope.$emit(LOADING_HEADER_EVENT, false);
+//                });
         }
 
     }])
@@ -115,9 +126,8 @@ angular
         function ($q, $location, AuthFactory) {
             return {
                 'request': function (config) {
-                    var currentUser = AuthFactory.getUser();
-                    if(currentUser.isLogged){
-                        config.headers.authorization = currentUser.email;
+                    if(AuthFactory.isAuthenticated()){
+                        config.headers.authorization = AuthFactory.getCredentials();
                     }
                     return config || $q.when(config);
                 },
@@ -126,15 +136,15 @@ angular
                     response.headers()["Cache-Control"] = "no-store, max-age=0, must-revalidate, max-stale=0, post-check=0, pre-check=0"; //HTTP 1.1
                     response.headers()["Expires"] = "-1";
                     return response;
-                },
-                responseError: function (rejection) {
-                    console.log("Found responseError: ", rejection);
-                    if (rejection.status == 401) {
-                        console.log("Access denied (error 401), please login again");
-                        $location.path(LOGIN);
-                    }
-                    return $q.reject(rejection);
                 }
+//                responseError: function (rejection) {
+//                    console.log("Found responseError: ", rejection);
+//                    if (rejection.status == 401) {
+//                        console.log("Access denied (error 401), please login again");
+//                        $location.path(LOGIN);
+//                    }
+//                    return $q.reject(rejection);
+//                }
             }
     }])
 ;

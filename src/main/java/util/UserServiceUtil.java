@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.labs.repackaged.com.google.common.collect.Lists;
 import main.java.model.auth.AuthModel;
 import main.java.model.auth.UserStatus;
 import main.java.validations.EntityNotFoundRuntimeException;
@@ -37,6 +38,26 @@ public class UserServiceUtil {
         return logoutUrl ? userService.createLoginURL("/login") : userService.createLoginURL("/");
     }
 
+    public static Boolean isAuthorized(String sessionToken, String savedToken){
+        return savedToken.equals(sessionToken);
+    }
+
+    public static UserStatus findUser(String userEmail, List<String> errors){
+        DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
+        try {
+            Entity entity = datastoreService.get(getUserKey(userEmail));
+            UserStatus userStatus = new UserStatus();
+            userStatus.setEmail((String) entity.getProperty(EMAIL.getKey()));
+            userStatus.setName((String) entity.getProperty(NAME.getKey()));
+            userStatus.setSessionToken((String) entity.getProperty(SESSION_TOKEN.getKey()));
+            return userStatus;
+
+        } catch (EntityNotFoundException e) {
+            errors.add("No user found with " + userEmail + " email");
+        }
+        return new UserStatus();
+    }
+
     public static Boolean trySave(AuthModel model, List<String> responses) {
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         Boolean success = false;
@@ -48,7 +69,6 @@ public class UserServiceUtil {
             entityToSave.setProperty(NAME.getKey(), model.getName());
             entityToSave.setProperty(EMAIL.getKey(), model.getEmail());
             entityToSave.setProperty(DATE.getKey(), new Date().getTime());
-            entityToSave.setProperty(IS_LOGGED.getKey(), false);
             entityToSave.setProperty(PASSWORD.getKey(), getPasswordHash(model.getPassword()));
             datastoreService.put(entityToSave);
             responses.add("Account have been created for " + model.getEmail());
@@ -65,34 +85,27 @@ public class UserServiceUtil {
             userEntity = getEntity(Entities.USER, model.getEmail());
         }catch (EntityNotFoundRuntimeException e){
             responses.add(e.getMessage());
-            return new UserStatus(false);
+            return new UserStatus();
         }
         Map<String, Object> entityProperties = userEntity.getProperties();
-        Boolean isLogged = (Boolean) entityProperties.get(IS_LOGGED.getKey());
-        UserStatus userStatus = new UserStatus(isLogged);
-        if (isLogged) {
-            responses.add("User " + model.getEmail() + " already logged in!");
-            userStatus.setEmail((String) entityProperties.get(EMAIL.getKey()));
-            userStatus.setName((String) entityProperties.get(NAME.getKey()));
-
-            return userStatus;
-        }
-
+        UserStatus userStatus = new UserStatus();
         String hashPassword = getPasswordHash(model.getPassword());
         if (hashPassword.equals(entityProperties.get(PASSWORD.getKey()))) {
             responses.add("Successfully logged in!");
             userStatus.setEmail((String) entityProperties.get(EMAIL.getKey()));
             userStatus.setUserUrl(getUserUrl(true));
             userStatus.setName((String) entityProperties.get(NAME.getKey()));
+            String sessionToken = getPasswordHash(model.getPassword() + new Date().getTime());
+            System.out.println(sessionToken);
+            userEntity.setProperty(SESSION_TOKEN.getKey(), sessionToken);
 
-            userEntity.setProperty(IS_LOGGED.getKey(),true);
             updateEntity(userEntity);
 
+            userStatus.setSessionToken(sessionToken);
             return userStatus;
         }
 
-        responses.add("The specified password is not valid!");
-        userStatus.setLogged(false);
+        responses.add("Invalid Credentials!");
         userStatus.setEmail(model.getEmail());
         userStatus.setName(model.getName());
         userStatus.setUserUrl(getUserUrl(false));
@@ -105,13 +118,13 @@ public class UserServiceUtil {
         Entity userEntity;
         try{
             userEntity = getEntity(Entities.USER, model.getEmail());
-            userEntity.setProperty(IS_LOGGED.getKey(), false);
+            userEntity.setProperty(SESSION_TOKEN.getKey(), null);
             updateEntity(userEntity);
         }catch (EntityNotFoundRuntimeException e){
             responses.add(e.getMessage());
         }
 
-        UserStatus userStatus = new UserStatus(false);
+        UserStatus userStatus = new UserStatus();
         responses.add("User logged out!");
 
         return userStatus;
