@@ -17,7 +17,7 @@ public class Contact {
     @Path("/findAll")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllCustomers(String currentUser){
+    public Response getAllCustomers(){
         return oKResponse("");
     }
 
@@ -25,21 +25,21 @@ public class Contact {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCustomer(String currentUser, String data){
+    public Response getCustomer(String data){
         return oKResponse("");
     }
 
     @PUT
     @Path("/save")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response saveCustomer(String currentUser, String data){
+    public Response saveCustomer(String data){
         return oKResponse("");
     }
 
     @POST
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateCustomer(String currentUser, String data){
+    public Response updateCustomer(String data){
         return oKResponse("");
     }
 

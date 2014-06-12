@@ -46,7 +46,7 @@ angular
         });
 
         $scope.$on(GOOGLE_LOGIN_EVENT, function (e, value) {
-            loadUser();
+//            loadUser();
         });
 
         function init() {
@@ -67,7 +67,7 @@ angular
         function loadUser() {
             UserFactory.getUser().then(function (succes) {
                 $scope.user = succes;
-                AuthFactory.setUser($scope.user);
+//                AuthFactory.setUser($scope.user);
             }).finally(function () {
                     $scope.$emit(LOADING_CONTENT_EVENT, false);
                     $scope.$emit(LOADING_HEADER_EVENT, false);
@@ -120,6 +120,12 @@ angular
                         config.headers.authorization = currentUser.email;
                     }
                     return config || $q.when(config);
+                },
+                'response': function(response) {
+                    response.headers()["Pragma"] = "no-cache";
+                    response.headers()["Cache-Control"] = "no-store, max-age=0, must-revalidate, max-stale=0, post-check=0, pre-check=0"; //HTTP 1.1
+                    response.headers()["Expires"] = "-1";
+                    return response;
                 },
                 responseError: function (rejection) {
                     console.log("Found responseError: ", rejection);

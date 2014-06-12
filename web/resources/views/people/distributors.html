@@ -5,10 +5,13 @@
             <button type="button" class="btn btn-info pull-right" ng-click="openDistributor('lg')">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
+            <button type="button" class="btn btn-info pull-right" ng-click="">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
         </div>
 
         <!-- Table -->
-        <table id="distributors" class="table table-bordered table-condensed table-hover">
+        <table id="distributors" class="table table-bordered table-condensed">
             <tbody>
             <tr>
                 <th>
@@ -86,7 +89,8 @@
                 </th>
             </tr>
             <tr ng-repeat="distributor in distributors | filter:filterModel | orderBy:predicate"
-                class="clickable" ng-click="openDistributor('lg', distributor)">
+                ng-class="{selectedRow: selectedItems[contact.id], clickable:true}" ng-dblclick="openContact('lg', contact)"
+                ng-click="onSelect(contact)">
                 <td>{{distributor.name}}</td>
                 <td>{{distributor.phone}}</td>
                 <td>{{distributor.position}}</td>

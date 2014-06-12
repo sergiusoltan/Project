@@ -18,7 +18,7 @@ angular
 
         $scope.loggedUser = function(){
             return AuthFactory.getUser().isLogged;
-        }
+        };
 
         $scope.logout = function () {
             var currentUser = AuthFactory.getUser();

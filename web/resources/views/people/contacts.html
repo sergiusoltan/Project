@@ -5,10 +5,13 @@
             <button type="button" class="btn btn-info pull-right" ng-click="openContact('lg')">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
+            <button type="button" ng-class="{disabled:selectedItems.length < 1}" class="btn btn-danger pull-right" ng-click="removeContact();">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
         </div>
 
         <!-- Table -->
-        <table id="contacts" class="table table-bordered table-hover">
+        <table id="contacts" class="table table-bordered">
             <tbody>
             <tr>
                 <th><div>Name
@@ -71,7 +74,8 @@
                 </th>
             </tr>
             <tr ng-repeat="contact in contacts | filter:filterModel | orderBy:predicate"
-                class="clickable" ng-click="openContact('lg', contact)">
+                ng-class="{selectedRow: selectedItems[contact.id], clickable:true}" ng-dblclick="openContact('lg', contact)"
+                ng-click="onSelect(contact)">
                 <td>{{contact.name}}</td>
                 <td>{{contact.phone}}</td>
                 <td>{{contact.recomendedBy}}</td>

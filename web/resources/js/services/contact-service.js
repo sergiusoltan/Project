@@ -14,44 +14,52 @@ angular
         var getAllContacts = API_URL.rest + "contact/findAll",
             saveContact = API_URL.rest + "contact/save",
             updateContact = API_URL.rest + "contact/update",
+            deleteContact = API_URL.rest + "contact/delete",
             ContactFactory = {};
 
-        ContactFactory.getAll = function () {
+        ContactFactory.getAllContacts = function () {
             var deferred = $q.defer();
-            $http.get(loginUrl).success(function (success) {
+            $http.get(getAllContacts).success(function (success) {
                     deferred.resolve(success);
-                },
-                function (reason) {
+                }).error(function (reason) {
                     deferred.reject(reason);
                 });
             return deferred.promise;
         };
 
-        ContactFactory.saveUser = function (properties) {
+        ContactFactory.saveOrUpdate = function (properties) {
             var deferred = $q.defer();
 
-            $http['post'](saveUserUrl, properties)
-                .success(function (success) {
-                    deferred.resolve(success);
-                }).error(function (error) {
-                    deferred.reject(error);
+            if (properties.isNew) {
+                $http['post'](saveContact, properties.instance)
+                    .success(function (success) {
+                        deferred.resolve(success);
+                    }).error(function (error) {
+                        deferred.reject(error);
                 });
+            } else {
+                var url = updateContact + "/" + properties.instance.email;
+                $http.get(url).success(function (success) {
+                        deferred.resolve(success);
+                    }).error(function (reason) {
+                        deferred.reject(reason);
+                    });
+            }
 
             return deferred.promise;
         };
 
-        ContactFactory.loginUser = function (properties) {
+        ContactFactory.deleteContact = function (properties) {
             var deferred = $q.defer();
-
-            $http['post'](loginUserUrl, properties)
+            $http['post'](saveContact, properties)
                 .success(function (success) {
                     deferred.resolve(success);
                 }).error(function (error) {
                     deferred.reject(error);
-                });
+            });
 
             return deferred.promise;
         };
 
         return ContactFactory;
-}]);
+    }]);

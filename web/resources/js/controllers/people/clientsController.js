@@ -12,11 +12,19 @@ angular
     .controller('ClientsCtrl', ['$scope', 'UserFactory', 'AuthFactory', '$location', '$modal', '$log', function ($scope, UserFactory, AuthFactory, $location, $modal, $log) {
 
         $scope.clients = [
-            {name: 'Jane Doe1', recomendedBy: '', type: CLIENT, phone: 178943332, email: 'janedow4@gmail.com'},
-            {name: 'Jane Doe2', recomendedBy: '', type: CLIENT, phone: 278943332, email: 'janedow3@gmail.com'},
-            {name: 'Jane Doe3', recomendedBy: '', type: CLIENT, phone: 378943332, email: 'janedow2@gmail.com'},
-            {name: 'Jane Doe4', recomendedBy: '', type: CLIENT, phone: 478943332, email: 'janedow1@gmail.com'}
+            {id:1,name: 'Jane Doe1', recomendedBy: '', type: CLIENT, phone: 178943332, email: 'janedow4@gmail.com'},
+            {id:2,name: 'Jane Doe2', recomendedBy: '', type: CLIENT, phone: 278943332, email: 'janedow3@gmail.com'},
+            {id:3,name: 'Jane Doe3', recomendedBy: '', type: CLIENT, phone: 378943332, email: 'janedow2@gmail.com'},
+            {id:4,name: 'Jane Doe4', recomendedBy: '', type: CLIENT, phone: 478943332, email: 'janedow1@gmail.com'}
         ];
+
+        $scope.selectedItems = [];
+//        initData();
+
+        $scope.onSelect = function(contact){
+            $scope.selectedItems[contact.id] = $scope.selectedItems[contact.id] ? false : true;
+            console.log($scope.selectedItems);
+        };
 
         $scope.title = "Clients Controller";
         $scope.predicate = 'name';
@@ -59,12 +67,13 @@ angular
 
         $scope.careerPositions = careerPositions;
 
+        $scope.new = item.name == null;
         $scope.title = title;
         $scope.item = item;
         $scope.items = items;
 
         $scope.ok = function () {
-            $modalInstance.close($scope.item);
+            $modalInstance.close({instance:$scope.item,isNew:$scope.new});
         };
 
         $scope.cancel = function () {
