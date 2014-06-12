@@ -1,23 +1,22 @@
 /**
  * Created with IntelliJ IDEA.
  * User: ZIG
- * Date: 10.05.2014
- * Time: 11:52
+ * Date: 12.06.2014
+ * Time: 11:12
  * To change this template use File | Settings | File Templates.
  */
 'use strict';
 
 angular
     .module('core')
-    .factory('UserFactory', ['$http', '$q', 'API_URL', function ($http, $q, API_URL) {
+    .factory('ContactService', ['$http', '$q', 'API_URL', function ($http, $q, API_URL) {
 
-        var loginUrl = API_URL.rest + "auth/find",
-            saveUserUrl = API_URL.rest + "auth/save",
-            loginUserUrl = API_URL.rest + "auth/login",
-            logoutUserUrl = API_URL.rest + "auth/logout",
-            UserFactory = {};
+        var getAllContacts = API_URL.rest + "contact/findAll",
+            saveContact = API_URL.rest + "contact/save",
+            updateContact = API_URL.rest + "contact/update",
+            ContactFactory = {};
 
-        UserFactory.getUser = function () {
+        ContactFactory.getAll = function () {
             var deferred = $q.defer();
             $http.get(loginUrl).success(function (success) {
                     deferred.resolve(success);
@@ -28,7 +27,7 @@ angular
             return deferred.promise;
         };
 
-        UserFactory.saveUser = function (properties) {
+        ContactFactory.saveUser = function (properties) {
             var deferred = $q.defer();
 
             $http['post'](saveUserUrl, properties)
@@ -41,7 +40,7 @@ angular
             return deferred.promise;
         };
 
-        UserFactory.loginUser = function (properties) {
+        ContactFactory.loginUser = function (properties) {
             var deferred = $q.defer();
 
             $http['post'](loginUserUrl, properties)
@@ -54,18 +53,5 @@ angular
             return deferred.promise;
         };
 
-        UserFactory.logoutUser = function (properties) {
-            var deferred = $q.defer();
-
-            $http['post'](logoutUserUrl, properties)
-                .success(function (success) {
-                    deferred.resolve(success);
-                }).error(function (error) {
-                    deferred.reject(error);
-                });
-
-            return deferred.promise;
-        };
-
-        return UserFactory;
-    }]);
+        return ContactFactory;
+}]);

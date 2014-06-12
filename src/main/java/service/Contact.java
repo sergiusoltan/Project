@@ -11,12 +11,13 @@ import static main.java.util.Utils.oKResponse;
 /**
  * @author Serghei Soltan (soltan@spmsoftware.com)
  */
-@Path("/customers")
-public class CustomerService {
+@Path("/contact")
+public class Contact {
 
+    @Path("/findAll")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllCustomers(){
+    public Response getAllCustomers(String currentUser){
         return oKResponse("");
     }
 
@@ -24,21 +25,21 @@ public class CustomerService {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCustomer(){
+    public Response getCustomer(String currentUser, String data){
         return oKResponse("");
     }
 
     @PUT
     @Path("/save")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response saveCustomer(String data){
+    public Response saveCustomer(String currentUser, String data){
         return oKResponse("");
     }
 
     @POST
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateCustomer(String data){
+    public Response updateCustomer(String currentUser, String data){
         return oKResponse("");
     }
 
