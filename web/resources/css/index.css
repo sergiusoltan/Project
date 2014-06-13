@@ -106,19 +106,19 @@ div .panel-primary{
     border-color: #222 !important;
 }
 div .Contact{
-    background-color: lightblue !important;
+    background-color: #E6E6E6 !important;
     border-radius: 15px !important;
     padding: 15px !important;
     margin: -10px !important;
 }
 div .Member{
-    background-color: lightgreen !important;
+    background-color: #A9F5A9 !important;
     border-radius: 15px !important;
     padding: 15px !important;
     margin: -10px !important
 }
 div .Client{
-    background-color: lightyellow !important;
+    background-color: #F7BE81 !important;
     border-radius: 15px !important;
     padding: 15px !important;
     margin: -10px !important

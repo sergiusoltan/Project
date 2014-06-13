@@ -5,7 +5,7 @@
         <div class="col-md-3 col-sm-6 col-sx-6">
             <div class="panel panel-primary">
                 <div class="panel-heading clearfix">
-                    <span class="label label-primary">120% +</span>
+                    <span class="label label-primary pull-right">120% +</span>
                     <h3 class="panel-title">Sales</h3>
                 </div>
                 <div class="panel-body">
@@ -28,17 +28,25 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel-footer clearfix">
-                    <a href="#" class="pull-left">View more...</a>
-                    <span class="pull-right" id="sales"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <div pieChart="pieData" pieoptions="{{pieOptions}}"></div>
+                <div class="caption">
+                    <h3>Some Description</h3>
+                    <p>Some Content</p>
                 </div>
             </div>
+            <input type="file" ng-model="img">
+            <img ng-src="img" width="40px">
         </div>
 
         <div class="col-md-3 col-sm-6 col-sx-6">
             <div class="panel panel-primary">
                 <div class="panel-heading clearfix">
-                    <span class="label label-primary">35% +</span>
+                    <span class="label label-primary pull-right">35% +</span>
                     <h3 class="panel-title">Products</h3>
                 </div>
                 <div class="panel-body">
@@ -61,17 +69,13 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel-footer clearfix">
-                    <a href="#" class="pull-left">View more...</a>
-                    <span class="pull-right" id="products"></span>
-                </div>
             </div>
         </div>
 
         <div class="col-md-3 col-sm-6 col-sx-6">
             <div class="panel panel-primary">
                 <div class="panel-heading clearfix">
-                    <span class="label label-warning">45% +</span>
+                    <span class="label label-warning pull-right">45% +</span>
                     <h3 class="panel-title">Conversion Rate</h3>
                 </div>
                 <div class="panel-body">
@@ -81,17 +85,13 @@
                         <div class="bar-graph" id="conversion-graph">&nbsp;</div>
                     </div>
                 </div>
-                <div class="panel-footer clearfix">
-                    <a href="#" class="pull-left">View more...</a>
-                    <span class="pull-right" id="conversion-rate"></span>
-                </div>
             </div>
         </div>
 
         <div class="col-md-3 col-sm-6 col-sx-6">
             <div class="panel panel-primary">
                 <div class="panel-heading clearfix">
-                    <span class="label label-primary">90% +</span>
+                    <span class="label label-primary pull-right">90% +</span>
                     <h3 class="panel-title">Users Demography</h3>
                 </div>
                 <div class="panel-body">
@@ -109,10 +109,6 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="panel-footer clearfix">
-                    <a href="#" class="pull-left">View more...</a>
-                    <span class="pull-right" id="new-users"></span>
                 </div>
             </div>
         </div>

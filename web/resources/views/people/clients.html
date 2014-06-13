@@ -82,7 +82,7 @@
                 ng-class="{selectedRow: selectedItems.indexOf(client.id) != -1, clickable: true}"
                 ng-dblclick="openClient('lg', client)"
                 ng-click="onSelect(client)">
-                <td>{{client.name}}</td>
+                <td><a href="/clients/{{client.id}}">{{client.name}}</a></td>
                 <td>{{client.phone}}</td>
                 <td>{{client.email}}</td>
                 <td>{{getRecomendedByName(client.recomendedBy)}}</td>

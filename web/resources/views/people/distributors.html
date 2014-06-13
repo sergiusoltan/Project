@@ -93,7 +93,7 @@
                 ng-dblclick="openDistributor('lg', distributor)"
                 title="Double click to edit"
                 ng-click="onSelect(distributor)">
-                <td>{{distributor.name}}</td>
+                <td><a href="/members/{{distributor.id}}">{{distributor.name}}</a></td>
                 <td>{{distributor.phone}}</td>
                 <td>{{distributor.position}}</td>
                 <td>{{getRecomendedByName(distributor.recomendedBy)}}</td>

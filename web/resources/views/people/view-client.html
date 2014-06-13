@@ -4,8 +4,17 @@
             <div class="thumbnail">
                 <img src="/resources/img/download.svg">
                 <div class="caption">
-                    <h3>Person Name</h3>
-                    <p>Position</p>
+                    <h3>{{client.name}}</h3>
+                    <p>{{client.position}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4" ng-show="recomendedBy.name != null">
+            <div class="thumbnail">
+                <img src="/resources/img/download.svg">
+                <div class="caption">
+                    <h3>{{recomendedBy.name}}</h3>
+                    <p>{{recomendedBy.position}}</p>
                 </div>
             </div>
         </div>

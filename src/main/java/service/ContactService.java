@@ -38,8 +38,17 @@ public class ContactService {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getContact(String data) {
-        return oKResponse("");
+    public Response getClient(@PathParam("id") Long id,@HeaderParam("authorization") String authParam) {
+        Authorization auth = new Authorization(authParam);
+        if(!ContactServiceUtil.isAuthorizedRequest(auth)){
+            return noAuthResponse();
+        }
+
+        String response = ContactServiceUtil.getContact(auth.getEmail(), id , ContactServiceUtil.CONTACT);
+        if(response == null){
+            return response("Failed to find contact "+id+"!", Response.Status.CONFLICT);
+        }
+        return oKResponse(response);
     }
 
     @POST

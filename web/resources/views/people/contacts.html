@@ -78,7 +78,7 @@
                 ng-dblclick="openContact('lg', contact)"
                 title="Double click to edit"
                 ng-click="onSelect(contact)">
-                <td>{{contact.name}}</td>
+                <td><a href="/contacts/{{contact.id}}">{{contact.name}}</a></td>
                 <td>{{contact.phone}}</td>
                 <td>{{getRecomendedByName(contact.recomendedBy)}}</td>
                 <td>{{contact.type}}</td>

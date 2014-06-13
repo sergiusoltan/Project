@@ -15,11 +15,22 @@ angular
             saveContact = API_URL.rest + "contact/save",
             updateContact = API_URL.rest + "contact/update",
             deleteContact = API_URL.rest + "contact/remove",
+            getContact = API_URL.rest + "contact/",
             ContactFactory = {};
 
         ContactFactory.getAllContacts = function () {
             var deferred = $q.defer();
             $http.get(getAllContacts).success(function (success) {
+                deferred.resolve(success);
+            }).error(function (reason) {
+                    deferred.reject(reason);
+                });
+            return deferred.promise;
+        };
+
+        ContactFactory.getContact = function (id) {
+            var deferred = $q.defer();
+            $http.get(getContact+id).success(function (success) {
                 deferred.resolve(success);
             }).error(function (reason) {
                     deferred.reject(reason);

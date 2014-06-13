@@ -15,6 +15,7 @@ angular
             saveClient = API_URL.rest + "client/save",
             updateClient = API_URL.rest + "client/update",
             deleteClient = API_URL.rest + "client/remove",
+            getClient = API_URL.rest + "client/",
             ClientFactory = {};
 
         ClientFactory.getAllClients = function () {
@@ -26,6 +27,17 @@ angular
                 });
             return deferred.promise;
         };
+
+        ClientFactory.getClient = function (id) {
+            var deferred = $q.defer();
+            $http.get(getClient+id).success(function (success) {
+                deferred.resolve(success);
+            }).error(function (reason) {
+                    deferred.reject(reason);
+                });
+            return deferred.promise;
+        };
+
 
         ClientFactory.saveOrUpdate = function (properties) {
             var deferred = $q.defer();

@@ -25,3 +25,20 @@ angular
             }
         }
     });
+
+angular
+    .module('googleCharts')
+    .directive('piechart', function() {
+        return {
+            restrict: 'A',
+            link: function($scope, $elm, $attr) {
+                var target = $attr.piechart;
+                var options = JSON.parse($attr.pieoptions);
+                $scope.$watch(target, function(value) {
+                    var chart = new google.visualization.PieChart($elm[0]);
+                    if(!options){ options = {};}
+                    chart.draw(value, options);
+                }, true );
+            }
+        }
+    });

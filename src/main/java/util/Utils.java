@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.labs.repackaged.com.google.common.base.Function;
+import com.google.appengine.labs.repackaged.com.google.common.collect.Lists;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
@@ -91,6 +92,17 @@ public class Utils {
             contact.setRecomendedBy(getInstance().toJson(recomendedBy));
         }
         return contact;
+    }
+
+    public static String fromEntityToString(Integer type, Entity entity){
+        switch (type){
+            case ContactServiceUtil.CLIENT:
+                return  getInstance().toJson(Lists.transform(Lists.newArrayList(entity), entityToClient).get(0));
+            case ContactServiceUtil.MEMBER:
+                return  getInstance().toJson(Lists.transform(Lists.newArrayList(entity), entityToMember).get(0));
+            default:
+                return  getInstance().toJson(Lists.transform(Lists.newArrayList(entity), entityToContact).get(0));
+        }
     }
 
     public static String parseDate(String inputDate){

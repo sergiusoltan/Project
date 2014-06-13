@@ -15,11 +15,22 @@ angular
             saveMember = API_URL.rest + "member/save",
             updateMember = API_URL.rest + "member/update",
             deleteMember = API_URL.rest + "member/remove",
+            getMember = API_URL.rest + "member/",
             MemberFactory = {};
 
         MemberFactory.getAllMembers = function () {
             var deferred = $q.defer();
             $http.get(getAllMembers).success(function (success) {
+                deferred.resolve(success);
+            }).error(function (reason) {
+                    deferred.reject(reason);
+                });
+            return deferred.promise;
+        };
+
+        MemberFactory.getMember = function (id) {
+            var deferred = $q.defer();
+            $http.get(getMember+id).success(function (success) {
                 deferred.resolve(success);
             }).error(function (reason) {
                     deferred.reject(reason);

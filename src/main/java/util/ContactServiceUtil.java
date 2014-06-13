@@ -231,4 +231,18 @@ public class ContactServiceUtil {
         }
     }
 
+    public static String getContact(String owner, Long id, Integer type) {
+        DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
+        Key userKey = Utils.getUserKey(owner);
+        Query query = new Query(Entities.CONTACT.getId(), userKey).setFilter(
+                new Query.FilterPredicate(ID.getKey(), Query.FilterOperator.EQUAL, id)
+        );
+        Entity foundEntity = datastoreService.prepare(query).asSingleEntity();
+        if (foundEntity == null) {
+            return null;
+        }
+        return fromEntityToString(type, foundEntity);
+    }
+
+
 }
