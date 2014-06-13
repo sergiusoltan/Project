@@ -9,17 +9,17 @@
 
 angular
     .module('core')
-    .factory('ContactService', ['$http', '$q', 'API_URL', function ($http, $q, API_URL) {
+    .factory('MemberService', ['$http', '$q', 'API_URL', function ($http, $q, API_URL) {
 
-        var getAllContacts = API_URL.rest + "contact/findAll",
-            saveContact = API_URL.rest + "contact/save",
-            updateContact = API_URL.rest + "contact/update",
-            deleteContact = API_URL.rest + "contact/remove",
-            ContactFactory = {};
+        var getAllMembers = API_URL.rest + "member/findAll",
+            saveMember = API_URL.rest + "member/save",
+            updateMember = API_URL.rest + "member/update",
+            deleteMember = API_URL.rest + "member/remove",
+            MemberFactory = {};
 
-        ContactFactory.getAllContacts = function () {
+        MemberFactory.getAllMembers = function () {
             var deferred = $q.defer();
-            $http.get(getAllContacts).success(function (success) {
+            $http.get(getAllMembers).success(function (success) {
                 deferred.resolve(success);
             }).error(function (reason) {
                     deferred.reject(reason);
@@ -27,18 +27,18 @@ angular
             return deferred.promise;
         };
 
-        ContactFactory.saveOrUpdate = function (properties) {
+        MemberFactory.saveOrUpdate = function (properties) {
             var deferred = $q.defer();
 
             if (properties.isNew) {
-                $http['post'](saveContact, properties.instance)
+                $http['post'](saveMember, properties.instance)
                     .success(function (success) {
                         deferred.resolve(success);
                     }).error(function (error) {
                         deferred.reject(error);
                     });
             } else {
-                $http['post'](updateContact, properties.instance)
+                $http['post'](updateMember, properties.instance)
                     .success(function (success) {
                         deferred.resolve(success);
                     }).error(function (reason) {
@@ -49,9 +49,9 @@ angular
             return deferred.promise;
         };
 
-        ContactFactory.deleteContacts = function (properties) {
+        MemberFactory.deleteMembers = function (properties) {
             var deferred = $q.defer();
-            $http['post'](deleteContact, properties)
+            $http['post'](deleteMember, properties)
                 .success(function (success) {
                     deferred.resolve(success);
                 }).error(function (error) {
@@ -61,5 +61,5 @@ angular
             return deferred.promise;
         };
 
-        return ContactFactory;
+        return MemberFactory;
     }]);

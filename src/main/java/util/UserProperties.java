@@ -8,6 +8,7 @@ public enum UserProperties {
     EMAIL("email"),
     DATE("date"),
     PASSWORD("password"),
+    ID("id"),
     SESSION_TOKEN("sessionToken");
 
     private String key;

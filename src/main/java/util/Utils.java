@@ -1,18 +1,32 @@
 package main.java.util;
 
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.labs.repackaged.com.google.common.base.Function;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import main.java.model.auth.UserStatus;
+import main.java.model.people.ClientModel;
+import main.java.model.people.ContactModel;
+import main.java.model.people.MemberModel;
 
 import javax.ws.rs.core.Response;
 
+import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static main.java.util.Entities.*;
+import static main.java.util.PeopleProperties.*;
+import static main.java.util.PeopleProperties.RECOMENDED_BY;
+import static main.java.util.PeopleProperties.TYPE;
 
 /**
  * @author Serghei Soltan (soltan@spmsoftware.com)
@@ -32,6 +46,23 @@ public class Utils {
                     .create();
         }
         return gson;
+    }
+
+    public static List<Long> fromListType(String list){
+        Type listType = new TypeToken<List<Long>>(){}.getType();
+        try{
+            return getInstance().fromJson(list, listType);
+        }catch (JsonSyntaxException ignore){
+            return null;
+        }
+    }
+
+    public static String parseDate(String inputDate){
+        String date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(inputDate).toString();
+        } catch (ParseException ignore) {}
+        return date;
     }
 
     public static Response oKResponse(Object object){
@@ -61,4 +92,46 @@ public class Utils {
                 .entity(getInstance().toJson(new UserStatus()))
                 .build();
     }
+
+    public static Function<Entity, ContactModel> entityToContact = new Function<Entity, ContactModel>() {
+        @Override
+        public ContactModel apply(com.google.appengine.api.datastore.Entity entity) {
+            ContactModel contactModel = new ContactModel();
+            contactModel.setId((Long) entity.getProperty(ID.getKey()));
+            contactModel.setName((String) entity.getProperty(NAME.getKey()));
+            contactModel.setDate((String) entity.getProperty(DATE.getKey()));
+            contactModel.setPhone((Long) entity.getProperty(PHONE.getKey()));
+            contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
+            contactModel.setType((String) entity.getProperty(TYPE.getKey()));
+            return contactModel;
+        }
+    };
+
+    public static Function<Entity, ClientModel> entityToClient = new Function<Entity, ClientModel>() {
+        @Override
+        public ClientModel apply(com.google.appengine.api.datastore.Entity entity) {
+            ClientModel contactModel = new ClientModel();
+            contactModel.setId((Long) entity.getProperty(ID.getKey()));
+            contactModel.setName((String) entity.getProperty(NAME.getKey()));
+            contactModel.setDate((String) entity.getProperty(DATE.getKey()));
+            contactModel.setPhone((Long) entity.getProperty(PHONE.getKey()));
+            contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
+            contactModel.setType((String) entity.getProperty(TYPE.getKey()));
+            return contactModel;
+        }
+    };
+
+    public static Function<Entity, MemberModel> entityToMember = new Function<Entity, MemberModel>() {
+        @Override
+        public MemberModel apply(com.google.appengine.api.datastore.Entity entity) {
+            MemberModel contactModel = new MemberModel();
+            contactModel.setId((Long) entity.getProperty(ID.getKey()));
+            contactModel.setName((String) entity.getProperty(NAME.getKey()));
+            contactModel.setDate((String) entity.getProperty(DATE.getKey()));
+            contactModel.setPhone((Long) entity.getProperty(PHONE.getKey()));
+            contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
+            contactModel.setType((String) entity.getProperty(TYPE.getKey()));
+            return contactModel;
+        }
+    };
 }

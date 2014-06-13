@@ -89,3 +89,7 @@ th div:first-child{
 .selectedRow{
     background-color: red;
 }
+.headerButton{
+    margin-top: -6px;
+    margin-right: 5px;
+}

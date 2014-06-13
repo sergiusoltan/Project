@@ -2,10 +2,10 @@
     <div class="panel panel-primary" style="margin-top: 10px">
         <!-- Default panel contents -->
         <div class="panel-heading">Contacts
-            <button type="button" class="btn btn-info pull-right" ng-click="openContact('lg')">
+            <button type="button" class="btn btn-info pull-right" ng-click="openContact('lg')" title="Add new contact">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
-            <button type="button" ng-class="{disabled:selectedItems.length < 1}" class="btn btn-danger pull-right" ng-click="removeContact();">
+            <button type="button" class="btn btn-danger pull-right headerButton" ng-disabled="selectedItems.length < 1" ng-click="removeContact()" title="Remove a selected row">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
         </div>
@@ -38,13 +38,13 @@
                 </th>
                 <th><div>Recomended by
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes pull-right sortable"
-                          ng-click="predicate = 'recomendedBy'"></span>
+                          ng-click="predicate = 'recomendedBy.name'"></span>
                     <span class="glyphicon glyphicon glyphicon-sort-by-attributes-alt pull-right sortable"
-                          ng-click="predicate = '-recomendedBy'"></span>
+                          ng-click="predicate = '-recomendedBy.name'"></span>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">Filter</span>
-                        <input ng-model="filterModel.recomendedBy" placeholder="by recomended">
+                        <input ng-model="filterModel.recomendedBy.name" placeholder="by recomended">
                     </div>
                 </th>
                 <th><div>Type
@@ -73,13 +73,14 @@
                     </div>
                 </th>
             </tr>
-            <tr ng-repeat="contact in contacts track by $index | filter:filterModel | orderBy:predicate"
-                ng-class="{selectedRow: selectedItems[contact.id], clickable: true}"
+            <tr ng-repeat="contact in contacts | filter:filterModel | orderBy:predicate"
+                ng-class="{selectedRow: selectedItems.indexOf(contact.id) != -1, clickable: true}"
                 ng-dblclick="openContact('lg', contact)"
+                title="Double click to edit"
                 ng-click="onSelect(contact)">
                 <td>{{contact.name}}</td>
                 <td>{{contact.phone}}</td>
-                <td>{{contact.recomendedBy}}</td>
+                <td>{{getRecomendedByName(contact.recomendedBy)}}</td>
                 <td>{{contact.type}}</td>
                 <td>{{contact.date}}</td>
             </tr>
@@ -97,34 +98,37 @@
                 <span class="input-group-addon">Name</span>
                 <input type="text" class="form-control" name="personName"
                        ng-maxlength="50" ng-minlength="3"
-                       ng-pattern="/^[a-zA-Z]*$/"
-                       ng-class="{'alert-success':form.personName.$dirty && form.personName.$valid, 'alert-danger':form.personName.$invalid}"
+                       ng-pattern="/^[a-zA-Z ]*$/"
+                       ng-class="{'alert-success':form.personName.$dirty && form.personName.$valid, 'alert-danger':form.personName.$invalid && !form.personName.$pristine}"
                        value="{{item.name}}" ng-model="item.name" placeholder="Insert name here" required>
             </div>
             <div class="input-group">
                     <span class="input-group-addon">Phone</span>
                     <input name="phoneNumber" type="number" class="form-control"
                            ng-minlength="9" ng-maxlength="15" ng-pattern="/^\d+$/"
-                           ng-class="{'alert-success':form.phoneNumber.$dirty && form.phoneNumber.$valid,'alert-danger':form.phoneNumber.$invalid}"
+                           ng-class="{'alert-success':form.phoneNumber.$dirty && form.phoneNumber.$valid,'alert-danger':form.phoneNumber.$invalid && !form.phoneNumber.$pristine}"
                            value="{{item.phone}}" ng-model="item.phone" placeholder="Insert phone here" required>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Recomended By</span>
                 <select name="recomendedOption" class="form-control" ng-model="item.recomendedBy"
-                        ng-class="{'alert-success':form.recomendedOption.$dirty && form.recomendedOption.$valid, 'alert-danger':form.recomendedOption.$invalid}" required>
-                    <option value="{{type}}" ng-repeat="type in items track by $index">{{type.name}}</option>
+                        ng-class="{'alert-success':form.recomendedOption.$dirty && form.recomendedOption.$valid, 'alert-danger':form.recomendedOption.$invalid && !form.recomendedOption.$pristine}">
+                    <option value="{{type}}" ng-repeat="type in items | filter:filterItem" ng-selected="isRecomendedSelected(type)">{{type.name}}</option>
                 </select>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Type</span>
-                <select name="typeOption" class="form-control" ng-model="item.type">
-                    <option value="{{item.type}}" selected>{{item.type}}</option>
+                <select name="typeOption" class="form-control" ng-model="item.type" required
+                        ng-class="{'alert-success':form.typeOption.$dirty && form.typeOption.$valid, 'alert-danger':form.typeOption.$invalid && !form.typeOption.$pristine}">
+                    <option value="Contact" selected>Contact</option>
+                    <option value="Client">Client</option>
+                    <option value="Member">Member</option>
                 </select>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Date</span>
                 <input name="date" type="date" class="form-control" value="{{item.date}}"
-                       ng-class="{'alert-success':form.date.$dirty && form.date.$valid, 'alert-danger':form.date.$invalid}"
+                       ng-class="{'alert-success':form.date.$dirty && form.date.$valid, 'alert-danger':form.date.$invalid && !form.date.$pristine}"
                        ng-model="item.date" placeholder="Date" required>
             </div>
         </div>

@@ -20,8 +20,8 @@ import static main.java.util.Utils.response;
 /**
  * @author Serghei Soltan (soltan@spmsoftware.com)
  */
-@Path("/contact")
-public class ContactService {
+@Path("/client")
+public class ClientService {
 
     @Path("/findAll")
     @GET
@@ -31,7 +31,7 @@ public class ContactService {
         if(!ContactServiceUtil.isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        return oKResponse(ContactServiceUtil.getAllContacts(auth.getEmail()));
+        return oKResponse(ContactServiceUtil.getAllClients(auth.getEmail()));
     }
 
     @Path("/{id}")

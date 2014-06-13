@@ -1,4 +1,4 @@
-package main.java.model.auth;
+package main.java.model.people;
 
 import java.util.Date;
 
@@ -6,18 +6,18 @@ import java.util.Date;
  * User: Sergiu Soltan
  */
 public class ContactModel {
-    private String id;
+    private Long id;
     private String name;
     private Long phone;
     private String type;
     private String recomendedBy;
-    private Date date;
+    private String date;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,11 +53,11 @@ public class ContactModel {
         this.recomendedBy = recomendedBy;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

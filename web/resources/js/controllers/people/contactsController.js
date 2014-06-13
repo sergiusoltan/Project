@@ -16,18 +16,25 @@ angular
         initData();
 
         $scope.onSelect = function (contact) {
-            if ($scope.selectedItems[contact.id]) {
+            if ($scope.selectedItems.indexOf(contact.id) != -1) {
                 var index = $scope.selectedItems.indexOf(contact.id);
                 $scope.selectedItems.splice(index, 1);
                 console.log($scope.selectedItems);
                 return;
             }
-            $scope.selectedItems[contact.id] = true;
+            $scope.selectedItems.push(contact.id);
             console.log($scope.selectedItems);
+        };
+
+        $scope.getRecomendedByName = function(recomendedBy){
+            if(recomendedBy){
+                return JSON.parse(recomendedBy).name;
+            }
         };
 
         $scope.removeContact = function () {
             ContactService.deleteContacts($scope.selectedItems).then(function (success) {
+                $scope.selectedItems = [];
                 console.log('remove contacts');
                 $scope.contacts = getArray(success);
                 console.log($scope.contacts);
@@ -63,17 +70,13 @@ angular
                 size: size,
                 resolve: {
                     items: function () {
-                        var currentUser = AuthFactory.getUser();
-                        var items = new Array();
-                        items.push($scope.contacts);
-                        items.push({id: currentUser.id, name: currentUser.name, email: currentUser.email});
-                        return items;
+                        return $scope.contacts;
                     },
                     item: function () {
                         if (contact != null) {
                             return contact;
                         }
-                        return {type: CONTACT};
+                        return {};
                     },
                     title: function () {
                         if (contact != null) {
