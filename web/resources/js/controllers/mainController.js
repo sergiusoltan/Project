@@ -22,7 +22,7 @@ angular
                 rememberme: $scope.rememberme
             };
             UserFactory.saveUser(JSON.stringify(properties)).then(function (success) {
-                $location(SIGNIN);
+                $location.path(LOGIN);
             });
         };
 

@@ -82,6 +82,7 @@ public class ContactServiceUtil {
         newContact.setProperty(DATE.getKey(), contact.getDate());
         newContact.setProperty(PHONE.getKey(), contact.getPhone());
         newContact.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
+        newContact.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
         newContact.setProperty(TYPE.getKey(), contact.getType());
         datastoreService.put(newContact);
 
@@ -100,6 +101,7 @@ public class ContactServiceUtil {
         newContact.setProperty(DATE.getKey(), contact.getDate());
         newContact.setProperty(PHONE.getKey(), contact.getPhone());
         newContact.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
+        newContact.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
         newContact.setProperty(TYPE.getKey(), contact.getType());
         newContact.setProperty(EMAIL.getKey(), contact.getEmail());
         datastoreService.put(newContact);
@@ -119,6 +121,7 @@ public class ContactServiceUtil {
         newContact.setProperty(DATE.getKey(), contact.getDate());
         newContact.setProperty(PHONE.getKey(), contact.getPhone());
         newContact.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
+        newContact.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
         newContact.setProperty(TYPE.getKey(), contact.getType());
         newContact.setProperty(EMAIL.getKey(), contact.getEmail());
         datastoreService.put(newContact);
@@ -141,6 +144,7 @@ public class ContactServiceUtil {
         foundEntity.setProperty(DATE.getKey(), contact.getDate());
         foundEntity.setProperty(PHONE.getKey(), contact.getPhone());
         foundEntity.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
+        foundEntity.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
         foundEntity.setProperty(TYPE.getKey(), contact.getType());
         datastoreService.put(foundEntity);
         return getAllContacts(owner);
@@ -161,6 +165,7 @@ public class ContactServiceUtil {
         foundEntity.setProperty(DATE.getKey(), contact.getDate());
         foundEntity.setProperty(PHONE.getKey(), contact.getPhone());
         foundEntity.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
+        foundEntity.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
         foundEntity.setProperty(TYPE.getKey(), contact.getType());
         foundEntity.setProperty(EMAIL.getKey(), contact.getEmail());
         datastoreService.put(foundEntity);
@@ -182,6 +187,7 @@ public class ContactServiceUtil {
         foundEntity.setProperty(DATE.getKey(), contact.getDate());
         foundEntity.setProperty(PHONE.getKey(), contact.getPhone());
         foundEntity.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
+        foundEntity.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
         foundEntity.setProperty(TYPE.getKey(), contact.getType());
         foundEntity.setProperty(EMAIL.getKey(), contact.getEmail());
         datastoreService.put(foundEntity);

@@ -105,3 +105,21 @@ div .panel-heading{
 div .panel-primary{
     border-color: #222 !important;
 }
+div .Contact{
+    background-color: lightblue !important;
+    border-radius: 15px !important;
+    padding: 15px !important;
+    margin: -10px !important;
+}
+div .Member{
+    background-color: lightgreen !important;
+    border-radius: 15px !important;
+    padding: 15px !important;
+    margin: -10px !important
+}
+div .Client{
+    background-color: lightyellow !important;
+    border-radius: 15px !important;
+    padding: 15px !important;
+    margin: -10px !important
+}

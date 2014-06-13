@@ -155,7 +155,7 @@ public class Utils {
             contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
             contactModel.setRecomendedById((Long) entity.getProperty(RECOMENDED_BY_ID.getKey()));
             contactModel.setType((String) entity.getProperty(TYPE.getKey()));
-            contactModel.setType((String) entity.getProperty(EMAIL.getKey()));
+            contactModel.setEmail((String) entity.getProperty(EMAIL.getKey()));
             return contactModel;
         }
     };
@@ -171,7 +171,7 @@ public class Utils {
             contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
             contactModel.setRecomendedById((Long) entity.getProperty(RECOMENDED_BY_ID.getKey()));
             contactModel.setType((String) entity.getProperty(TYPE.getKey()));
-            contactModel.setType((String) entity.getProperty(EMAIL.getKey()));
+            contactModel.setEmail((String) entity.getProperty(EMAIL.getKey()));
             return contactModel;
         }
     };

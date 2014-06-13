@@ -61,5 +61,12 @@ angular
             return deferred.promise;
         };
 
+        ClientFactory.getArray = function(success){
+            while (!(success instanceof Array)) {
+                success = JSON.parse(success);
+            }
+            return success;
+        };
+
         return ClientFactory;
     }]);
