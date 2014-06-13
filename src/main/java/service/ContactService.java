@@ -76,7 +76,7 @@ public class ContactService {
         if(!ContactServiceUtil.isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        String response = ContactServiceUtil.deleteContacts(auth.getEmail(), deleteList);
+        String response = ContactServiceUtil.deleteContacts(auth.getEmail(), deleteList, ContactServiceUtil.CONTACT);
         if(response == null){
             return response("Failed to delete!", Response.Status.CONFLICT);
         }

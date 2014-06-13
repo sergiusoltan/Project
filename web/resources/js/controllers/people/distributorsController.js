@@ -38,14 +38,30 @@ angular
         };
 
         $scope.removeMember = function () {
-//            MemberService.deleteMembers($scope.selectedItems).then(function (success) {
-//                $scope.selectedItems = [];
-//                console.log('remove contacts');
-//                $scope.contacts = getArray(success);
-//                console.log($scope.contacts);
-//            }, function (error) {
-//                console.log('error loading contacts');
-//            });
+            var modalInstance = $modal.open({
+                templateUrl: 'confirmationPopup.html',
+                controller: 'ConfirmationPopup',
+                size: '',
+                resolve: {
+                    title: function () {
+                        var suffix  = $scope.selectedItems.length > 1 ? " members?" : " member?";
+                        return "Do you really want to remove " + $scope.selectedItems.length + suffix;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                MemberService.deleteMembers($scope.selectedItems).then(function (success) {
+                    $scope.selectedItems = [];
+                    console.log('remove contacts');
+                    $scope.contacts = getArray(success);
+                    console.log($scope.contacts);
+                }, function (error) {
+                    console.log('error loading contacts');
+                });
+            }, function () {
+                console.log('modal dismissed');
+            });
         };
 
         function initData() {
@@ -67,9 +83,6 @@ angular
             return success;
         }
 
-        $scope.title = "Members Controller";
-        $scope.predicate = 'name';
-
         $scope.openDistributor = function (size, distributor) {
             var modalInstance = $modal.open({
                 templateUrl: 'addEditDistributorTemplate.html',
@@ -77,9 +90,7 @@ angular
                 size: size,
                 resolve: {
                     items: function () {
-                        var items = new Array();
-                        items.push($scope.distributors);
-                        return items;
+                        return $scope.distributors;
                     },
                     item: function () {
                         if(distributor != null){
@@ -97,13 +108,13 @@ angular
             });
 
             modalInstance.result.then(function (returnedObject) {
-//                MemberService.saveOrUpdate(returnedObject).then(function (success) {
-//                    console.log('success on save or update contact');
-//                    $scope.contacts = getArray(success);
-//                    console.log($scope.contacts);
-//                }, function (error) {
-//                    console.log('failed to save or update contact' + error);
-//                });
+                MemberService.saveOrUpdate(returnedObject).then(function (success) {
+                    console.log('success on save or update member');
+                    $scope.distributors = getArray(success);
+                    console.log($scope.distributors);
+                }, function (error) {
+                    console.log('failed to save or update contact' + error);
+                });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });

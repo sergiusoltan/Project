@@ -11,6 +11,7 @@ public class ContactModel {
     private Long phone;
     private String type;
     private String recomendedBy;
+    private Long recomendedById;
     private String date;
 
     public Long getId() {
@@ -59,5 +60,13 @@ public class ContactModel {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Long getRecomendedById() {
+        return recomendedById;
+    }
+
+    public void setRecomendedById(Long recomendedById) {
+        this.recomendedById = recomendedById;
     }
 }

@@ -33,13 +33,29 @@ angular
         };
 
         $scope.removeContact = function () {
-            ContactService.deleteContacts($scope.selectedItems).then(function (success) {
-                $scope.selectedItems = [];
-                console.log('remove contacts');
-                $scope.contacts = getArray(success);
-                console.log($scope.contacts);
-            }, function (error) {
-                console.log('error loading contacts');
+            var modalInstance = $modal.open({
+                templateUrl: 'confirmationPopup.html',
+                controller: 'ConfirmationPopup',
+                size: '',
+                resolve: {
+                    title: function () {
+                        var suffix  = $scope.selectedItems.length > 1 ? " contacts?" : " contact?";
+                        return "Do you really want to remove " + $scope.selectedItems.length + suffix;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                ContactService.deleteContacts($scope.selectedItems).then(function (success) {
+                    $scope.selectedItems = [];
+                    console.log('remove contacts');
+                    $scope.contacts = getArray(success);
+                    console.log($scope.contacts);
+                }, function (error) {
+                    console.log('error loading contacts');
+                });
+            }, function () {
+                console.log('modal dismissed');
             });
         };
 

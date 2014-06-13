@@ -1,7 +1,7 @@
 <div class="container-fluid" ng-controller="DistributorsCtrl">
     <div class="panel panel-primary" style="margin-top: 10px">
         <!-- Default panel contents -->
-        <div class="panel-heading">Distributors
+        <div class="panel-heading">Members
             <button type="button" class="btn btn-info pull-right" ng-click="openDistributor('lg')">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
@@ -89,7 +89,7 @@
                 </th>
             </tr>
             <tr ng-repeat="distributor in distributors | filter:filterModel | orderBy:predicate"
-                ng-class="{selectedRow: selectedItems.indexOf(contact.id) != -1, clickable: true}"
+                ng-class="{selectedRow: selectedItems.indexOf(distributor.id) != -1, clickable: true}"
                 ng-dblclick="openDistributor('lg', distributor)"
                 title="Double click to edit"
                 ng-click="onSelect(distributor)">
@@ -113,42 +113,41 @@
             <div class="input-group">
                 <span class="input-group-addon">Name</span>
                 <input name="personName" type="text" class="form-control" value="{{item.name}}"
-                       ng-maxlength="50" ng-minlength="3"
-                       ng-pattern="/^[a-zA-Z]*$/"
+                       ng-maxlength="50" ng-minlength="3" ng-pattern="/^[a-zA-Z ]*$/" ng-model="item.name"
                        ng-class="{'alert-success':form.personName.$dirty && form.personName.$valid, 'alert-danger':form.personName.$invalid && !form.personName.$pristine}"
                        placeholder="Insert name here" required>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Phone</span>
                 <input name="phoneNumber" type="number" class="form-control" value="{{item.phone}}"
-                       ng-minlength="9" ng-maxlength="15" ng-pattern="/^\d+$/"
+                       ng-minlength="9" ng-maxlength="15" ng-pattern="/^\d+$/" ng-model="item.phone"
                        ng-class="{'alert-success':form.phoneNumber.$dirty && form.phoneNumber.$valid,'alert-danger':form.phoneNumber.$invalid && !form.phoneNumber.$pristine}"
                        placeholder="Insert phone here" required>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Position</span>
                 <select name="position" class="form-control" ng-model="item.position"
-                        ng-class="{'alert-success':form.position.$dirty && form.position.$valid, 'alert-danger':form.position.$invalid && !form.position.$pristine}" required>
+                        ng-class="{'alert-success':form.position.$dirty && form.position.$valid, 'alert-danger':form.position.$invalid && !form.position.$pristine}">
                     <option value="{{position}}" ng-repeat="position in careerPositions">{{position}}</option>
                 </select>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Sponsor</span>
                 <select name="sponsor" class="form-control" ng-model="item.recomendedBy"
-                        ng-class="{'alert-success':form.sponsor.$dirty && form.sponsor.$valid, 'alert-danger':form.sponsor.$invalid && !form.sponsor.$pristine}" required>
+                        ng-class="{'alert-success':form.sponsor.$dirty && form.sponsor.$valid, 'alert-danger':form.sponsor.$invalid && !form.sponsor.$pristine}">
                     <option value="{{item.recomendedBy}}" ng-selected="isRecomendedSelected(item.recomendedBy)">{{getRecomendedByName()}}</option>
                     <option value="{{type}}" ng-repeat="type in items | filter:filterItem" ng-selected="isRecomendedSelected(type)">{{type.name}}</option>
                 </select>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Email</span>
-                <input name="email" type="email" class="form-control"
+                <input name="email" type="email" class="form-control" ng-model="item.email"
                        ng-class="{'alert-success':form.email.$dirty && form.email.$valid,'alert-danger':form.email.$invalid && !form.email.$pristine}"
                        value="{{item.email}}" placeholder="Email address">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Date</span>
-                <input name="date" type="date" class="form-control" value="{{item.date}}"
+                <input name="date" type="date" class="form-control" value="{{item.date}}" ng-model="item.date"
                        ng-class="{'alert-success':form.date.$dirty && form.date.$valid, 'alert-danger':form.date.$invalid && !form.date.$pristine}"
                        placeholder="Date">
             </div>

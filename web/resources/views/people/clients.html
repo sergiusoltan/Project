@@ -79,7 +79,7 @@
                 </th>
             </tr>
             <tr ng-repeat="client in clients | filter:filterModel | orderBy:predicate"
-                ng-class="{selectedRow: selectedItems[client.id], clickable:true}"
+                ng-class="{selectedRow: selectedItems.indexOf(client.id) != -1, clickable: true}"
                 ng-dblclick="openClient('lg', client)"
                 ng-click="onSelect(client)">
                 <td>{{client.name}}</td>
@@ -93,29 +93,30 @@
     </div>
 
     <script type="text/ng-template" id="addEditClientTemplate.html">
-        <form name="form" novalidate>
+        <form name="form" class="css-form" novalidate>
             <div class="modal-header">
                 <h3 class="modal-title">{{title}}</h3>
             </div>
             <div class="modal-body">
                 <div class="input-group">
                     <span class="input-group-addon">Name</span>
-                    <input name="personName" type="text" class="form-control" value="{{item.name}}"
-                           ng-maxlength="50" ng-minlength="3"
-                           ng-pattern="/^[a-zA-Z]*$/"
+                    <input name="personName" type="text" class="form-control"
+                           value="{{item.name}}" ng-model="item.name"
+                           ng-maxlength="50" ng-minlength="3" ng-pattern="/^[a-zA-Z ]*$/"
                            ng-class="{'alert-success':form.personName.$dirty && form.personName.$valid, 'alert-danger':form.personName.$invalid && !form.personName.$pristine}"
-                           placeholder="Insert name here" required autofocus>
+                           placeholder="Insert name here" required>
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">Phone</span>
-                    <input name="phoneNumber" type="tel" class="form-control" value="{{item.phone}}"
+                    <input name="phoneNumber" type="tel" class="form-control"
+                           value="{{item.phone}}" ng-model="item.phone"
                            ng-minlength="9" ng-maxlength="15" ng-pattern="/^\d+$/"
                            ng-class="{'alert-success':form.phoneNumber.$dirty && form.phoneNumber.$valid,'alert-danger':form.phoneNumber.$invalid && !form.phoneNumber.$pristine}"
                            placeholder="Insert phone here" required>
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">Email</span>
-                    <input name="email" type="email" class="form-control"
+                    <input name="email" type="email" class="form-control" ng-model="item.email"
                            ng-class="{'alert-success':form.email.$dirty && form.email.$valid,'alert-danger':form.email.$invalid && !form.email.$pristine}"
                            value="{{item.email}}" placeholder="Email address">
                 </div>
@@ -128,7 +129,7 @@
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">Date</span>
-                    <input name="date" type="date" class="form-control" value="{{item.date}}"
+                    <input name="date" type="date" class="form-control" value="{{item.date}}" ng-model="item.date"
                            ng-class="{'alert-success':form.date.$dirty && form.date.$valid, 'alert-danger':form.date.$invalid && !form.date.$pristine}"
                            placeholder="Date">
                 </div>

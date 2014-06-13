@@ -25,6 +25,19 @@
     <!--<section id="content" ng-class="{'is-loading' : loading.content}" style="margin-top: 50px;" ng-view></section>-->
     <section id="content" style="margin-top: 50px;" ng-view></section>
 
+    <script type="text/ng-template" id="confirmationPopup.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirmation Popup</h3>
+        </div>
+        <div class="modal-body">
+            {{title}}
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
     <!--<footer id="footer" ng-class="{'is-loading': loading.header}" ng-include="'resources/views/templates/footer.html'"></footer>-->
 
     <!-- Angular files -->

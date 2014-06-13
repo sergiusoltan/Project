@@ -57,6 +57,42 @@ public class Utils {
         }
     }
 
+    public static ClientModel clientFromString(String clientModel){
+        ClientModel contact = getInstance().fromJson(clientModel, ClientModel.class);
+        ClientModel recomendedBy = null;
+        if(contact.getRecomendedBy() != null){
+            recomendedBy = getInstance().fromJson(contact.getRecomendedBy(),ClientModel.class);
+            recomendedBy.setRecomendedBy(null);
+            contact.setRecomendedById(recomendedBy.getId());
+            contact.setRecomendedBy(getInstance().toJson(recomendedBy));
+        }
+        return contact;
+    }
+
+    public static MemberModel memberFromString(String clientModel){
+        MemberModel contact = getInstance().fromJson(clientModel, MemberModel.class);
+        MemberModel recomendedBy = null;
+        if(contact.getRecomendedBy() != null){
+            recomendedBy = getInstance().fromJson(contact.getRecomendedBy(),MemberModel.class);
+            recomendedBy.setRecomendedBy(null);
+            contact.setRecomendedById(recomendedBy.getId());
+            contact.setRecomendedBy(getInstance().toJson(recomendedBy));
+        }
+        return contact;
+    }
+
+    public static ContactModel contactFromString(String clientModel){
+        ContactModel contact = getInstance().fromJson(clientModel, ContactModel.class);
+        ContactModel recomendedBy = null;
+        if(contact.getRecomendedBy() != null){
+            recomendedBy = getInstance().fromJson(contact.getRecomendedBy(),ContactModel.class);
+            recomendedBy.setRecomendedBy(null);
+            contact.setRecomendedById(recomendedBy.getId());
+            contact.setRecomendedBy(getInstance().toJson(recomendedBy));
+        }
+        return contact;
+    }
+
     public static String parseDate(String inputDate){
         String date = null;
         try {
@@ -102,6 +138,7 @@ public class Utils {
             contactModel.setDate((String) entity.getProperty(DATE.getKey()));
             contactModel.setPhone((Long) entity.getProperty(PHONE.getKey()));
             contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
+            contactModel.setRecomendedById((Long) entity.getProperty(RECOMENDED_BY_ID.getKey()));
             contactModel.setType((String) entity.getProperty(TYPE.getKey()));
             return contactModel;
         }
@@ -116,7 +153,9 @@ public class Utils {
             contactModel.setDate((String) entity.getProperty(DATE.getKey()));
             contactModel.setPhone((Long) entity.getProperty(PHONE.getKey()));
             contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
+            contactModel.setRecomendedById((Long) entity.getProperty(RECOMENDED_BY_ID.getKey()));
             contactModel.setType((String) entity.getProperty(TYPE.getKey()));
+            contactModel.setType((String) entity.getProperty(EMAIL.getKey()));
             return contactModel;
         }
     };
@@ -130,7 +169,9 @@ public class Utils {
             contactModel.setDate((String) entity.getProperty(DATE.getKey()));
             contactModel.setPhone((Long) entity.getProperty(PHONE.getKey()));
             contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
+            contactModel.setRecomendedById((Long) entity.getProperty(RECOMENDED_BY_ID.getKey()));
             contactModel.setType((String) entity.getProperty(TYPE.getKey()));
+            contactModel.setType((String) entity.getProperty(EMAIL.getKey()));
             return contactModel;
         }
     };

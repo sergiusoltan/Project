@@ -50,7 +50,7 @@ public class MemberService {
         if(!ContactServiceUtil.isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        return oKResponse(ContactServiceUtil.saveContacts(auth.getEmail(), contactModel));
+        return oKResponse(ContactServiceUtil.saveMember(auth.getEmail(), contactModel));
     }
 
     @POST
@@ -61,7 +61,7 @@ public class MemberService {
         if(!ContactServiceUtil.isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        String response = ContactServiceUtil.updateContacts(auth.getEmail(), contactModel);
+        String response = ContactServiceUtil.updateMember(auth.getEmail(), contactModel);
         if(response == null){
             return response("Failed to update!", Response.Status.CONFLICT);
         }
@@ -76,7 +76,7 @@ public class MemberService {
         if(!ContactServiceUtil.isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        String response = ContactServiceUtil.deleteContacts(auth.getEmail(), deleteList);
+        String response = ContactServiceUtil.deleteContacts(auth.getEmail(), deleteList, ContactServiceUtil.MEMBER);
         if(response == null){
             return response("Failed to delete!", Response.Status.CONFLICT);
         }

@@ -39,20 +39,35 @@ angular
         };
 
         $scope.removeClient = function () {
-//            ClientService.deleteClients($scope.selectedItems).then(function (success) {
-//                $scope.selectedItems = [];
-//                console.log('remove contacts');
-//                $scope.contacts = getArray(success);
-//                console.log($scope.contacts);
-//            }, function (error) {
-//                console.log('error loading contacts');
-//            });
+            var modalInstance = $modal.open({
+                templateUrl: 'confirmationPopup.html',
+                controller: 'ConfirmationPopup',
+                size: '',
+                resolve: {
+                    title: function () {
+                        var suffix  = $scope.selectedItems.length > 1 ? " clients?" : " client?";
+                        return "Do you really want to remove " + $scope.selectedItems.length + suffix;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                ClientService.deleteClients($scope.selectedItems).then(function (success) {
+                    $scope.selectedItems = [];
+                    console.log('remove contacts');
+                    $scope.clients = getArray(success);
+                    console.log($scope.clients);
+                }, function (error) {
+                    console.log('error loading contacts');
+                });
+            }, function () {
+                console.log('modal dismissed');
+            });
         };
 
         function initData() {
             $scope.title = "Clients Controller";
             $scope.predicate = 'name';
-            $scope.title = "Contact Controller";
             ClientService.getAllClients().then(function (success) {
                 console.log('get All clients');
                 $scope.clients = getArray(success);
@@ -76,9 +91,7 @@ angular
                 size: size,
                 resolve: {
                     items: function () {
-                        var items = new Array();
-                        items.push($scope.clients);
-                        return items;
+                        return $scope.clients;
                     },
                     item: function () {
                         if(client != null){
@@ -96,13 +109,14 @@ angular
             });
 
             modalInstance.result.then(function (returnedObject) {
-//                ClientService.saveOrUpdate(returnedObject).then(function (success) {
-//                    console.log('success on save or update client');
-//                    $scope.contacts = getArray(success);
-//                    console.log($scope.contacts);
-//                }, function (error) {
-//                    console.log('failed to save or update client' + error);
-//                });
+                ClientService.saveOrUpdate(returnedObject).then(function (success) {
+                    console.log('success on save or update client');
+                    $scope.clients = getArray(success);
+                    console.log($scope.clients);
+                }, function (error) {
+                    console.log('failed to save or update client' + error);
+                });
+                console.log(returnedObject);
             }, function () {
                 console.log('modal dismissed');
             });
@@ -125,7 +139,7 @@ angular
         };
 
         $scope.isRecomendedSelected = function(item){
-            return $scope.getRecomendedByName() == item.name;
+            return item && $scope.getRecomendedByName() == item.name;
         };
 
         $scope.getRecomendedByName = function(){
@@ -137,6 +151,21 @@ angular
 
         $scope.ok = function () {
             $modalInstance.close({instance:$scope.item,isNew:$scope.new});
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    }]);
+
+angular
+    .module('mainApp')
+    .controller('ConfirmationPopup', ['$scope', '$modalInstance','title', function ($scope, $modalInstance, title) {
+
+        $scope.title = title;
+
+        $scope.ok = function () {
+            $modalInstance.close();
         };
 
         $scope.cancel = function () {
