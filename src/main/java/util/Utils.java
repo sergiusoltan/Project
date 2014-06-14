@@ -49,10 +49,6 @@ public class Utils {
         return gson;
     }
 
-    public static String getString(Object object){
-        return getInstance().toJson(object);
-    }
-
     public static List<Long> fromListType(String list){
         Type listType = new TypeToken<List<Long>>(){}.getType();
         try{
@@ -98,14 +94,14 @@ public class Utils {
         return contact;
     }
 
-    public static String fromEntityToString(Integer type, Entity entity){
+    public static ContactModel fromEntityToModel(Integer type, Entity entity){
         switch (type){
             case ContactServiceUtil.CLIENT:
-                return  getInstance().toJson(Lists.transform(Lists.newArrayList(entity), entityToClient).get(0));
+                return  Lists.transform(Lists.newArrayList(entity), entityToClient).get(0);
             case ContactServiceUtil.MEMBER:
-                return  getInstance().toJson(Lists.transform(Lists.newArrayList(entity), entityToMember).get(0));
+                return  Lists.transform(Lists.newArrayList(entity), entityToMember).get(0);
             default:
-                return  getInstance().toJson(Lists.transform(Lists.newArrayList(entity), entityToContact).get(0));
+                return  Lists.transform(Lists.newArrayList(entity), entityToContact).get(0);
         }
     }
 

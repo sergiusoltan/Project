@@ -10,19 +10,19 @@ angular
         function init(){
 
             ClientService.getTrimesterStats().then(function (success) {
-                initClientStats(ClientService.getArray(success));
+                initClientStats(success);
             }, function (error) {
                 console.log('error loading contacts');
             });
 
             ContactService.getTrimesterStats().then(function (success) {
-                initContactStats(ContactService.getArray(success));
+                initContactStats(success);
             }, function (error) {
                 console.log('error loading contacts');
             });
 
             MemberService.getTrimesterStats().then(function (success) {
-                initMemberStats(MemberService.getArray(success));
+                initMemberStats(success);
             }, function (error) {
                 console.log('error loading contacts');
             });

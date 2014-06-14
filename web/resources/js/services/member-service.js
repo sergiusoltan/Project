@@ -9,7 +9,7 @@
 
 angular
     .module('core')
-    .factory('MemberService', ['$http', '$q', 'API_URL', function ($http, $q, API_URL) {
+    .factory('MemberService', ['$http', '$q', 'API_URL','$location', function ($http, $q, API_URL, $location) {
 
         var getAllMembers = API_URL.rest + "member/findAll",
             saveMember = API_URL.rest + "member/save",
@@ -31,7 +31,8 @@ angular
 
         MemberFactory.getMember = function (id) {
             var deferred = $q.defer();
-            $http.get(getMember+id).success(function (success) {
+            var url = this.getHost() + getMember + id;
+            $http.get(url).success(function (success) {
                 deferred.resolve(success);
             }).error(function (reason) {
                     deferred.reject(reason);
@@ -83,11 +84,13 @@ angular
             return deferred.promise;
         };
 
-        MemberFactory.getArray = function(success){
-            while (!(success instanceof Array)) {
-                success = JSON.parse(success);
+        MemberFactory.getHost = function(){
+            var port = $location.port();
+            var host = $location.protocol() + "://" + $location.host();
+            if(port){
+                host = host + ":" + port;
             }
-            return success;
+            return host+"/";
         };
 
         return MemberFactory;

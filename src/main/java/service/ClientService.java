@@ -1,11 +1,15 @@
 package main.java.service;
 
 import main.java.model.auth.Authorization;
+import main.java.model.people.ClientModel;
+import main.java.model.people.ContactModel;
 import main.java.util.ContactServiceUtil;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import java.util.Collection;
 
 import static main.java.util.ContactServiceUtil.*;
 import static main.java.util.Utils.*;
@@ -24,7 +28,7 @@ public class ClientService {
         if(!isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        return oKResponse(getString(getAllClients(auth.getEmail())));
+        return oKResponse(getAllClients(auth.getEmail()));
     }
 
     @Path("/{id}")
@@ -37,7 +41,7 @@ public class ClientService {
             return noAuthResponse();
         }
 
-        String response = getContact(auth.getEmail(), id, CLIENT);
+        ContactModel response = getContact(auth.getEmail(), id, CLIENT);
         if(response == null){
             return response("Failed to find client "+id+"!", Response.Status.CONFLICT);
         }
@@ -76,7 +80,7 @@ public class ClientService {
         if(!isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        String response = updateClient(auth.getEmail(), contactModel);
+        Collection<ClientModel> response = updateClient(auth.getEmail(), contactModel);
         if(response == null){
             return response("Failed to update!", Response.Status.CONFLICT);
         }
@@ -91,7 +95,7 @@ public class ClientService {
         if(!isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        String response = deleteContacts(auth.getEmail(), deleteList, CLIENT);
+        Collection<? extends ContactModel> response = deleteContacts(auth.getEmail(), deleteList, CLIENT);
         if(response == null){
             return response("Failed to delete!", Response.Status.CONFLICT);
         }

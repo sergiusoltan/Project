@@ -15,7 +15,7 @@ angular
 
         $scope.$watch('selected', function(value) {
             var root = value;
-            if(!root.name){
+            if(root && !root.name){
                 root = JSON.parse(value);
             }
             initData(root);
@@ -24,9 +24,7 @@ angular
         function init(){
             $scope.title = "Hierarchy Controller";
             ContactService.getAllContacts().then(function (success) {
-                console.log('get All contacts contact');
-                $scope.users = ContactService.getArray(success);
-                console.log($scope.users);
+                $scope.users = success;
                 $scope.selected = getSelectedRoot();
                 initData($scope.selected);
             }, function (error) {

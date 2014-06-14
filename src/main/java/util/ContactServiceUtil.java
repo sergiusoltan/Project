@@ -93,7 +93,7 @@ public class ContactServiceUtil {
         return contactModels;
     }
 
-    public static String saveContacts(String owner, String contactModel) {
+    public static Collection<ContactModel> saveContacts(String owner, String contactModel) {
         ContactModel contact = contactFromString(contactModel);
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         contact.setId(new Date().getTime());
@@ -109,10 +109,10 @@ public class ContactServiceUtil {
         newContact.setProperty(TYPE.getKey(), contact.getType());
         datastoreService.put(newContact);
 
-        return getString(getAllContacts(owner));
+        return getAllContacts(owner);
     }
 
-    public static String saveClient(String owner, String contactModel) {
+    public static Collection<ClientModel> saveClient(String owner, String contactModel) {
         ClientModel contact = clientFromString(contactModel);
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
 
@@ -129,10 +129,10 @@ public class ContactServiceUtil {
         newContact.setProperty(EMAIL.getKey(), contact.getEmail());
         datastoreService.put(newContact);
 
-        return getString(getAllClients(owner));
+        return getAllClients(owner);
     }
 
-    public static String saveMember(String owner, String contactModel) {
+    public static Collection<MemberModel> saveMember(String owner, String contactModel) {
         MemberModel contact = memberFromString(contactModel);
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
 
@@ -149,10 +149,10 @@ public class ContactServiceUtil {
         newContact.setProperty(EMAIL.getKey(), contact.getEmail());
         datastoreService.put(newContact);
 
-        return getString(getAllMembers(owner));
+        return getAllMembers(owner);
     }
 
-    public static String updateContacts(String owner, String contactModel) {
+    public static Collection<ContactModel> updateContacts(String owner, String contactModel) {
         ContactModel contact = contactFromString(contactModel);
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         Key userKey = Utils.getUserKey(owner);
@@ -170,10 +170,10 @@ public class ContactServiceUtil {
         foundEntity.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
         foundEntity.setProperty(TYPE.getKey(), contact.getType());
         datastoreService.put(foundEntity);
-        return getString(getAllContacts(owner));
+        return getAllContacts(owner);
     }
 
-    public static String updateClient(String owner, String contactModel) {
+    public static Collection<ClientModel> updateClient(String owner, String contactModel) {
         ClientModel contact = clientFromString(contactModel);
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         Key userKey = Utils.getUserKey(owner);
@@ -192,11 +192,11 @@ public class ContactServiceUtil {
         foundEntity.setProperty(TYPE.getKey(), contact.getType());
         foundEntity.setProperty(EMAIL.getKey(), contact.getEmail());
         datastoreService.put(foundEntity);
-        return getString(getAllClients(owner));
+        return getAllClients(owner);
     }
 
-    public static String updateMember(String owner, String contactModel) {
-        MemberModel contact = memberFromString(contactModel);
+    public static Collection<MemberModel> updateMember(String owner, String memberModel) {
+        MemberModel contact = memberFromString(memberModel);
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         Key userKey = Utils.getUserKey(owner);
         Query query = new Query(Entities.CONTACT.getId(), userKey).setFilter(
@@ -214,10 +214,10 @@ public class ContactServiceUtil {
         foundEntity.setProperty(TYPE.getKey(), contact.getType());
         foundEntity.setProperty(EMAIL.getKey(), contact.getEmail());
         datastoreService.put(foundEntity);
-        return getString(getAllClients(owner));
+        return getAllMembers(owner);
     }
 
-    public static String deleteContacts(String owner, String deleteList, Integer type) {
+    public static Collection<? extends ContactModel> deleteContacts(String owner, String deleteList, Integer type) {
         List<Long> contactIds = fromListType(deleteList);
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         Key userKey = Utils.getUserKey(owner);
@@ -246,15 +246,15 @@ public class ContactServiceUtil {
 
         switch (type) {
             case CLIENT:
-                return getString(getAllClients(owner));
+                return getAllClients(owner);
             case MEMBER:
-                return getString(getAllMembers(owner));
+                return getAllMembers(owner);
             default:
-                return getString(getAllContacts(owner));
+                return getAllContacts(owner);
         }
     }
 
-    public static String getContact(String owner, Long id, Integer type) {
+    public static ContactModel getContact(String owner, Long id, Integer type) {
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         Key userKey = Utils.getUserKey(owner);
         Query query = new Query(Entities.CONTACT.getId(), userKey).setFilter(
@@ -264,17 +264,17 @@ public class ContactServiceUtil {
         if (foundEntity == null) {
             return null;
         }
-        return fromEntityToString(type, foundEntity);
+        return fromEntityToModel(type, foundEntity);
     }
 
-    public static String getTrimesterStatistics(String owner, Integer type) {
+    public static Collection<DashBoardModel> getTrimesterStatistics(String owner, Integer type) {
         int currentMonth = DateTime.now().getMonthOfYear();
         Map<String, Integer> getResults = getNumberByMonths(Lists.newLinkedList(currentMonth-1,currentMonth-2,currentMonth-3), type, owner);
         List<DashBoardModel> results = Lists.newArrayList();
         for (Map.Entry<String, Integer> stringIntegerEntry : getResults.entrySet()) {
             results.add(new DashBoardModel(stringIntegerEntry.getValue(),stringIntegerEntry.getKey()));
         }
-        return getString(results);
+        return results;
     }
 
     private static Map<String, Integer> getNumberByMonths(List<Integer> months, Integer type, String owner) {

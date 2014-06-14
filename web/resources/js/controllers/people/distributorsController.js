@@ -11,12 +11,7 @@ angular
     .module('mainApp')
     .controller('DistributorsCtrl', ['$scope', 'MemberService', 'AuthFactory', '$location', '$modal', '$log', function ($scope, MemberService, AuthFactory, $location, $modal, $log) {
 
-        $scope.distributors = [
-//            {id:1, name: 'Jane Doe', phone: 78943332, position: SUCCESS_BUILDER, recomendedBy: '', type: TEAM_MEMBER, email: 'janedow@gmail.com', date: new Date()},
-//            {id:2, name: 'John Dine', phone: 78943332, position: SUPERVISOR, recomendedBy: '', type: TEAM_MEMBER, email: 'janedow@gmail.com', date: new Date()},
-//            {id:3, name: 'Michael Phelps', phone: 78943332, position: WORLDT, recomendedBy: '', type: TEAM_MEMBER, email: 'janedow@gmail.com', date: new Date()},
-//            {id:4, name: 'Phil Jackson', phone: 78943332, position: GLOBALT, recomendedBy: '', type: TEAM_MEMBER, email: 'janedow@gmail.com', date: new Date()}
-        ];
+        $scope.distributors = [];
         $scope.selectedItems = [];
         initData();
 
@@ -24,11 +19,9 @@ angular
             if ($scope.selectedItems.indexOf(contact.id) != -1) {
                 var index = $scope.selectedItems.indexOf(contact.id);
                 $scope.selectedItems.splice(index, 1);
-                console.log($scope.selectedItems);
                 return;
             }
             $scope.selectedItems.push(contact.id);
-            console.log($scope.selectedItems);
         };
 
         $scope.getRecomendedByName = function(recomendedBy){
@@ -53,9 +46,7 @@ angular
             modalInstance.result.then(function () {
                 MemberService.deleteMembers($scope.selectedItems).then(function (success) {
                     $scope.selectedItems = [];
-                    console.log('remove contacts');
-                    $scope.contacts = getArray(success);
-                    console.log($scope.contacts);
+                    $scope.contacts = success;
                 }, function (error) {
                     console.log('error loading contacts');
                 });
@@ -68,19 +59,10 @@ angular
             $scope.predicate = 'name';
             $scope.title = "Contact Controller";
             MemberService.getAllMembers().then(function (success) {
-                console.log('get All contacts contact');
-                $scope.distributors = getArray(success);
-                console.log($scope.distributors);
+                $scope.distributors = success;
             }, function (error) {
                 console.log('error loading contacts');
             });
-        }
-
-        function getArray(success) {
-            while (!(success instanceof Array)) {
-                success = JSON.parse(success);
-            }
-            return success;
         }
 
         $scope.openDistributor = function (size, distributor) {
@@ -109,9 +91,7 @@ angular
 
             modalInstance.result.then(function (returnedObject) {
                 MemberService.saveOrUpdate(returnedObject).then(function (success) {
-                    console.log('success on save or update member');
-                    $scope.distributors = getArray(success);
-                    console.log($scope.distributors);
+                    $scope.distributors = success;
                 }, function (error) {
                     console.log('failed to save or update contact' + error);
                 });

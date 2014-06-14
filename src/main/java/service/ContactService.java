@@ -1,11 +1,14 @@
 package main.java.service;
 
 import main.java.model.auth.Authorization;
+import main.java.model.people.ContactModel;
 import main.java.util.ContactServiceUtil;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import java.util.Collection;
 
 import static main.java.util.Utils.*;
 
@@ -23,7 +26,7 @@ public class ContactService {
         if(!ContactServiceUtil.isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        return oKResponse(getString(ContactServiceUtil.getAllContacts(auth.getEmail())));
+        return oKResponse(ContactServiceUtil.getAllContacts(auth.getEmail()));
     }
 
     @Path("/{id}")
@@ -36,7 +39,7 @@ public class ContactService {
             return noAuthResponse();
         }
 
-        String response = ContactServiceUtil.getContact(auth.getEmail(), id , ContactServiceUtil.CONTACT);
+        ContactModel response = ContactServiceUtil.getContact(auth.getEmail(), id, ContactServiceUtil.CONTACT);
         if(response == null){
             return response("Failed to find contact "+id+"!", Response.Status.CONFLICT);
         }
@@ -75,7 +78,7 @@ public class ContactService {
         if(!ContactServiceUtil.isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        String response = ContactServiceUtil.updateContacts(auth.getEmail(), contactModel);
+        Collection response = ContactServiceUtil.updateContacts(auth.getEmail(), contactModel);
         if(response == null){
             return response("Failed to update!", Response.Status.CONFLICT);
         }
@@ -90,7 +93,7 @@ public class ContactService {
         if(!ContactServiceUtil.isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        String response = ContactServiceUtil.deleteContacts(auth.getEmail(), deleteList, ContactServiceUtil.CONTACT);
+        Collection response = ContactServiceUtil.deleteContacts(auth.getEmail(), deleteList, ContactServiceUtil.CONTACT);
         if(response == null){
             return response("Failed to delete!", Response.Status.CONFLICT);
         }

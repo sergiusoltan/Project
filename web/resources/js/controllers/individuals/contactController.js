@@ -18,7 +18,7 @@ angular
         function init(){
             var id = Number($location.path().match(/\/contacts\/(\d+)$/)[1]);
             ContactService.getContact(id).then(function(success){
-                $scope.contact = JSON.parse(success);
+                $scope.contact = success;
                 if($scope.contact.recomendedBy){
                     $scope.recomendedBy = JSON.parse($scope.contact.recomendedBy);
                 }

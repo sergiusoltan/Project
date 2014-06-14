@@ -18,7 +18,7 @@ angular
         function init(){
             var id = Number($location.path().match(/\/members\/(\d+)$/)[1]);
             MemberService.getMember(id).then(function(success){
-                $scope.member = JSON.parse(success);
+                $scope.member = success;
                 if($scope.member.recomendedBy){
                     $scope.recomendedBy = JSON.parse($scope.member.recomendedBy);
                 }

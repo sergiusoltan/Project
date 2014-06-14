@@ -9,7 +9,7 @@
 
 angular
     .module('core')
-    .factory('ClientService', ['$http', '$q', 'API_URL', function ($http, $q, API_URL) {
+    .factory('ClientService', ['$http', '$q', 'API_URL', '$location', function ($http, $q, API_URL, $location) {
 
         var getAllClients = API_URL.rest + "client/findAll",
             saveClient = API_URL.rest + "client/save",
@@ -31,7 +31,8 @@ angular
 
         ClientFactory.getClient = function (id) {
             var deferred = $q.defer();
-            $http.get(getClient+id).success(function (success) {
+            var url = this.getHost() + getClient + id;
+            $http.get(url).success(function (success) {
                 deferred.resolve(success);
             }).error(function (reason) {
                     deferred.reject(reason);
@@ -84,11 +85,13 @@ angular
             return deferred.promise;
         };
 
-        ClientFactory.getArray = function(success){
-            while (!(success instanceof Array)) {
-                success = JSON.parse(success);
+        ClientFactory.getHost = function(){
+            var port = $location.port();
+            var host = $location.protocol() + "://" + $location.host();
+            if(port){
+                host = host + ":" + port;
             }
-            return success;
+            return host+"/";
         };
 
         return ClientFactory;

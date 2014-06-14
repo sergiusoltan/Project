@@ -18,7 +18,7 @@ angular
         function init(){
             var id = Number($location.path().match(/\/clients\/(\d+)$/)[1]);
             ClientService.getClient(id).then(function(success){
-                $scope.client = JSON.parse(success);
+                $scope.client = success;
                 if($scope.client.recomendedBy){
                     $scope.recomendedBy = JSON.parse($scope.client.recomendedBy);
                 }

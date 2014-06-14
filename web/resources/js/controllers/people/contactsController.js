@@ -19,11 +19,9 @@ angular
             if ($scope.selectedItems.indexOf(contact.id) != -1) {
                 var index = $scope.selectedItems.indexOf(contact.id);
                 $scope.selectedItems.splice(index, 1);
-                console.log($scope.selectedItems);
                 return;
             }
             $scope.selectedItems.push(contact.id);
-            console.log($scope.selectedItems);
         };
 
         $scope.getRecomendedByName = function(recomendedBy){
@@ -48,9 +46,7 @@ angular
             modalInstance.result.then(function () {
                 ContactService.deleteContacts($scope.selectedItems).then(function (success) {
                     $scope.selectedItems = [];
-                    console.log('remove contacts');
-                    $scope.contacts = getArray(success);
-                    console.log($scope.contacts);
+                    $scope.contacts = success;
                 }, function (error) {
                     console.log('error loading contacts');
                 });
@@ -64,19 +60,10 @@ angular
             $scope.types = peopleTypes;
             $scope.title = "Contact Controller";
             ContactService.getAllContacts().then(function (success) {
-                console.log('get All contacts contact');
-                $scope.contacts = getArray(success);
-                console.log($scope.contacts);
+                $scope.contacts = success;
             }, function (error) {
                 console.log('error loading contacts');
             });
-        }
-
-        function getArray(success) {
-            while (!(success instanceof Array)) {
-                success = JSON.parse(success);
-            }
-            return success;
         }
 
         $scope.openContact = function (size, contact) {
@@ -106,9 +93,7 @@ angular
 
             modalInstance.result.then(function (returnedObject) {
                 ContactService.saveOrUpdate(returnedObject).then(function (success) {
-                    console.log('success on save or update contact');
-                    $scope.contacts = getArray(success);
-                    console.log($scope.contacts);
+                    $scope.contacts = success;
                 }, function (error) {
                     console.log('failed to save or update contact' + error);
                 });

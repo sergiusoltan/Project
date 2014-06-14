@@ -11,13 +11,7 @@ angular
     .module('mainApp')
     .controller('ClientsCtrl', ['$scope', 'ClientService', 'AuthFactory', '$location', '$modal', '$log', function ($scope, ClientService, AuthFactory, $location, $modal, $log) {
 
-        $scope.clients = [
-//            {id:1,name: 'Jane Doe1', recomendedBy: '', type: CLIENT, phone: 178943332, email: 'janedow4@gmail.com'},
-//            {id:2,name: 'Jane Doe2', recomendedBy: '', type: CLIENT, phone: 278943332, email: 'janedow3@gmail.com'},
-//            {id:3,name: 'Jane Doe3', recomendedBy: '', type: CLIENT, phone: 378943332, email: 'janedow2@gmail.com'},
-//            {id:4,name: 'Jane Doe4', recomendedBy: '', type: CLIENT, phone: 478943332, email: 'janedow1@gmail.com'}
-        ];
-
+        $scope.clients = [];
         $scope.selectedItems = [];
         initData();
 
@@ -25,11 +19,9 @@ angular
             if ($scope.selectedItems.indexOf(contact.id) != -1) {
                 var index = $scope.selectedItems.indexOf(contact.id);
                 $scope.selectedItems.splice(index, 1);
-                console.log($scope.selectedItems);
                 return;
             }
             $scope.selectedItems.push(contact.id);
-            console.log($scope.selectedItems);
         };
 
         $scope.getRecomendedByName = function(recomendedBy){
@@ -54,9 +46,7 @@ angular
             modalInstance.result.then(function () {
                 ClientService.deleteClients($scope.selectedItems).then(function (success) {
                     $scope.selectedItems = [];
-                    console.log('remove contacts');
-                    $scope.clients = getArray(success);
-                    console.log($scope.clients);
+                    $scope.clients = success;
                 }, function (error) {
                     console.log('error loading contacts');
                 });
@@ -69,19 +59,10 @@ angular
             $scope.title = "Clients Controller";
             $scope.predicate = 'name';
             ClientService.getAllClients().then(function (success) {
-                console.log('get All clients');
-                $scope.clients = getArray(success);
-                console.log($scope.clients);
+                $scope.clients = success;
             }, function (error) {
                 console.log('error loading clients');
             });
-        }
-
-        function getArray(success) {
-            while (!(success instanceof Array)) {
-                success = JSON.parse(success);
-            }
-            return success;
         }
 
         $scope.openClient = function (size, client) {
@@ -110,9 +91,7 @@ angular
 
             modalInstance.result.then(function (returnedObject) {
                 ClientService.saveOrUpdate(returnedObject).then(function (success) {
-                    console.log('success on save or update client');
-                    $scope.clients = getArray(success);
-                    console.log($scope.clients);
+                    $scope.clients = success;
                 }, function (error) {
                     console.log('failed to save or update client' + error);
                 });

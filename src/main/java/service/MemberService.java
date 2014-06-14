@@ -1,11 +1,14 @@
 package main.java.service;
 
 import main.java.model.auth.Authorization;
+import main.java.model.people.ContactModel;
 import main.java.util.ContactServiceUtil;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import java.util.Collection;
 
 import static main.java.util.ContactServiceUtil.*;
 import static main.java.util.Utils.*;
@@ -24,7 +27,7 @@ public class MemberService {
         if(!isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        return oKResponse(getString(getAllMembers(auth.getEmail())));
+        return oKResponse(getAllMembers(auth.getEmail()));
     }
 
     @Path("/{id}")
@@ -37,7 +40,7 @@ public class MemberService {
             return noAuthResponse();
         }
 
-        String response = getContact(auth.getEmail(), id, MEMBER);
+        ContactModel response = getContact(auth.getEmail(), id, MEMBER);
         if(response == null){
             return response("Failed to find member "+id+"!", Response.Status.CONFLICT);
         }
@@ -76,7 +79,7 @@ public class MemberService {
         if(!isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        String response = updateMember(auth.getEmail(), contactModel);
+        Collection response = updateMember(auth.getEmail(), contactModel);
         if(response == null){
             return response("Failed to update!", Response.Status.CONFLICT);
         }
@@ -91,7 +94,7 @@ public class MemberService {
         if(!isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        String response = deleteContacts(auth.getEmail(), deleteList, MEMBER);
+        Collection response = deleteContacts(auth.getEmail(), deleteList, MEMBER);
         if(response == null){
             return response("Failed to delete!", Response.Status.CONFLICT);
         }

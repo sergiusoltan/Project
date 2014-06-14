@@ -20,7 +20,9 @@ angular
                 var target = $attr.hierarchy;
                 $scope.$watch(target, function (value) {
                     var chart = new google.visualization.OrgChart($elm[0]);
-                    chart.draw(value, {allowHtml: true, allowCollapse: true, nodeClass: 'hierachyNode', selectedNodeClass: 'hierachyNodeSelected'});
+                    if(value){
+                        chart.draw(value, {allowHtml: true, allowCollapse: true, nodeClass: 'hierachyNode', selectedNodeClass: 'hierachyNodeSelected'});
+                    }
                 }, true);
             }
         }

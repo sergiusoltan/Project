@@ -9,13 +9,13 @@
 
 angular
     .module('core')
-    .factory('ContactService', ['$http', '$q', 'API_URL', function ($http, $q, API_URL) {
+    .factory('ContactService', ['$http', '$q', 'API_URL','$location', function ($http, $q, API_URL, $location) {
 
         var getAllContacts = API_URL.rest + "contact/findAll",
             saveContact = API_URL.rest + "contact/save",
             updateContact = API_URL.rest + "contact/update",
             deleteContact = API_URL.rest + "contact/remove",
-            getContact = API_URL.rest + "/contact/",
+            getContact = API_URL.rest + "contact/",
             getTrimester = API_URL.rest + "contact/trimester",
             ContactFactory = {};
 
@@ -31,7 +31,8 @@ angular
 
         ContactFactory.getContact = function (id) {
             var deferred = $q.defer();
-            $http.get(getContact+id).success(function (success) {
+            var url = this.getHost() + getContact + id;
+            $http.get(url).success(function (success) {
                 deferred.resolve(success);
             }).error(function (reason) {
                     deferred.reject(reason);
@@ -83,11 +84,13 @@ angular
             return deferred.promise;
         };
 
-        ContactFactory.getArray = function(success){
-                while (!(success instanceof Array)) {
-                    success = JSON.parse(success);
-                }
-                return success;
+        ContactFactory.getHost = function(){
+            var port = $location.port();
+            var host = $location.protocol() + "://" + $location.host();
+            if(port){
+                host = host + ":" + port;
+            }
+            return host+"/";
         };
 
         return ContactFactory;
