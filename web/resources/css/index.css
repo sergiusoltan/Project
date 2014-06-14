@@ -123,3 +123,9 @@ div .Client{
     padding: 15px !important;
     margin: -10px !important
 }
+div .panel-body > .thumbnail {
+    border: none !important;
+}
+.navbar-brand{
+    padding: 7px 0 4px 25px !important;
+}

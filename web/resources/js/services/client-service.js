@@ -16,6 +16,7 @@ angular
             updateClient = API_URL.rest + "client/update",
             deleteClient = API_URL.rest + "client/remove",
             getClient = API_URL.rest + "client/",
+            getTrimester = API_URL.rest + "client/trimester",
             ClientFactory = {};
 
         ClientFactory.getAllClients = function () {
@@ -70,6 +71,16 @@ angular
                     deferred.reject(error);
                 });
 
+            return deferred.promise;
+        };
+
+        ClientFactory.getTrimesterStats = function () {
+            var deferred = $q.defer();
+            $http.get(getTrimester).success(function (success) {
+                deferred.resolve(success);
+            }).error(function (reason) {
+                    deferred.reject(reason);
+                });
             return deferred.promise;
         };
 

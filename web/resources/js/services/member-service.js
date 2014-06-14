@@ -16,6 +16,7 @@ angular
             updateMember = API_URL.rest + "member/update",
             deleteMember = API_URL.rest + "member/remove",
             getMember = API_URL.rest + "member/",
+            getTrimester = API_URL.rest + "member/trimester",
             MemberFactory = {};
 
         MemberFactory.getAllMembers = function () {
@@ -69,6 +70,16 @@ angular
                     deferred.reject(error);
                 });
 
+            return deferred.promise;
+        };
+
+        MemberFactory.getTrimesterStats = function () {
+            var deferred = $q.defer();
+            $http.get(getTrimester).success(function (success) {
+                deferred.resolve(success);
+            }).error(function (reason) {
+                    deferred.reject(reason);
+                });
             return deferred.promise;
         };
 

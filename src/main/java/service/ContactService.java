@@ -1,21 +1,13 @@
 package main.java.service;
 
-import com.google.appengine.labs.repackaged.com.google.common.collect.Lists;
 import main.java.model.auth.Authorization;
-import main.java.model.auth.UserStatus;
 import main.java.util.ContactServiceUtil;
-import main.java.util.UserServiceUtil;
-import main.java.util.Utils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import java.util.List;
-
-import static main.java.util.Utils.noAuthResponse;
-import static main.java.util.Utils.oKResponse;
-import static main.java.util.Utils.response;
+import static main.java.util.Utils.*;
 
 /**
  * @author Serghei Soltan (soltan@spmsoftware.com)
@@ -31,7 +23,7 @@ public class ContactService {
         if(!ContactServiceUtil.isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        return oKResponse(ContactServiceUtil.getAllContacts(auth.getEmail()));
+        return oKResponse(getString(ContactServiceUtil.getAllContacts(auth.getEmail())));
     }
 
     @Path("/{id}")
@@ -49,6 +41,19 @@ public class ContactService {
             return response("Failed to find contact "+id+"!", Response.Status.CONFLICT);
         }
         return oKResponse(response);
+    }
+
+    @Path("/trimester")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTrimester(@HeaderParam("authorization") String authParam) {
+        Authorization auth = new Authorization(authParam);
+        if(!ContactServiceUtil.isAuthorizedRequest(auth)){
+            return noAuthResponse();
+        }
+
+        return oKResponse(ContactServiceUtil.getTrimesterStatistics(auth.getEmail(), ContactServiceUtil.CONTACT));
     }
 
     @POST

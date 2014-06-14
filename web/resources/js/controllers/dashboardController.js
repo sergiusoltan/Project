@@ -2,30 +2,77 @@
 
 angular
     .module('mainApp')
-    .controller('DashboardCtrl', ['$scope', 'UserFactory', 'AuthFactory', '$location', function ($scope, UserFactory, AuthFactory, $location) {
+    .controller('DashboardCtrl', ['$scope', 'ContactService', 'MemberService', 'ClientService', '$location',
+        function ($scope, ContactService, MemberService, ClientService, $location) {
 
         init();
 
-        $scope.img;
-
         function init(){
-            var data = google.visualization.arrayToDataTable([
-                ['Task', 'Hours per Day'],
-                ['Work',     11],
-                ['Eat',      2],
-                ['Commute',  2],
-                ['Watch TV', 2],
-                ['Sleep',    7]
-            ]);
 
-            $scope.pieData = data;
+            ClientService.getTrimesterStats().then(function (success) {
+                initClientStats(ClientService.getArray(success));
+            }, function (error) {
+                console.log('error loading contacts');
+            });
 
-            var options = {
-                title: 'My Daily Activities',
-                is3D: true
-            };
+            ContactService.getTrimesterStats().then(function (success) {
+                initContactStats(ContactService.getArray(success));
+            }, function (error) {
+                console.log('error loading contacts');
+            });
 
-            $scope.pieOptions = options;
-
+            MemberService.getTrimesterStats().then(function (success) {
+                initMemberStats(MemberService.getArray(success));
+            }, function (error) {
+                console.log('error loading contacts');
+            });
         }
+
+            function initMemberStats(array){
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Topping');
+                data.addColumn('number', 'Slices');
+                var rows = createRows(array);
+                data.addRows(rows);
+                var options = {
+                    title: 'New Members',
+                    is3D: true
+                };
+                $scope.membersData = {data: data, options: options};
+            }
+
+            function initContactStats(array){
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Topping');
+                data.addColumn('number', 'Slices');
+                var rows = createRows(array);
+                data.addRows(rows);
+                var options = {
+                    title: 'New Contacts',
+                    is3D: true
+                };
+                $scope.contactsData = {data: data, options: options};
+            }
+
+            function initClientStats(array){
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Topping');
+                data.addColumn('number', 'Slices');
+                var rows = createRows(array);
+                data.addRows(rows);
+                var options = {
+                    title: 'New Clients',
+                    is3D: true
+                };
+                $scope.clientsData = {data: data, options: options};
+            }
+
+            function createRows(dataRows) {
+                var rows = [];
+                $.each(dataRows, function (index, value) {
+                    rows.push([value.month, value.number]);
+                });
+
+                return rows;
+            }
     }]);

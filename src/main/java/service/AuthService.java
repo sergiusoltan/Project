@@ -1,21 +1,18 @@
 package main.java.service;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.users.User;
 import com.google.appengine.labs.repackaged.com.google.common.collect.Lists;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import main.java.model.auth.AuthModel;
 import main.java.model.auth.Authorization;
 import main.java.model.auth.UserStatus;
-import main.java.util.UserServiceUtil;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import java.util.List;
 
 import static com.google.appengine.labs.repackaged.com.google.common.collect.Lists.newArrayList;
+import static main.java.util.UserServiceUtil.*;
 import static main.java.util.Utils.*;
 
 /**
@@ -32,8 +29,8 @@ public class AuthService {
         }
         Authorization auth = new Authorization(authorization);
         List<String> error = Lists.newArrayList();
-        UserStatus status = UserServiceUtil.findUser(auth.getEmail(), error);
-        if (!error.isEmpty() || !UserServiceUtil.isAuthorized(auth.getSessionToken(),status.getSessionToken())) {
+        UserStatus status = findUser(auth.getEmail(), error);
+        if (!error.isEmpty() || !isAuthorized(auth.getSessionToken(), status.getSessionToken())) {
             return noAuthResponse();
         }
         return response(status, Response.Status.OK);
@@ -46,7 +43,7 @@ public class AuthService {
     public Response loginUser(String formData) throws JSONException {
         AuthModel authModel = AuthModel.getAuthModel(formData);
         List<String> messages = newArrayList();
-        UserStatus userStatus = UserServiceUtil.tryLogin(authModel, messages);
+        UserStatus userStatus = tryLogin(authModel, messages);
         return oKResponse(userStatus, messages);
     }
 
@@ -57,7 +54,7 @@ public class AuthService {
     public Response saveUser(String formData) throws JSONException {
         AuthModel authModel = AuthModel.getAuthModel(formData);
         List<String> messages = newArrayList();
-        UserServiceUtil.trySave(authModel, messages);
+        trySave(authModel, messages);
         return oKResponse(messages);
     }
 
@@ -68,7 +65,7 @@ public class AuthService {
     public Response logoutUser(String currentUser) throws JSONException {
         UserStatus userStatus = UserStatus.getUserStatus(currentUser);
         List<String> responses = newArrayList();
-        userStatus = UserServiceUtil.tryLogout(userStatus, responses);
+        userStatus = tryLogout(userStatus, responses);
         return oKResponse(userStatus, responses);
     }
 }

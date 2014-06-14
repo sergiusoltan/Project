@@ -88,7 +88,7 @@ angular
         function getFormattedName(node){
             return {
                 v:node.id + "",
-                f:"<div class='"+node.type+"'>"+ node.name +"</br><a href='/"+node.uri+"'>"+node.type+" </a></div>"
+                f:"<div class='"+node.type+"'>"+ node.name +"</br><a href=\"/"+node.type.toLowerCase()+"s/"+node.id+"\">"+node.type+"</a></div>"
             }
         }
 

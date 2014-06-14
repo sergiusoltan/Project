@@ -49,6 +49,10 @@ public class Utils {
         return gson;
     }
 
+    public static String getString(Object object){
+        return getInstance().toJson(object);
+    }
+
     public static List<Long> fromListType(String list){
         Type listType = new TypeToken<List<Long>>(){}.getType();
         try{

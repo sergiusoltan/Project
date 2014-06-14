@@ -15,7 +15,8 @@ angular
             saveContact = API_URL.rest + "contact/save",
             updateContact = API_URL.rest + "contact/update",
             deleteContact = API_URL.rest + "contact/remove",
-            getContact = API_URL.rest + "contact/",
+            getContact = API_URL.rest + "/contact/",
+            getTrimester = API_URL.rest + "contact/trimester",
             ContactFactory = {};
 
         ContactFactory.getAllContacts = function () {
@@ -69,6 +70,16 @@ angular
                     deferred.reject(error);
                 });
 
+            return deferred.promise;
+        };
+
+        ContactFactory.getTrimesterStats = function () {
+            var deferred = $q.defer();
+            $http.get(getTrimester).success(function (success) {
+                deferred.resolve(success);
+            }).error(function (reason) {
+                    deferred.reject(reason);
+                });
             return deferred.promise;
         };
 
