@@ -9,17 +9,7 @@
 angular
     .module('mainApp')
     .controller('HierarchyCtrl', ['$scope', 'ContactService', 'AuthFactory', '$location', '$modal', '$log', function ($scope, ContactService, AuthFactory, $location, $modal, $log) {
-        $scope.users = [
-//            {id:'1',name:'Mike',uri:'distributor/mike.scot',sponsor:'',position:'Supervisor'},
-//            {id:'11', name:'Jim',uri:'distributor/mike.scot', sponsor:'1',position:'Supervisor'},
-//            {id:'12',name:'Alice',uri:'distributor/mike.scot',sponsor:'11',position:'Supervisor'},
-//            {id:'2',name:'Alice',uri:'distributor/mike.scot',sponsor:'1',position:'Distributor'},
-//            {id:'21',name:'Bob',uri:'client/mike.scot',sponsor:'2',position:'Client'},
-//            {id:'22',name:'Michael',uri:'distributor/mike.scot',sponsor:'2',position:'Contact'},
-//            {id:'3',name:'Michael',uri:'contact/mike.scot',sponsor:'1',position:'Contact'},
-//            {id:'31',name:'Eliot',uri:'contact/mike.scot',sponsor:'3',position:'Contact'},
-//            {id:'32',name:'Elena',uri:'contact/mike.scot',sponsor:'3',position:'Contact'}
-        ];
+        $scope.users = [];
 
         init();
 
