@@ -9,11 +9,12 @@
 
 angular
     .module('mainApp')
-    .controller('ClientCtrl', ['$scope', '$location', 'AuthFactory', 'ClientService', '$modal', 'peopleType', function ($scope, $location, AuthFactory, ClientService, $modal, peopleTypes) {
+    .controller('ClientCtrl', ['$scope', '$location', 'AuthFactory', 'ClientService', '$modal', 'EvaluationService', function ($scope, $location, AuthFactory, ClientService, $modal, EvaluationService) {
 
         init();
         $scope.client = {};
         $scope.recomendedBy = {};
+        $scope.evaluations = [];
 
         function init(){
             $scope.id = Number($location.path().match(/\/clients\/(\d+)$/)[1]);
@@ -26,8 +27,42 @@ angular
                 alert(err);
             });
 
-            createData();
+            EvaluationService.getAllEvaluations($scope.id).then(function(success){
+                $scope.evaluations = success;
+                createData();
+            }, function(error){
+                console.log("failed to load evaluations with error: "+error);
+            });
         }
+
+        $scope.addEvaluation = function () {
+            var modalInstance = $modal.open({
+                templateUrl: 'evaluationTemplate.html',
+                controller: 'ModalPeopleCtrl',
+                size: '',
+                resolve: {
+                    items: function () {
+                        return null;
+                    },
+                    item: function () {
+                        return {};
+                    },
+                    title: function () {
+                        return $scope.client.name;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (item) {
+                EvaluationService.saveEvaluation($scope.id, item.instance).then(function (success) {
+                    $scope.evaluations = success;
+                }, function (error) {
+                    console.log('failed to save evaluation with ' + error);
+                });
+            }, function () {
+                console.log('modal dismissed');
+            });
+        };
 
         $scope.editClient = function () {
             var modalInstance = $modal.open({
@@ -90,53 +125,19 @@ angular
             data.addColumn('number', 'Visceral fat');
             data.addColumn('string', 'Visceral title');
 
-            data.addRows([
-                [new Date(2314, 2, 15),
-                    120, 'Weight 120 kg',
-                    40, 'Fat 40%',
-                    60, 'Muscle Mass 60kg',
-                    4, 'IMC 4',
-                    15, 'Mineralization 15',
-                    45, 'Metabolic Age 45 years',
-                    50, 'Hydration 50%',
-                    12, 'Visceral Fat 12 kg'],
-                [new Date(2314, 3, 15),
-                    110, 'Weight 120 kg',
-                    30, 'Fat 40%',
-                    50, 'Muscle Mass 60kg',
-                    3, 'IMC 4',
-                    13, 'Mineralization 15',
-                    35, 'Metabolic Age 45 years',
-                    40, 'Hydration 50%',
-                    8, 'Visceral Fat 12 kg'],
-                [new Date(2314, 4, 15),
-                    90, 'Weight 120 kg',
-                    10, 'Fat 40%',
-                    30, 'Muscle Mass 60kg',
-                    4, 'IMC 4',
-                    10, 'Mineralization 15',
-                    30, 'Metabolic Age 45 years',
-                    35, 'Hydration 50%',
-                    8, 'Visceral Fat 12 kg'],
-                [new Date(2314, 4, 22),
-                    90, 'Weight 120 kg',
-                    10, 'Fat 40%',
-                    30, 'Muscle Mass 60kg',
-                    4, 'IMC 4',
-                    10, 'Mineralization 15',
-                    30, 'Metabolic Age 45 years',
-                    35, 'Hydration 50%',
-                    8, 'Visceral Fat 12 kg'],
-                [new Date(2314, 4, 29),
-                    90, 'Weight 120 kg',
-                    8, 'Fat 40%',
-                    20, 'Muscle Mass 60kg',
-                    1, 'IMC 4',
-                    8, 'Mineralization 15',
-                    15, 'Metabolic Age 45 years',
-                    20, 'Hydration 50%',
-                    4, 'Visceral Fat 12 kg']
-            ]);
+            var rows = [];
+            $.each($scope.evaluations,function(index, value){
+                rows.push([new Date(Number(value.dateYear), Number(value.dateMonth), Number(value.dateDay)),
+                            value.weight, 'Weight ' + value.weight + ' kg',
+                            value.fat, 'Fat ' + value.fat + '%',
+                            value.muscle, 'Muscle mass ' + value.muscle + ' kg',
+                            value.imc, 'IMC ' + value.imc,
+                            value.mineralization, 'Mineralization ' + value.mineralization,
+                            value.metabolicage, 'Metabolic age ' + value.metabolicage + ' years old',
+                            value.hydration, 'Hydration ' + value.hydration + '%',
+                            value.visceralfat, 'Visceral Fat ' + value.visceralfat + ' kg'])
+            });
+            data.addRows(rows);
 
             var options = {
                 displayAnnotations: true,

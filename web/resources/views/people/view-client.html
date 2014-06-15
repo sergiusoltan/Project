@@ -44,7 +44,7 @@
         </div>
         <div class="panel panel-primary col-md-8" style="margin-top: 10px; margin-left: 15px">
             <div class="panel-heading">Monitoring
-                <button type="button" class="btn btn-info pull-right" ng-click="editClient()" title="Add Evaluation">
+                <button type="button" class="btn btn-info pull-right" ng-click="addEvaluation()" title="Add Evaluation">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
@@ -79,19 +79,19 @@
                 <div class="input-group">
                     <span class="input-group-addon">Age</span>
                     <input name="age" type="range" class="form-control" value="{{item.age}}"
-                           min="1" max="150" ng-model="item.age">
+                           min="1" max="110" ng-model="item.age">
                     <span class="input-group-addon" style="width:10% !important;">{{item.age}}</span>
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">Height</span>
                     <input name="height" type="range" class="form-control" value="{{item.height}}"
-                           min="30" max="300" ng-model="item.height">
+                           min="30" max="240" ng-model="item.height">
                     <span class="input-group-addon" style="width:10% !important;">{{item.height + " cm"}}</span>
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">Weight</span>
                     <input name="weight" type="range" class="form-control" value="{{item.weight}}"
-                           min="20" max="500" ng-model="item.weight">
+                           min="20" max="200" ng-model="item.weight">
                     <span class="input-group-addon" style="width:10% !important;">{{item.weight + " kg"}}</span>
                 </div>
             </div>

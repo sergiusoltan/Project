@@ -38,6 +38,91 @@
         </div>
     </script>
 
+    <script type="text/ng-template" id="evaluationTemplate.html">
+        <form name="form" class="css-form" novalidate>
+            <div class="modal-header">
+                <h3 class="modal-title">{{title}}'s evaluation</h3>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">Date</span>
+                    <input name="email" type="date" class="form-control"
+                           value="{{item.date}}" ng-model="item.date"
+                           ng-class="{'alert-success':form.email.$dirty && form.email.$valid, 'alert-danger':form.email.$invalid && !form.email.$pristine}"
+                           placeholder="Insert email here" required>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Weight</span>
+                    <input name="weight" type="range" class="form-control" value="{{item.weight}}"
+                           ng-class="{'alert-success':form.weight.$dirty && form.weight.$valid,
+                                      'alert-danger':form.weight.$invalid && !form.weight.$pristine}"
+                           min="20" max="200" ng-model="item.weight" required>
+                    <span class="input-group-addon" style="width:10% !important;">{{item.weight + " kg"}}</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Fat Percentage</span>
+                    <input name="fat" type="range" class="form-control" value="{{item.fat}}"
+                           ng-class="{'alert-success':form.fat.$dirty && form.fat.$valid,
+                                      'alert-danger':form.fat.$invalid && !form.fat.$pristine}"
+                           min="5" max="65" ng-model="item.fat" required>
+                    <span class="input-group-addon" style="width:10% !important;">{{item.fat + " %"}}</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Muscle Mass</span>
+                    <input name="muscle" type="range" class="form-control" value="{{item.muscle}}"
+                           ng-class="{'alert-success':form.muscle.$dirty && form.muscle.$valid,
+                                      'alert-danger':form.muscle.$invalid && !form.muscle.$pristine}"
+                           min="40" max="90" ng-model="item.muscle" required>
+                    <span class="input-group-addon" style="width:10% !important;">{{item.muscle + " %"}}</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">IMC</span>
+                    <input name="imc" type="range" class="form-control" value="{{item.imc}}"
+                           ng-class="{'alert-success':form.imc.$dirty && form.imc.$valid,
+                                      'alert-danger':form.imc.$invalid && !form.imc.$pristine}"
+                           min="15" max="40" ng-model="item.imc" required>
+                    <span class="input-group-addon" style="width:10% !important;">{{item.imc}}</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Mineralization</span>
+                    <input name="mineralization" type="range" class="form-control" value="{{item.mineralization}}"
+                           ng-class="{'alert-success':form.mineralization.$dirty && form.mineralization.$valid,
+                                      'alert-danger':form.mineralization.$invalid && !form.mineralization.$pristine}"
+                           min="1" max="4" step="0.1" ng-model="item.mineralization" required>
+                    <span class="input-group-addon" style="width:10% !important;">{{item.mineralization}}</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Metabolic Age</span>
+                    <input name="metabolicage" type="range" class="form-control" value="{{item.metabolicage}}"
+                           ng-class="{'alert-success':form.metabolicage.$dirty && form.metabolicage.$valid,
+                                      'alert-danger':form.metabolicage.$invalid && !form.metabolicage.$pristine}"
+                           min="12" max="90" ng-model="item.metabolicage" required>
+                    <span class="input-group-addon" style="width:10% !important;">{{item.metabolicage}}</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Hydration</span>
+                    <input name="hydration" type="range" class="form-control" value="{{item.hydration}}"
+                           ng-class="{'alert-success':form.hydration.$dirty && form.hydration.$valid,
+                                      'alert-danger':form.hydration.$invalid && !form.hydration.$pristine}"
+                           min="30" max="80" ng-model="item.hydration" required>
+                    <span class="input-group-addon" style="width:10% !important;">{{item.hydration + " %"}}</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Visceral Fat</span>
+                    <input name="visceralfat" type="range" class="form-control" value="{{item.visceralfat}}"
+                           ng-class="{'alert-success':form.visceralfat.$dirty && form.visceralfat.$valid,
+                                      'alert-danger':form.visceralfat.$invalid && !form.visceralfat.$pristine}"
+                           min="1" max="25" ng-model="item.visceralfat" required>
+                    <span class="input-group-addon" style="width:10% !important;">{{item.visceralfat}}</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="ok()">OK</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </form>
+    </script>
+
     <!--<footer id="footer" ng-class="{'is-loading': loading.header}" ng-include="'resources/views/templates/footer.html'"></footer>-->
 
     <!-- Angular files -->
@@ -58,7 +143,7 @@
     <!-- Application services -->
     <script src="resources/js/services/user-service.js"></script>
     <script src="resources/js/services/auth-service.js"></script>
-    <script src="resources/js/services/customer-service.js"></script>
+    <script src="resources/js/services/evaluation-service.js"></script>
     <script src="resources/js/services/orders-service.js"></script>
     <script src="resources/js/services/contact-service.js"></script>
     <script src="resources/js/services/client-service.js"></script>

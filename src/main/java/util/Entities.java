@@ -5,11 +5,9 @@ package main.java.util;
  */
 public enum Entities {
     USER("USER"),
-    ORDERS("ORDERS"),
+    EVALUATIONS("EVALUATIONS"),
     EVENTS("EVENTS"),
-    CONTACT("CONTACT"),
-    CLIENT("CLIENT"),
-    DISTRIBUTOR("DISTRIBUTOR");
+    CONTACT("CONTACT"),;
 
     private String id;
 

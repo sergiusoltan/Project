@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import main.java.model.auth.UserStatus;
 import main.java.model.people.ClientModel;
 import main.java.model.people.ContactModel;
+import main.java.model.people.EvaluationModel;
 import main.java.model.people.MemberModel;
 
 import javax.ws.rs.core.Response;
@@ -21,8 +22,10 @@ import javax.ws.rs.core.Response;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static main.java.util.Entities.*;
 import static main.java.util.PeopleProperties.*;
@@ -105,12 +108,19 @@ public class Utils {
         }
     }
 
-    public static String parseDate(String inputDate){
-        String date = null;
+    public static List<Integer> parseDate(String inputDate){
+        Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(inputDate).toString();
-        } catch (ParseException ignore) {}
-        return date;
+            date =new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(inputDate);
+        } catch (ParseException ignore) {
+            return Lists.newArrayList();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        return Lists.newLinkedList(year,month,day);
     }
 
     public static Response oKResponse(Object object){
@@ -167,6 +177,20 @@ public class Utils {
         entity.setProperty(POSITION.getKey(), memberModel.getPosition());
     }
 
+    public static void setFromEvaluation(Entity entity, EvaluationModel evaluationModel){
+        entity.setProperty(EvaluationsProperties.VISCERAL_FAT.getId(), evaluationModel.getVisceralfat());
+        entity.setProperty(EvaluationsProperties.FAT.getId(), evaluationModel.getFat());
+        entity.setProperty(EvaluationsProperties.MUSCLE_MASS.getId(), evaluationModel.getMuscle());
+        entity.setProperty(EvaluationsProperties.HYDRATION.getId(), evaluationModel.getHydration());
+        entity.setProperty(EvaluationsProperties.IMC.getId(), evaluationModel.getImc());
+        entity.setProperty(EvaluationsProperties.METABOLIC_AGE.getId(), evaluationModel.getMetabolicage());
+        entity.setProperty(EvaluationsProperties.MINERALIZATION.getId(), evaluationModel.getMineralization());
+        entity.setProperty(EvaluationsProperties.WEIGHT.getId(), evaluationModel.getWeight());
+        entity.setProperty(EvaluationsProperties.DATE.getId(), evaluationModel.getDate());
+        entity.setProperty(EvaluationsProperties.ID.getId(), evaluationModel.getId());
+        entity.setProperty(EvaluationsProperties.CONTACT_ID.getId(), evaluationModel.getContactId());
+    }
+
     public static Function<Entity, ContactModel> entityToContact = new Function<Entity, ContactModel>() {
         @Override
         public ContactModel apply(com.google.appengine.api.datastore.Entity entity) {
@@ -221,6 +245,33 @@ public class Utils {
             contactModel.setHeight((Long) entity.getProperty(HEIGHT.getKey()));
             contactModel.setEmail((String) entity.getProperty(EMAIL.getKey()));
             return contactModel;
+        }
+    };
+
+    public static Function<Entity, EvaluationModel> entityToEvaluation = new Function<Entity, EvaluationModel>() {
+        @Override
+        public EvaluationModel apply(com.google.appengine.api.datastore.Entity entity) {
+            EvaluationModel evaluationModel = new EvaluationModel();
+            evaluationModel.setId((Long) entity.getProperty(ID.getKey()));
+            evaluationModel.setContactId((Long) entity.getProperty(EvaluationsProperties.CONTACT_ID.getId()));
+
+            evaluationModel.setDate((String) entity.getProperty(DATE.getKey()));
+            List<Integer> details = parseDate(evaluationModel.getDate());
+            if(!details.isEmpty()){
+                evaluationModel.setDateYear(details.get(0));
+                evaluationModel.setDateMonth(details.get(1));
+                evaluationModel.setDateDay(details.get(2));
+            }
+
+            evaluationModel.setWeight((Long) entity.getProperty(EvaluationsProperties.WEIGHT.getId()));
+            evaluationModel.setFat((Long) entity.getProperty(EvaluationsProperties.FAT.getId()));
+            evaluationModel.setHydration((Long) entity.getProperty(EvaluationsProperties.HYDRATION.getId()));
+            evaluationModel.setImc((Long) entity.getProperty(EvaluationsProperties.IMC.getId()));
+            evaluationModel.setMetabolicage((Long) entity.getProperty(EvaluationsProperties.METABOLIC_AGE.getId()));
+            evaluationModel.setMineralization((Double) entity.getProperty(EvaluationsProperties.MINERALIZATION.getId()));
+            evaluationModel.setMuscle((Long) entity.getProperty(EvaluationsProperties.MUSCLE_MASS.getId()));
+            evaluationModel.setVisceralfat((Long) entity.getProperty(EvaluationsProperties.VISCERAL_FAT.getId()));
+            return evaluationModel;
         }
     };
 }
