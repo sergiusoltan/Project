@@ -74,7 +74,7 @@
                 </th>
             </tr>
             <tr ng-repeat="contact in contacts | filter:filterModel | orderBy:predicate"
-                ng-class="{selectedRow: selectedItems.indexOf(contact.id) != -1, clickable: true}"
+                ng-class="{'alert-danger': selectedItems.indexOf(contact.id) != -1, clickable: true}"
                 ng-dblclick="openContact('lg', contact)"
                 title="Double click to edit"
                 ng-click="onSelect(contact)">

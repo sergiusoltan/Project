@@ -89,7 +89,7 @@
                 </th>
             </tr>
             <tr ng-repeat="distributor in distributors | filter:filterModel | orderBy:predicate"
-                ng-class="{selectedRow: selectedItems.indexOf(distributor.id) != -1, clickable: true}"
+                ng-class="{'alert-danger': selectedItems.indexOf(distributor.id) != -1, clickable: true}"
                 ng-dblclick="openDistributor('lg', distributor)"
                 title="Double click to edit"
                 ng-click="onSelect(distributor)">

@@ -16,5 +16,5 @@
     google.setOnLoadCallback(function() {
         angular.bootstrap(document.body, ['mainApp']);
     });
-    google.load('visualization', '1', {packages: ['corechart','table','orgchart']});
+    google.load('visualization', '1.1', {packages: ['corechart','table','orgchart','annotationchart']});
 })(angular);

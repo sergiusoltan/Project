@@ -85,6 +85,18 @@ angular
             return deferred.promise;
         };
 
+        ClientFactory.updateInfo = function (model) {
+            var deferred = $q.defer();
+            var url = this.getHost() + updateClient;
+            $http['post'](url, model)
+                .success(function (success) {
+                    deferred.resolve(success);
+                }).error(function (error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        };
+
         ClientFactory.getHost = function(){
             var port = $location.port();
             var host = $location.protocol() + "://" + $location.host();

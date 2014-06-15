@@ -62,6 +62,18 @@ angular
             return deferred.promise;
         };
 
+        MemberFactory.updateInfo = function (model) {
+            var deferred = $q.defer();
+            var url = this.getHost() + updateMember;
+            $http['post'](url, model)
+                .success(function (success) {
+                    deferred.resolve(success);
+                }).error(function (error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        };
+
         MemberFactory.deleteMembers = function (properties) {
             var deferred = $q.defer();
             $http['post'](deleteMember, properties)

@@ -100,55 +100,34 @@ public class ContactServiceUtil {
 
         Key userKey = Utils.getUserKey(owner);
         Entity newContact = new Entity(Entities.CONTACT.getId(), userKey);
-        newContact.setProperty(ID.getKey(), contact.getId());
-        newContact.setProperty(NAME.getKey(), contact.getName());
-        newContact.setProperty(DATE.getKey(), contact.getDate());
-        newContact.setProperty(PHONE.getKey(), contact.getPhone());
-        newContact.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
-        newContact.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
-        newContact.setProperty(TYPE.getKey(), contact.getType());
+        setFromContact(newContact,contact, false);
         datastoreService.put(newContact);
 
         return getAllContacts(owner);
     }
 
     public static Collection<ClientModel> saveClient(String owner, String contactModel) {
-        ClientModel contact = clientFromString(contactModel);
+        ClientModel client = clientFromString(contactModel);
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
 
-        contact.setId(new Date().getTime());
+        client.setId(new Date().getTime());
         Key userKey = Utils.getUserKey(owner);
         Entity newContact = new Entity(Entities.CONTACT.getId(), userKey);
-        newContact.setProperty(ID.getKey(), contact.getId());
-        newContact.setProperty(NAME.getKey(), contact.getName());
-        newContact.setProperty(DATE.getKey(), contact.getDate());
-        newContact.setProperty(PHONE.getKey(), contact.getPhone());
-        newContact.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
-        newContact.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
-        newContact.setProperty(TYPE.getKey(), contact.getType());
-        newContact.setProperty(EMAIL.getKey(), contact.getEmail());
+        setFromClient(newContact,client, false);
         datastoreService.put(newContact);
 
         return getAllClients(owner);
     }
 
     public static Collection<MemberModel> saveMember(String owner, String contactModel) {
-        MemberModel contact = memberFromString(contactModel);
+        MemberModel memberModel = memberFromString(contactModel);
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
 
-        contact.setId(new Date().getTime());
+        memberModel.setId(new Date().getTime());
         Key userKey = Utils.getUserKey(owner);
-        Entity newContact = new Entity(Entities.CONTACT.getId(), userKey);
-        newContact.setProperty(ID.getKey(), contact.getId());
-        newContact.setProperty(NAME.getKey(), contact.getName());
-        newContact.setProperty(DATE.getKey(), contact.getDate());
-        newContact.setProperty(PHONE.getKey(), contact.getPhone());
-        newContact.setProperty(POSITION.getKey(), contact.getPosition());
-        newContact.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
-        newContact.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
-        newContact.setProperty(TYPE.getKey(), contact.getType());
-        newContact.setProperty(EMAIL.getKey(), contact.getEmail());
-        datastoreService.put(newContact);
+        Entity newMember = new Entity(Entities.CONTACT.getId(), userKey);
+        setFromMember(newMember, memberModel, false);
+        datastoreService.put(newMember);
 
         return getAllMembers(owner);
     }
@@ -164,12 +143,7 @@ public class ContactServiceUtil {
         if (foundEntity == null) {
             return null;
         }
-        foundEntity.setProperty(NAME.getKey(), contact.getName());
-        foundEntity.setProperty(DATE.getKey(), contact.getDate());
-        foundEntity.setProperty(PHONE.getKey(), contact.getPhone());
-        foundEntity.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
-        foundEntity.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
-        foundEntity.setProperty(TYPE.getKey(), contact.getType());
+        setFromContact(foundEntity, contact, true);
         datastoreService.put(foundEntity);
         return getAllContacts(owner);
     }
@@ -185,36 +159,23 @@ public class ContactServiceUtil {
         if (foundEntity == null) {
             return null;
         }
-        foundEntity.setProperty(NAME.getKey(), contact.getName());
-        foundEntity.setProperty(DATE.getKey(), contact.getDate());
-        foundEntity.setProperty(PHONE.getKey(), contact.getPhone());
-        foundEntity.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
-        foundEntity.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
-        foundEntity.setProperty(TYPE.getKey(), contact.getType());
-        foundEntity.setProperty(EMAIL.getKey(), contact.getEmail());
+        setFromClient(foundEntity, contact, true);
         datastoreService.put(foundEntity);
         return getAllClients(owner);
     }
 
     public static Collection<MemberModel> updateMember(String owner, String memberModel) {
-        MemberModel contact = memberFromString(memberModel);
+        MemberModel model = memberFromString(memberModel);
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         Key userKey = Utils.getUserKey(owner);
         Query query = new Query(Entities.CONTACT.getId(), userKey).setFilter(
-                new Query.FilterPredicate(ID.getKey(), Query.FilterOperator.EQUAL, contact.getId())
+                new Query.FilterPredicate(ID.getKey(), Query.FilterOperator.EQUAL, model.getId())
         );
         Entity foundEntity = datastoreService.prepare(query).asSingleEntity();
         if (foundEntity == null) {
             return null;
         }
-        foundEntity.setProperty(NAME.getKey(), contact.getName());
-        foundEntity.setProperty(DATE.getKey(), contact.getDate());
-        foundEntity.setProperty(PHONE.getKey(), contact.getPhone());
-        foundEntity.setProperty(POSITION.getKey(), contact.getPosition());
-        foundEntity.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
-        foundEntity.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
-        foundEntity.setProperty(TYPE.getKey(), contact.getType());
-        foundEntity.setProperty(EMAIL.getKey(), contact.getEmail());
+        setFromMember(foundEntity, model, true);
         datastoreService.put(foundEntity);
         return getAllMembers(owner);
     }

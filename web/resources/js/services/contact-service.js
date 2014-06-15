@@ -84,6 +84,18 @@ angular
             return deferred.promise;
         };
 
+        ContactFactory.updateInfo = function (model) {
+            var deferred = $q.defer();
+            var url = this.getHost() + updateContact;
+            $http['post'](url, model)
+                .success(function (success) {
+                    deferred.resolve(success);
+                }).error(function (error) {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
+        };
+
         ContactFactory.getHost = function(){
             var port = $location.port();
             var host = $location.protocol() + "://" + $location.host();

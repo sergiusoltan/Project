@@ -44,3 +44,20 @@ angular
             }
         }
     });
+
+angular
+    .module('googleCharts')
+    .directive('monitorization', function () {
+        return {
+            restrict: 'A',
+            link: function ($scope, $elm, $attr) {
+                var target = $attr.monitorization;
+                $scope.$watch(target, function (value) {
+                    var chart = new google.visualization.AnnotationChart($elm[0]);
+                    if(value){
+                        chart.draw(value.data, value.options);
+                    }
+                }, true);
+            }
+        }
+    });

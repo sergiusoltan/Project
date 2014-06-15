@@ -141,6 +141,32 @@ public class Utils {
                 .build();
     }
 
+    public static void setFromContact(Entity entity, ContactModel contactModel, boolean update){
+        if(!update){
+            entity.setProperty(ID.getKey(), contactModel.getId());
+        }
+        entity.setProperty(NAME.getKey(), contactModel.getName());
+        entity.setProperty(DATE.getKey(), contactModel.getDate());
+        entity.setProperty(PHONE.getKey(), contactModel.getPhone());
+        entity.setProperty(RECOMENDED_BY.getKey(), contactModel.getRecomendedBy());
+        entity.setProperty(RECOMENDED_BY_ID.getKey(), contactModel.getRecomendedById());
+        entity.setProperty(TYPE.getKey(), contactModel.getType());
+        entity.setProperty(AGE.getKey(), contactModel.getAge());
+        entity.setProperty(HEIGHT.getKey(), contactModel.getHeight());
+        entity.setProperty(WEIGHT.getKey(), contactModel.getWeight());
+    }
+
+    public static void setFromClient(Entity entity, ClientModel clientModel, boolean update){
+        setFromContact(entity, clientModel, update);
+        entity.setProperty(EMAIL.getKey(), clientModel.getEmail());
+    }
+
+    public static void setFromMember(Entity entity, MemberModel memberModel, boolean update){
+        setFromContact(entity, memberModel, update);
+        entity.setProperty(EMAIL.getKey(), memberModel.getEmail());
+        entity.setProperty(POSITION.getKey(), memberModel.getPosition());
+    }
+
     public static Function<Entity, ContactModel> entityToContact = new Function<Entity, ContactModel>() {
         @Override
         public ContactModel apply(com.google.appengine.api.datastore.Entity entity) {
@@ -152,6 +178,9 @@ public class Utils {
             contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
             contactModel.setRecomendedById((Long) entity.getProperty(RECOMENDED_BY_ID.getKey()));
             contactModel.setType((String) entity.getProperty(TYPE.getKey()));
+            contactModel.setAge((Long) entity.getProperty(AGE.getKey()));
+            contactModel.setWeight((Long) entity.getProperty(WEIGHT.getKey()));
+            contactModel.setHeight((Long) entity.getProperty(HEIGHT.getKey()));
             return contactModel;
         }
     };
@@ -167,6 +196,9 @@ public class Utils {
             contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
             contactModel.setRecomendedById((Long) entity.getProperty(RECOMENDED_BY_ID.getKey()));
             contactModel.setType((String) entity.getProperty(TYPE.getKey()));
+            contactModel.setAge((Long) entity.getProperty(AGE.getKey()));
+            contactModel.setWeight((Long) entity.getProperty(WEIGHT.getKey()));
+            contactModel.setHeight((Long) entity.getProperty(HEIGHT.getKey()));
             contactModel.setEmail((String) entity.getProperty(EMAIL.getKey()));
             return contactModel;
         }
@@ -184,6 +216,9 @@ public class Utils {
             contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
             contactModel.setRecomendedById((Long) entity.getProperty(RECOMENDED_BY_ID.getKey()));
             contactModel.setType((String) entity.getProperty(TYPE.getKey()));
+            contactModel.setAge((Long) entity.getProperty(AGE.getKey()));
+            contactModel.setWeight((Long) entity.getProperty(WEIGHT.getKey()));
+            contactModel.setHeight((Long) entity.getProperty(HEIGHT.getKey()));
             contactModel.setEmail((String) entity.getProperty(EMAIL.getKey()));
             return contactModel;
         }

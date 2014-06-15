@@ -79,7 +79,7 @@
                 </th>
             </tr>
             <tr ng-repeat="client in clients | filter:filterModel | orderBy:predicate"
-                ng-class="{selectedRow: selectedItems.indexOf(client.id) != -1, clickable: true}"
+                ng-class="{'alert-danger': selectedItems.indexOf(client.id) != -1, clickable: true}"
                 ng-dblclick="openClient('lg', client)"
                 ng-click="onSelect(client)">
                 <td><a href="/clients/{{client.id}}">{{client.name}}</a></td>

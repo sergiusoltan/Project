@@ -13,9 +13,9 @@ public class ContactModel {
     private String recomendedBy;
     private Long recomendedById;
     private String date;
-    private String age;
-    private String height;
-    private String weight;
+    private Long age;
+    private Long height;
+    private Long weight;
 
     public Long getId() {
         return id;
@@ -73,27 +73,27 @@ public class ContactModel {
         this.recomendedById = recomendedById;
     }
 
-    public String getAge() {
+    public Long getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Long age) {
         this.age = age;
     }
 
-    public String getHeight() {
+    public Long getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
+    public void setHeight(Long height) {
         this.height = height;
     }
 
-    public String getWeight() {
+    public Long getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(Long weight) {
         this.weight = weight;
     }
 }

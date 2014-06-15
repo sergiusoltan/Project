@@ -1,22 +1,100 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-6 col-md-4">
+        <div class="panel panel-primary col-md-3" style="margin-top: 10px; margin-left: 15px">
+            <div class="panel-heading">{{contact.type}}
+                <button type="button" class="btn btn-info pull-right headerButton" ng-click="editContact()" title="Add Evaluation">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </button>
+            </div>
             <div class="thumbnail">
                 <img src="/resources/img/download.svg">
                 <div class="caption">
                     <h3>{{contact.name}}</h3>
-                    <p>{{contact.position}}</p>
+                    <p ng-show="recomendedBy != null">Recomended by <a href="/{{recomendedBy.type.toLowerCase()}}s/{{recomendedBy.id}}">{{recomendedBy.name}}</a></p>
                 </div>
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                    <tr>
+                        <td>Phone</td>
+                        <td>{{contact.phone}}</td>
+                    </tr>
+                    <tr>
+                        <td>Date</td>
+                        <td>{{contact.date}}</td>
+                    </tr>
+                    <tr>
+                        <td>Age</td>
+                        <td>{{contact.age}}</td>
+                    </tr>
+                    <tr>
+                        <td>Height</td>
+                        <td>{{contact.height}}</td>
+                    </tr>
+                    <tr>
+                        <td>Weight</td>
+                        <td>{{contact.weight}}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="col-sm-6 col-md-4" ng-show="recomendedBy.name != null">
+        <div class="panel panel-primary col-md-8" style="margin-top: 10px; margin-left: 15px">
+            <div class="panel-heading">Monitoring
+                <button type="button" class="btn btn-info pull-right" ng-click="" title="Add Evaluation">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+
             <div class="thumbnail">
-                <img src="/resources/img/download.svg">
-                <div class="caption">
-                    <h3>{{recomendedBy.name}}</h3>
-                    <p>{{recomendedBy.position}}</p>
-                </div>
+                <div monitorization="monitor" style="width: 100%; height: 500px;"></div>
             </div>
         </div>
     </div>
+
+    <script type="text/ng-template" id="updateContactInfo.html">
+        <form name="form" class="css-form" novalidate>
+            <div class="modal-header">
+                <h3 class="modal-title">Update {{item.name}}'s information</h3>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">Email</span>
+                    <input name="email" type="email" class="form-control"
+                           value="{{item.email}}" ng-model="item.email"
+                           ng-class="{'alert-success':form.email.$dirty && form.email.$valid, 'alert-danger':form.email.$invalid && !form.email.$pristine}"
+                           placeholder="Insert email here">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Phone</span>
+                    <input name="phoneNumber" type="number" class="form-control" value="{{item.phone}}"
+                           ng-minlength="9" ng-maxlength="15" ng-pattern="/^\d+$/" ng-model="item.phone"
+                           ng-class="{'alert-success':form.phoneNumber.$dirty && form.phoneNumber.$valid,
+                                      'alert-danger':form.phoneNumber.$invalid && !form.phoneNumber.$pristine}"
+                           placeholder="Insert phone here">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Age</span>
+                    <input name="age" type="range" class="form-control" value="{{item.age}}"
+                           min="1" max="150" ng-model="item.age">
+                    <span class="input-group-addon" style="width:10% !important;">{{item.age}}</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Height</span>
+                    <input name="height" type="range" class="form-control" value="{{item.height}}"
+                           min="30" max="300" ng-model="item.height">
+                    <span class="input-group-addon" style="width:10% !important;">{{item.height + " cm"}}</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Weight</span>
+                    <input name="weight" type="range" class="form-control" value="{{item.weight}}"
+                           min="20" max="500" ng-model="item.weight">
+                    <span class="input-group-addon" style="width:10% !important;">{{item.weight + " kg"}}</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="ok()">OK</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </form>
+    </script>
 </div>
