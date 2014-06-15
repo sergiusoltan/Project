@@ -104,6 +104,8 @@ div .panel-heading{
 
 div .panel-primary{
     border-color: #222 !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
 }
 div .Contact{
     background-color: #E6E6E6 !important;
@@ -124,6 +126,9 @@ div .Client{
     margin: -10px !important
 }
 div .panel-body > .thumbnail {
+    border: none !important;
+}
+div .panel > .thumbnail {
     border: none !important;
 }
 .navbar-brand{

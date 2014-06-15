@@ -180,6 +180,7 @@ public class Utils {
             contactModel.setName((String) entity.getProperty(NAME.getKey()));
             contactModel.setDate((String) entity.getProperty(DATE.getKey()));
             contactModel.setPhone((Long) entity.getProperty(PHONE.getKey()));
+            contactModel.setPosition((String) entity.getProperty(POSITION.getKey()));
             contactModel.setRecomendedBy((String) entity.getProperty(RECOMENDED_BY.getKey()));
             contactModel.setRecomendedById((Long) entity.getProperty(RECOMENDED_BY_ID.getKey()));
             contactModel.setType((String) entity.getProperty(TYPE.getKey()));

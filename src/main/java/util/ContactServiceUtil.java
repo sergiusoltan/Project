@@ -143,6 +143,7 @@ public class ContactServiceUtil {
         newContact.setProperty(NAME.getKey(), contact.getName());
         newContact.setProperty(DATE.getKey(), contact.getDate());
         newContact.setProperty(PHONE.getKey(), contact.getPhone());
+        newContact.setProperty(POSITION.getKey(), contact.getPosition());
         newContact.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
         newContact.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
         newContact.setProperty(TYPE.getKey(), contact.getType());
@@ -209,6 +210,7 @@ public class ContactServiceUtil {
         foundEntity.setProperty(NAME.getKey(), contact.getName());
         foundEntity.setProperty(DATE.getKey(), contact.getDate());
         foundEntity.setProperty(PHONE.getKey(), contact.getPhone());
+        foundEntity.setProperty(POSITION.getKey(), contact.getPosition());
         foundEntity.setProperty(RECOMENDED_BY.getKey(), contact.getRecomendedBy());
         foundEntity.setProperty(RECOMENDED_BY_ID.getKey(), contact.getRecomendedById());
         foundEntity.setProperty(TYPE.getKey(), contact.getType());

@@ -78,7 +78,7 @@
                 ng-dblclick="openContact('lg', contact)"
                 title="Double click to edit"
                 ng-click="onSelect(contact)">
-                <td><a href="/contacts/{{contact.id}}">{{contact.name}}</a></td>
+                <td><a href="/{{contact.type.toLowerCase()}}s/{{contact.id}}">{{contact.name}}</a></td>
                 <td>{{contact.phone}}</td>
                 <td>{{getRecomendedByName(contact.recomendedBy)}}</td>
                 <td>{{contact.type}}</td>
@@ -111,10 +111,12 @@
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Recomended By</span>
-                <select name="recomendedOption" class="form-control" ng-model="item.recomendedBy"
-                        ng-class="{'alert-success':form.recomendedOption.$dirty && form.recomendedOption.$valid, 'alert-danger':form.recomendedOption.$invalid && !form.recomendedOption.$pristine}">
-                    <option value="{{type}}" ng-repeat="type in items | filter:filterItem" ng-selected="isRecomendedSelected(type)">{{type.name}}</option>
-                </select>
+                <div style="max-height:50px;">
+                    <select name="recomendedOption" class="form-control" style="position:relative;" ng-model="item.recomendedBy"
+                            ng-class="{'alert-success':form.recomendedOption.$dirty && form.recomendedOption.$valid, 'alert-danger':form.recomendedOption.$invalid && !form.recomendedOption.$pristine}">
+                        <option value="{{type}}" ng-repeat="type in items | filter:filterItem" ng-selected="isRecomendedSelected(type)">{{type.name}}</option>
+                    </select>
+                </div>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Type</span>

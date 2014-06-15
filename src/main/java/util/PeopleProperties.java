@@ -10,8 +10,12 @@ public enum PeopleProperties {
     DATE("date"),
     PHONE("phone"),
     TYPE("type"),
+    POSITION("position"),
     RECOMENDED_BY("recomendedBy"),
-    RECOMENDED_BY_ID("recomendedById");
+    RECOMENDED_BY_ID("recomendedById"),
+    AGE("age"),
+    HEIGHT("height"),
+    WEIGHT("weight");
 
     private String key;
 
