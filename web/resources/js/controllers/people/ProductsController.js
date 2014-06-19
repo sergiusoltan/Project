@@ -49,4 +49,18 @@ angular
             });
         };
 
+        $scope.openImage = function (url) {
+            var modalInstance = $modal.open({
+                templateUrl: 'imageFullSized.html',
+                controller: 'UploadController',
+                size: 'lg',
+                resolve: {
+                    title: function () {
+                        return url;
+                    }
+                }
+            });
+        };
+
+
     }]);

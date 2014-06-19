@@ -1,24 +1,32 @@
 <div class="container-fluid" ng-controller="ProductsCtrl">
 
-    <button class="btn btn-primary" ng-click="addProduct()">Add</button>
+    <div class="panel panel-primary" style="margin-top: 10px">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Gallery
+            <button type="button" class="btn btn-info pull-right" ng-click="addProduct()" title="Add new contact">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <!--<button type="button" class="btn btn-danger pull-right headerButton" ng-disabled="selectedItems.length < 1" ng-click="removeContact()" title="Remove a selected row">-->
+                <!--<span class="glyphicon glyphicon-remove"></span>-->
+            <!--</button>-->
+        </div>
 
-    </div>
-    <div class="row">
-        <div class="col-sm-6 col-md-4" ng-repeat="product in products">
-            <div class="thumbnail">
-                <img src="{{product.productBlobKey}}" alt="">
+        <div class="row">
+            <div class="col-md-4" ng-repeat="product in products">
+                <div class="thumbnail">
+                    <img src="{{product.productBlobKey+'=s300'}}" alt="" style="cursor: pointer" ng-click="openImage(product.productBlobKey)">
 
-                <div class="caption">
-                    <h3>{{product.productName}}</h3>
-                    <p>{{product.description}}</p>
+                    <div class="caption">
+                        <h3>{{product.productName}}</h3>
+                        <p>{{product.description}}</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script type="text/ng-template" id="createProduct.html">
-        <form name="form" action="{{item.uploadUrl}}" method="post" enctype="multipart/form-data" class="css-form" novalidate>
-        <!--<form class="css-form" novalidate>-->
+        <form class="css-form" novalidate>
             <div class="modal-header">
                 <h3 class="modal-title">{{title}}</h3>
             </div>
@@ -29,7 +37,7 @@
                     <img src="{{imageSrc}}" style="width:300px" alt="">
 
                     <div class="caption">
-                        <input type="file" name="file" ng-file-select="onFileSelect($files)">
+                        <input type="file" name="file" accept="image/*" ng-file-select="onFileSelect($files)">
                     </div>
                 </div>
                 <div class="input-group">
@@ -51,9 +59,11 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="ok()">OK</button>
-                <!--<button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="uploadFile()">OK</button>-->
                 <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
             </div>
         </form>
+    </script>
+    <script type="text/ng-template" id="imageFullSized.html">
+        <img src="{{title+'=s900'}}" style="width:100%;">
     </script>
 </div>
