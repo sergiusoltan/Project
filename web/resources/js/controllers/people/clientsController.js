@@ -151,3 +151,57 @@ angular
             $modalInstance.dismiss('cancel');
         };
     }]);
+
+angular
+    .module('mainApp')
+    .controller('UploadController', ['$scope', '$modalInstance','title','FileReaderService', function ($scope, $modalInstance, title, FileReaderService) {
+
+        $scope.title = title;
+        $scope.item = {};
+        $scope.files = [];
+
+        $scope.ok = function () {
+            FileReaderService.createUploadUrl().then(function(success){
+                $scope.item.uploadUrl = success.uploadUrl;
+                var file = $scope.files[0];
+                FileReaderService.submitProduct($scope.item, file).then(function(allproducts){
+                    $modalInstance.close(allproducts);
+                }, function(error){
+                    console.log(error);
+                });
+            }, function(error){
+                console.log(error);
+            });
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+        $scope.getFile = function (file) {
+            $scope.progress = 0;
+            $scope.files.push(file);
+            FileReaderService.readFile(file, $scope)
+                .then(function(result) {
+                    $scope.imageSrc = result;
+                });
+        };
+
+        $scope.$on("fileProgress", function(e, progress) {
+            $scope.progress = progress.loaded / progress.total;
+        });
+    }])
+    .directive("ngFileSelect",function(){
+
+        return {
+            link: function($scope,el){
+
+                el.bind("change", function(e){
+
+                    $scope.file = (e.srcElement || e.target).files[0];
+                    $scope.getFile($scope.file);
+                })
+
+            }
+        }
+    });

@@ -1,5 +1,7 @@
 package main.java.service;
 
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import main.java.model.auth.Authorization;
 import main.java.model.people.ClientModel;
 import main.java.model.people.ContactModel;

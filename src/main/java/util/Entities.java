@@ -7,6 +7,7 @@ public enum Entities {
     USER("USER"),
     EVALUATIONS("EVALUATIONS"),
     EVENTS("EVENTS"),
+    PRODUCTS("PRODUCTS"),
     CONTACT("CONTACT"),;
 
     private String id;

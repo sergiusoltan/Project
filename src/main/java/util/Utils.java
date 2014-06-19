@@ -12,10 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import main.java.model.auth.UserStatus;
-import main.java.model.people.ClientModel;
-import main.java.model.people.ContactModel;
-import main.java.model.people.EvaluationModel;
-import main.java.model.people.MemberModel;
+import main.java.model.people.*;
 
 import javax.ws.rs.core.Response;
 
@@ -191,6 +188,15 @@ public class Utils {
         entity.setProperty(EvaluationsProperties.CONTACT_ID.getId(), evaluationModel.getContactId());
     }
 
+    public static void setFromProduct(Entity entity, ProductModel productModel, Boolean update){
+        if (!update){
+            entity.setProperty(ProductProperties.PRODUCT_ID.getId(), productModel.getProductId());
+        }
+        entity.setProperty(ProductProperties.PRODUCT_DESCRIPTION.getId(), productModel.getDescription());
+        entity.setProperty(ProductProperties.PRODUCT_NAME.getId(), productModel.getProductName());
+        entity.setProperty(ProductProperties.PRODUCT_BLOB.getId(), productModel.getProductBlobKey());
+    }
+
     public static Function<Entity, ContactModel> entityToContact = new Function<Entity, ContactModel>() {
         @Override
         public ContactModel apply(com.google.appengine.api.datastore.Entity entity) {
@@ -272,6 +278,18 @@ public class Utils {
             evaluationModel.setMuscle((Long) entity.getProperty(EvaluationsProperties.MUSCLE_MASS.getId()));
             evaluationModel.setVisceralfat((Long) entity.getProperty(EvaluationsProperties.VISCERAL_FAT.getId()));
             return evaluationModel;
+        }
+    };
+
+    public static Function<Entity, ProductModel> entityToProduct = new Function<Entity, ProductModel>() {
+        @Override
+        public ProductModel apply(com.google.appengine.api.datastore.Entity entity) {
+            ProductModel productModel = new ProductModel();
+            productModel.setProductId((Long) entity.getProperty(ProductProperties.PRODUCT_ID.getId()));
+            productModel.setProductName((String) entity.getProperty(ProductProperties.PRODUCT_NAME.getId()));
+            productModel.setDescription((String) entity.getProperty(ProductProperties.PRODUCT_DESCRIPTION.getId()));
+            productModel.setProductBlobKey((String) entity.getProperty(ProductProperties.PRODUCT_BLOB.getId()));
+            return productModel;
         }
     };
 }
