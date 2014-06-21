@@ -43,6 +43,9 @@ angular
                 resolve: {
                     title: function () {
                         return url;
+                    },
+                    item: function () {
+                        return {};
                     }
                 }
             });

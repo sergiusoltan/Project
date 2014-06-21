@@ -139,7 +139,7 @@ angular
 
         $scope.$on("fileProgress", function(e, progress) {
             $scope.progress = progress.loaded / progress.total;
-        })
+        });
 
         $scope.ok = function () {
             $modalInstance.close({instance: $scope.item, isNew: $scope.new, file: $scope.file});
@@ -167,10 +167,10 @@ angular
 
 angular
     .module('mainApp')
-    .controller('UploadController', ['$scope', '$modalInstance','title','FileReaderService', function ($scope, $modalInstance, title, FileReaderService) {
+    .controller('UploadController', ['$scope', '$modalInstance','title', 'item','FileReaderService', function ($scope, $modalInstance, title, item, FileReaderService) {
 
         $scope.title = title;
-        $scope.item = {};
+        $scope.item = item;
 //        $scope.size = '';
 //        $scope.$watch('size', function(value){
 //            var url = $scope.title.split("=")[0];

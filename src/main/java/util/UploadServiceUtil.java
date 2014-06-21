@@ -30,13 +30,16 @@ public class UploadServiceUtil {
         Map<String, List<BlobKey>> uploadedKeys = blobstoreService.getUploads(request);
 
         ProductModel productModel = ProductModel.fromString(request.getParameter("item"));
+        Boolean isPersisted = productModel.getProductId() != null;
         BlobKey blobKey = uploadedKeys.get("file").get(0);
         String servingUrl = ImagesServiceFactory.getImagesService().getServingUrl(ServingUrlOptions.Builder
                 .withBlobKey(blobKey)
                 .crop(false));
+        if(isPersisted){
+            blobstoreService.delete(new BlobKey(productModel.getProductBlobKey()));
+        }
         productModel.setProductBlobKey(blobKey.getKeyString());
         productModel.setProductImageUrl(servingUrl);
-        Boolean isPersisted = productModel.getProductId() != null;
         Key userKey = Utils.getUserKey(owner);
         Entity product = null;
         if(isPersisted){

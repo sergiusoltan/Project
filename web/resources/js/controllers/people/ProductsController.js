@@ -28,6 +28,9 @@ angular
                 resolve: {
                     title: function () {
                         return "Add new product";
+                    },
+                    item: function () {
+                        return {};
                     }
                 }
             });
@@ -38,7 +41,30 @@ angular
                 }, function(error){
                     console.log(error);
                 });
+            });
+        };
 
+        $scope.editProduct = function (product) {
+            var modalInstance = $modal.open({
+                templateUrl: 'createProduct.html',
+                controller: 'UploadController',
+                size: '',
+                resolve: {
+                    title: function () {
+                        return "Edit " + product.productName;
+                    },
+                    item: function () {
+                        return product;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (success) {
+                FileReaderService.getAllProducts().then(function(products){
+                    $scope.products = products;
+                }, function(error){
+                    console.log(error);
+                });
             });
         };
 
@@ -73,6 +99,9 @@ angular
                 resolve: {
                     title: function () {
                         return url;
+                    },
+                    item: function () {
+                        return {};
                     }
                 }
             });

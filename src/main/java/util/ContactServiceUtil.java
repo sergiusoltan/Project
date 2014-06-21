@@ -141,7 +141,7 @@ public class ContactServiceUtil {
         Map<String, List<BlobKey>> uploadedKeys = blobstoreService.getUploads(request);
         ContactModel contactModel = contactFromString(request.getParameter("item"));
         if(contactModel.getImageBlobKey() != null){
-            BlobstoreServiceFactory.getBlobstoreService().delete(new BlobKey(contactModel.getImageBlobKey()));
+            blobstoreService.delete(new BlobKey(contactModel.getImageBlobKey()));
         }
         BlobKey blobKey = uploadedKeys.get("file").get(0);
         String servingUrl = ImagesServiceFactory.getImagesService().getServingUrl(ServingUrlOptions.Builder
@@ -173,7 +173,7 @@ public class ContactServiceUtil {
         Map<String, List<BlobKey>> uploadedKeys = blobstoreService.getUploads(request);
         ClientModel clientModel = clientFromString(request.getParameter("item"));
         if(clientModel.getImageBlobKey() != null){
-            BlobstoreServiceFactory.getBlobstoreService().delete(new BlobKey(clientModel.getImageBlobKey()));
+            blobstoreService.delete(new BlobKey(clientModel.getImageBlobKey()));
         }
         BlobKey blobKey = uploadedKeys.get("file").get(0);
         String servingUrl = ImagesServiceFactory.getImagesService().getServingUrl(ServingUrlOptions.Builder
@@ -205,7 +205,7 @@ public class ContactServiceUtil {
         Map<String, List<BlobKey>> uploadedKeys = blobstoreService.getUploads(request);
         MemberModel memberModel = memberFromString(request.getParameter("item"));
         if(memberModel.getImageBlobKey() != null){
-            BlobstoreServiceFactory.getBlobstoreService().delete(new BlobKey(memberModel.getImageBlobKey()));
+            blobstoreService.delete(new BlobKey(memberModel.getImageBlobKey()));
         }
         BlobKey blobKey = uploadedKeys.get("file").get(0);
         String servingUrl = ImagesServiceFactory.getImagesService().getServingUrl(ServingUrlOptions.Builder
