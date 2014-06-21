@@ -15,17 +15,11 @@ angular
         setUser:function (user) {
             sessionStorage.setItem('loggedUser',JSON.stringify(user));
             currentUser = user;
-            console.log('AuthFactory -> setUser currentUser');
-            console.log(currentUser);
         },
 
         getUser:function(){
             var sessionUser = sessionStorage.getItem('loggedUser');
             sessionUser = sessionUser ? JSON.parse(sessionUser) : {};
-            console.log('AuthFactory -> getUser sessionUser');
-            console.log(sessionUser);
-            console.log('AuthFactory -> getUser currentUser');
-            console.log(currentUser);
             return currentUser ? currentUser : sessionUser;
         },
 
@@ -33,8 +27,6 @@ angular
             if(!currentUser){
                 currentUser = this.getUser();
             }
-            console.log('AuthFactory -> isAuthenticated currentUser');
-            console.log(currentUser);
             return currentUser && currentUser.sessionToken != null;
         },
 

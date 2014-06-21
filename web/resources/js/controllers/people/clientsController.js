@@ -104,7 +104,7 @@ angular
 
 angular
     .module('mainApp')
-    .controller('ModalPeopleCtrl', ['$scope', '$modalInstance','items','item','title','careerPositions', function ($scope, $modalInstance,items, item, title, careerPositions) {
+    .controller('ModalPeopleCtrl', ['$scope', '$modalInstance','items','item','title','careerPositions','FileReaderService', function ($scope, $modalInstance,items, item, title, careerPositions, FileReaderService) {
 
         $scope.careerPositions = careerPositions;
 
@@ -128,8 +128,21 @@ angular
             return '';
         };
 
+        $scope.getFile = function (file) {
+            $scope.progress = 0;
+            $scope.file = file;
+            FileReaderService.readFile(file, $scope)
+                .then(function(result) {
+                    $scope.imageSrc = result;
+                });
+        };
+
+        $scope.$on("fileProgress", function(e, progress) {
+            $scope.progress = progress.loaded / progress.total;
+        })
+
         $scope.ok = function () {
-            $modalInstance.close({instance:$scope.item,isNew:$scope.new});
+            $modalInstance.close({instance: $scope.item, isNew: $scope.new, file: $scope.file});
         };
 
         $scope.cancel = function () {
@@ -158,13 +171,11 @@ angular
 
         $scope.title = title;
         $scope.item = {};
-        $scope.files = [];
 
         $scope.ok = function () {
             FileReaderService.createUploadUrl().then(function(success){
                 $scope.item.uploadUrl = success.uploadUrl;
-                var file = $scope.files[0];
-                FileReaderService.submitProduct($scope.item, file).then(function(allproducts){
+                FileReaderService.submitProduct($scope.item, $scope.file).then(function(allproducts){
                     $modalInstance.close(allproducts);
                 }, function(error){
                     console.log(error);
@@ -180,7 +191,7 @@ angular
 
         $scope.getFile = function (file) {
             $scope.progress = 0;
-            $scope.files.push(file);
+            $scope.file = file;
             FileReaderService.readFile(file, $scope)
                 .then(function(result) {
                     $scope.imageSrc = result;
@@ -190,18 +201,4 @@ angular
         $scope.$on("fileProgress", function(e, progress) {
             $scope.progress = progress.loaded / progress.total;
         });
-    }])
-    .directive("ngFileSelect",function(){
-
-        return {
-            link: function($scope,el){
-
-                el.bind("change", function(e){
-
-                    $scope.file = (e.srcElement || e.target).files[0];
-                    $scope.getFile($scope.file);
-                })
-
-            }
-        }
-    });
+    }]);

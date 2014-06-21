@@ -1,5 +1,7 @@
 package main.java.model.people;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import java.util.Date;
 
 /**
@@ -16,6 +18,8 @@ public class ContactModel {
     private Long age;
     private Long height;
     private Long weight;
+    private String contactImageUrl;
+    private BlobKey imageBlobKey;
 
     public Long getId() {
         return id;
@@ -95,5 +99,21 @@ public class ContactModel {
 
     public void setWeight(Long weight) {
         this.weight = weight;
+    }
+
+    public String getContactImageUrl() {
+        return contactImageUrl;
+    }
+
+    public void setContactImageUrl(String contactImageUrl) {
+        this.contactImageUrl = contactImageUrl;
+    }
+
+    public BlobKey getImageBlobKey() {
+        return imageBlobKey;
+    }
+
+    public void setImageBlobKey(BlobKey imageBlobKey) {
+        this.imageBlobKey = imageBlobKey;
     }
 }

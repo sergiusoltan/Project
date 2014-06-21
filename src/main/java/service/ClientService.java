@@ -7,7 +7,9 @@ import main.java.model.people.ClientModel;
 import main.java.model.people.ContactModel;
 import main.java.util.ContactServiceUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -82,11 +84,42 @@ public class ClientService {
         if(!isAuthorizedRequest(auth)){
             return noAuthResponse();
         }
-        Collection<ClientModel> response = updateClient(auth.getEmail(), contactModel);
+        Collection<ClientModel> response = updateClient(auth.getEmail(), clientFromString(contactModel));
         if(response == null){
             return response("Failed to update!", Response.Status.CONFLICT);
         }
         return oKResponse(response);
+    }
+
+    @Path("/url")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getClient(@HeaderParam("authorization") String authParam) {
+        Authorization auth = new Authorization(authParam);
+        if(!isAuthorizedRequest(auth)){
+            return noAuthResponse();
+        }
+
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        String response = blobstoreService.createUploadUrl("/rest/client/update/image");
+        return Response.ok().entity(response).build();
+    }
+
+    @POST
+    @Path("/update/image")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadFile(@Context HttpServletRequest req, @HeaderParam("authorization") String authParam) {
+
+        Authorization auth = new Authorization(authParam);
+        if(!isAuthorizedRequest(auth)){
+            return noAuthResponse();
+        }
+        Collection response = ContactServiceUtil.updateClient(auth.getEmail(), req);
+        if(response == null){
+            return response("Failed to update!", Response.Status.CONFLICT);
+        }
+        return oKResponse(response);
+
     }
 
     @POST

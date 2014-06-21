@@ -17,6 +17,7 @@ angular
             deleteClient = API_URL.rest + "client/remove",
             getClient = API_URL.rest + "client/",
             getTrimester = API_URL.rest + "client/trimester",
+            uploadUrl = API_URL.rest + "client/url",
             ClientFactory = {};
 
         ClientFactory.getAllClients = function () {
@@ -93,6 +94,33 @@ angular
                     deferred.resolve(success);
                 }).error(function (error) {
                     deferred.reject(error);
+                });
+            return deferred.promise;
+        };
+
+        ClientFactory.createUploadUrl = function(){
+            var deferred = $q.defer();
+            var url = this.getHost() + uploadUrl;
+            $http.get(url).success(function (success) {
+                deferred.resolve(success);
+            }).error(function (reason) {
+                    deferred.reject(reason);
+                });
+            return deferred.promise;
+        };
+
+        ClientFactory.uploadWithImage = function(item, file){
+            var deferred = $q.defer();
+            var formData = new FormData();
+            formData.append('file', file);
+            formData.append('item', JSON.stringify(item.instance));
+            $http.post(item.uploadUrl, formData, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).success(function (success) {
+                    deferred.resolve(success);
+                }).error(function (reason) {
+                    deferred.reject(reason);
                 });
             return deferred.promise;
         };

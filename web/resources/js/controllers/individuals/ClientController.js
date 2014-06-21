@@ -35,6 +35,19 @@ angular
             });
         }
 
+        $scope.openImage = function (url) {
+            var modalInstance = $modal.open({
+                templateUrl: 'imageFullSized.html',
+                controller: 'UploadController',
+                size: 'sm',
+                resolve: {
+                    title: function () {
+                        return url;
+                    }
+                }
+            });
+        };
+
         $scope.addEvaluation = function () {
             var modalInstance = $modal.open({
                 templateUrl: 'evaluationTemplate.html',
@@ -74,6 +87,7 @@ angular
                         return null;
                     },
                     item: function () {
+                        $scope.client.withUpdate = true;
                         return $scope.client;
                     },
                     title: function () {
@@ -83,6 +97,20 @@ angular
             });
 
             modalInstance.result.then(function (item) {
+                if(item.file){
+                    ClientService.createUploadUrl().then(function(url){
+                        item.uploadUrl = url;
+                        ClientService.uploadWithImage(item, item.file).then(function(success){
+                            ClientService.getClient($scope.id).then(function(success){
+                                $scope.member = success;
+                            }, function(error){
+                                console.log("failed to get member with" + error );
+                            });
+                        });
+                    });
+                    return;
+                }
+
                 ClientService.updateInfo(item.instance).then(function (success) {
                     ClientService.getClient($scope.id).then(function(success){
                         $scope.client = success;

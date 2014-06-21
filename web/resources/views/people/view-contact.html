@@ -7,7 +7,8 @@
                 </button>
             </div>
             <div class="thumbnail">
-                <img src="/resources/img/download.svg">
+                <img ng-src="{{member.contactImageUrl}}" class="img-rounded profileImage" ng-show="member.contactImageUrl" ng-click="openImage(member.contactImageUrl)">
+                <img src="/resources/img/noImage.jpg" class="img-rounded" ng-hide="member.contactImageUrl">
                 <div class="caption">
                     <h3>{{contact.name}}</h3>
                     <p ng-show="recomendedBy != null">Recomended by <a href="/{{recomendedBy.type.toLowerCase()}}s/{{recomendedBy.id}}">{{recomendedBy.name}}</a></p>
@@ -57,6 +58,17 @@
                 <h3 class="modal-title">Update {{item.name}}'s information</h3>
             </div>
             <div class="modal-body">
+
+                <div class="thumbnail" ng-show="item.withUpdate">
+                    <h3 ng-hide="imageSrc">Preview</h3>
+                    <i ng-hide="imageSrc">No image chosed</i>
+                    <img ng-src="{{imageSrc}}" style="width:300px" alt="">
+
+                    <div class="caption">
+                        <input type="file" name="file" accept="image/*" ng-file-select="onFileSelect($files)">
+                    </div>
+                </div>
+
                 <div class="input-group">
                     <span class="input-group-addon">Email</span>
                     <input name="email" type="email" class="form-control"

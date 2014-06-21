@@ -1,18 +1,22 @@
 package main.java.util;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.appengine.labs.repackaged.com.google.common.base.Function;
 import com.google.appengine.labs.repackaged.com.google.common.collect.Iterables;
 import com.google.appengine.labs.repackaged.com.google.common.collect.Lists;
 import com.google.appengine.labs.repackaged.com.google.common.collect.Maps;
 import com.google.appengine.repackaged.org.joda.time.DateTime;
 import main.java.model.auth.Authorization;
-import main.java.model.people.ClientModel;
-import main.java.model.people.ContactModel;
+import main.java.model.people.*;
 import main.java.model.auth.UserStatus;
-import main.java.model.people.DashBoardModel;
-import main.java.model.people.MemberModel;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -132,50 +136,89 @@ public class ContactServiceUtil {
         return getAllMembers(owner);
     }
 
-    public static Collection<ContactModel> updateContacts(String owner, String contactModel) {
-        ContactModel contact = contactFromString(contactModel);
+    public static Collection<ContactModel> updateContact(String owner, HttpServletRequest request) {
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        Map<String, List<BlobKey>> uploadedKeys = blobstoreService.getUploads(request);
+        ContactModel contactModel = contactFromString(request.getParameter("item"));
+        BlobKey blobKey = uploadedKeys.get("file").get(0);
+        String servingUrl = ImagesServiceFactory.getImagesService().getServingUrl(ServingUrlOptions.Builder
+                .withBlobKey(blobKey)
+                .crop(false));
+        contactModel.setContactImageUrl(servingUrl);
+        contactModel.setImageBlobKey(blobKey);
+
+        return updateContacts(owner, contactModel);
+    }
+
+    public static Collection<ContactModel> updateContacts(String owner, ContactModel contactModel) {
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         Key userKey = Utils.getUserKey(owner);
         Query query = new Query(Entities.CONTACT.getId(), userKey).setFilter(
-                new Query.FilterPredicate(ID.getKey(), Query.FilterOperator.EQUAL, contact.getId())
+                new Query.FilterPredicate(ID.getKey(), Query.FilterOperator.EQUAL, contactModel.getId())
         );
         Entity foundEntity = datastoreService.prepare(query).asSingleEntity();
         if (foundEntity == null) {
             return null;
         }
-        setFromContact(foundEntity, contact, true);
+        setFromContact(foundEntity, contactModel, true);
         datastoreService.put(foundEntity);
         return getAllContacts(owner);
     }
 
-    public static Collection<ClientModel> updateClient(String owner, String contactModel) {
-        ClientModel contact = clientFromString(contactModel);
+    public static Collection<ClientModel> updateClient(String owner, HttpServletRequest request) {
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        Map<String, List<BlobKey>> uploadedKeys = blobstoreService.getUploads(request);
+        ClientModel contactModel = clientFromString(request.getParameter("item"));
+        BlobKey blobKey = uploadedKeys.get("file").get(0);
+        String servingUrl = ImagesServiceFactory.getImagesService().getServingUrl(ServingUrlOptions.Builder
+                .withBlobKey(blobKey)
+                .crop(false));
+        contactModel.setContactImageUrl(servingUrl);
+        contactModel.setImageBlobKey(blobKey);
+
+        return updateClient(owner, contactModel);
+    }
+
+    public static Collection<ClientModel> updateClient(String owner, ClientModel contactModel) {
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         Key userKey = Utils.getUserKey(owner);
         Query query = new Query(Entities.CONTACT.getId(), userKey).setFilter(
-                new Query.FilterPredicate(ID.getKey(), Query.FilterOperator.EQUAL, contact.getId())
+                new Query.FilterPredicate(ID.getKey(), Query.FilterOperator.EQUAL, contactModel.getId())
         );
         Entity foundEntity = datastoreService.prepare(query).asSingleEntity();
         if (foundEntity == null) {
             return null;
         }
-        setFromClient(foundEntity, contact, true);
+        setFromClient(foundEntity, contactModel, true);
         datastoreService.put(foundEntity);
         return getAllClients(owner);
     }
 
-    public static Collection<MemberModel> updateMember(String owner, String memberModel) {
-        MemberModel model = memberFromString(memberModel);
+    public static Collection<MemberModel> updateMember(String owner, HttpServletRequest request) {
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        Map<String, List<BlobKey>> uploadedKeys = blobstoreService.getUploads(request);
+        MemberModel contactModel = memberFromString(request.getParameter("item"));
+        BlobKey blobKey = uploadedKeys.get("file").get(0);
+        String servingUrl = ImagesServiceFactory.getImagesService().getServingUrl(ServingUrlOptions.Builder
+                .withBlobKey(blobKey)
+                .crop(false));
+        contactModel.setContactImageUrl(servingUrl);
+        contactModel.setImageBlobKey(blobKey);
+
+        return updateMember(owner, contactModel);
+    }
+
+    public static Collection<MemberModel> updateMember(String owner, MemberModel memberModel) {
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         Key userKey = Utils.getUserKey(owner);
         Query query = new Query(Entities.CONTACT.getId(), userKey).setFilter(
-                new Query.FilterPredicate(ID.getKey(), Query.FilterOperator.EQUAL, model.getId())
+                new Query.FilterPredicate(ID.getKey(), Query.FilterOperator.EQUAL, memberModel.getId())
         );
         Entity foundEntity = datastoreService.prepare(query).asSingleEntity();
         if (foundEntity == null) {
             return null;
         }
-        setFromMember(foundEntity, model, true);
+        setFromMember(foundEntity, memberModel, true);
         datastoreService.put(foundEntity);
         return getAllMembers(owner);
     }
@@ -187,12 +230,22 @@ public class ContactServiceUtil {
         Query query = new Query(Entities.CONTACT.getId(), userKey);
         query.setFilter(new Query.FilterPredicate(ID.getKey(), Query.FilterOperator.IN, contactIds));
         List<Entity> entityList = datastoreService.prepare(query).asList(FetchOptions.Builder.withDefaults());
+        List<ContactModel> contactModels = Lists.transform(entityList, entityToContact);
         datastoreService.delete(Iterables.transform(entityList, new Function<Entity, Key>() {
             @Override
             public Key apply(com.google.appengine.api.datastore.Entity entity) {
                 return entity.getKey();
             }
         }));
+
+        final BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        Lists.transform(contactModels, new Function<ContactModel, Object>() {
+            @Override
+            public Object apply(main.java.model.people.ContactModel contactModel) {
+                blobstoreService.delete(contactModel.getImageBlobKey());
+                return null;
+            }
+        });
 
         Query recomendedByUpdate = new Query(Entities.CONTACT.getId(), userKey);
         query.setFilter(new Query.FilterPredicate(RECOMENDED_BY_ID.getKey(), Query.FilterOperator.IN, contactIds));
@@ -281,17 +334,7 @@ public class ContactServiceUtil {
         interval.add(dateFormat.format(cal.getTime()));
 
         interval.add(monthName.format(cal.getTime()));
-//        System.out.println(interval);
         return interval;
     }
-//
-//    public static void main(String[] args) {
-//        List<String> intervals = getInterval(DateTime.now().getMonthOfYear());
-//        String adate = "2014-01-03";
-//        System.out.println(intervals.get(0).compareTo(adate) < 0 && intervals.get(1).compareTo(adate) > 0);
-//        System.out.println(intervals.get(0).compareTo(adate));
-//        System.out.println(intervals.get(1).compareTo(adate));
-//        System.out.println(DateTime.now().getMonthOfYear());
-//    }
 
 }

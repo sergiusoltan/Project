@@ -1,5 +1,6 @@
 package main.java.util;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -161,6 +162,8 @@ public class Utils {
         entity.setProperty(AGE.getKey(), contactModel.getAge());
         entity.setProperty(HEIGHT.getKey(), contactModel.getHeight());
         entity.setProperty(WEIGHT.getKey(), contactModel.getWeight());
+        entity.setProperty(IMAGE_URL.getKey(), contactModel.getContactImageUrl());
+        entity.setProperty(IMAGE_BLOB.getKey(), contactModel.getImageBlobKey());
     }
 
     public static void setFromClient(Entity entity, ClientModel clientModel, boolean update){
@@ -211,6 +214,8 @@ public class Utils {
             contactModel.setAge((Long) entity.getProperty(AGE.getKey()));
             contactModel.setWeight((Long) entity.getProperty(WEIGHT.getKey()));
             contactModel.setHeight((Long) entity.getProperty(HEIGHT.getKey()));
+            contactModel.setContactImageUrl((String) entity.getProperty(IMAGE_URL.getKey()));
+            contactModel.setImageBlobKey((BlobKey) entity.getProperty(IMAGE_BLOB.getKey()));
             return contactModel;
         }
     };
@@ -230,6 +235,8 @@ public class Utils {
             contactModel.setWeight((Long) entity.getProperty(WEIGHT.getKey()));
             contactModel.setHeight((Long) entity.getProperty(HEIGHT.getKey()));
             contactModel.setEmail((String) entity.getProperty(EMAIL.getKey()));
+            contactModel.setContactImageUrl((String) entity.getProperty(IMAGE_URL.getKey()));
+            contactModel.setImageBlobKey((BlobKey) entity.getProperty(IMAGE_BLOB.getKey()));
             return contactModel;
         }
     };
@@ -250,6 +257,8 @@ public class Utils {
             contactModel.setWeight((Long) entity.getProperty(WEIGHT.getKey()));
             contactModel.setHeight((Long) entity.getProperty(HEIGHT.getKey()));
             contactModel.setEmail((String) entity.getProperty(EMAIL.getKey()));
+            contactModel.setContactImageUrl((String) entity.getProperty(IMAGE_URL.getKey()));
+            contactModel.setImageBlobKey((BlobKey) entity.getProperty(IMAGE_BLOB.getKey()));
             return contactModel;
         }
     };

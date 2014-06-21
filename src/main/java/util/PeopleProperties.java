@@ -15,7 +15,9 @@ public enum PeopleProperties {
     RECOMENDED_BY_ID("recomendedById"),
     AGE("age"),
     HEIGHT("height"),
-    WEIGHT("weight");
+    WEIGHT("weight"),
+    IMAGE_URL("contactImageUrl"),
+    IMAGE_BLOB("imageBlobKey");
 
     private String key;
 

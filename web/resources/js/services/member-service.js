@@ -17,6 +17,7 @@ angular
             deleteMember = API_URL.rest + "member/remove",
             getMember = API_URL.rest + "member/",
             getTrimester = API_URL.rest + "member/trimester",
+            uploadUrl = API_URL.rest + "member/url",
             MemberFactory = {};
 
         MemberFactory.getAllMembers = function () {
@@ -91,6 +92,33 @@ angular
             $http.get(getTrimester).success(function (success) {
                 deferred.resolve(success);
             }).error(function (reason) {
+                    deferred.reject(reason);
+                });
+            return deferred.promise;
+        };
+
+        MemberFactory.createUploadUrl = function(){
+            var deferred = $q.defer();
+            var url = this.getHost() + uploadUrl;
+            $http.get(url).success(function (success) {
+                deferred.resolve(success);
+            }).error(function (reason) {
+                    deferred.reject(reason);
+                });
+            return deferred.promise;
+        };
+
+        MemberFactory.uploadWithImage = function(item, file){
+            var deferred = $q.defer();
+            var formData = new FormData();
+            formData.append('file', file);
+            formData.append('item', JSON.stringify(item.instance));
+            $http.post(item.uploadUrl, formData, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).success(function (success) {
+                    deferred.resolve(success);
+                }).error(function (reason) {
                     deferred.reject(reason);
                 });
             return deferred.promise;

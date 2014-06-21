@@ -17,8 +17,8 @@ angular
         $scope.evaluations = [];
 
         function init(){
-            var id = Number($location.path().match(/\/contacts\/(\d+)$/)[1]);
-            ContactService.getContact(id).then(function(success){
+            $scope.id = Number($location.path().match(/\/contacts\/(\d+)$/)[1]);
+            ContactService.getContact($scope.id).then(function(success){
                 $scope.contact = success;
                 if($scope.contact.recomendedBy){
                     $scope.recomendedBy = JSON.parse($scope.contact.recomendedBy);
@@ -34,6 +34,19 @@ angular
                 console.log("failed to load evaluations with error: "+error);
             });
         }
+
+        $scope.openImage = function (url) {
+            var modalInstance = $modal.open({
+                templateUrl: 'imageFullSized.html',
+                controller: 'UploadController',
+                size: 'sm',
+                resolve: {
+                    title: function () {
+                        return url;
+                    }
+                }
+            });
+        };
 
         $scope.addEvaluation = function () {
             var modalInstance = $modal.open({
@@ -74,6 +87,7 @@ angular
                         return null;
                     },
                     item: function () {
+                        $scope.contact.withUpdate = true;
                         return $scope.contact;
                     },
                     title: function () {
@@ -83,6 +97,20 @@ angular
             });
 
             modalInstance.result.then(function (item) {
+                if(item.file){
+                    ContactService.createUploadUrl().then(function(url){
+                        item.uploadUrl = url;
+                        ContactService.uploadWithImage(item, item.file).then(function(success){
+                            ContactService.getContact($scope.id).then(function(success){
+                                $scope.member = success;
+                            }, function(error){
+                                console.log("failed to get member with" + error );
+                            });
+                        });
+                    });
+                    return;
+                }
+
                 ContactService.updateInfo(item.instance).then(function (success) {
                     ContactService.getContact($scope.id).then(function(success){
                         $scope.contact = success;

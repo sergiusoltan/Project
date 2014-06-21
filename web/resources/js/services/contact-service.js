@@ -17,6 +17,7 @@ angular
             deleteContact = API_URL.rest + "contact/remove",
             getContact = API_URL.rest + "contact/",
             getTrimester = API_URL.rest + "contact/trimester",
+            uploadUrl = API_URL.rest + "contact/url",
             ContactFactory = {};
 
         ContactFactory.getAllContacts = function () {
@@ -92,6 +93,33 @@ angular
                     deferred.resolve(success);
                 }).error(function (error) {
                     deferred.reject(error);
+                });
+            return deferred.promise;
+        };
+
+        ContactFactory.createUploadUrl = function(){
+            var deferred = $q.defer();
+            var url = this.getHost() + uploadUrl;
+            $http.get(url).success(function (success) {
+                deferred.resolve(success);
+            }).error(function (reason) {
+                    deferred.reject(reason);
+                });
+            return deferred.promise;
+        };
+
+        ContactFactory.uploadWithImage = function(item, file){
+            var deferred = $q.defer();
+            var formData = new FormData();
+            formData.append('file', file);
+            formData.append('item', JSON.stringify(item.instance));
+            $http.post(item.uploadUrl, formData, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).success(function (success) {
+                    deferred.resolve(success);
+                }).error(function (reason) {
+                    deferred.reject(reason);
                 });
             return deferred.promise;
         };
