@@ -46,9 +46,9 @@ angular
             modalInstance.result.then(function () {
                 MemberService.deleteMembers($scope.selectedItems).then(function (success) {
                     $scope.selectedItems = [];
-                    $scope.contacts = success;
+                    $scope.distributors = success;
                 }, function (error) {
-                    console.log('error loading contacts');
+                    console.log('error loading distributors');
                 });
             }, function () {
                 console.log('modal dismissed');
@@ -61,7 +61,7 @@ angular
             MemberService.getAllMembers().then(function (success) {
                 $scope.distributors = success;
             }, function (error) {
-                console.log('error loading contacts');
+                console.log('error loading distributors');
             });
         }
 

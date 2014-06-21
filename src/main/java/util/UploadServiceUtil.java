@@ -4,7 +4,6 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.*;
-import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.appengine.labs.repackaged.com.google.common.collect.Lists;
@@ -16,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static main.java.util.Utils.entityToProduct;
 import static main.java.util.Utils.setFromProduct;
 
 /**
@@ -34,7 +34,8 @@ public class UploadServiceUtil {
         String servingUrl = ImagesServiceFactory.getImagesService().getServingUrl(ServingUrlOptions.Builder
                 .withBlobKey(blobKey)
                 .crop(false));
-        productModel.setProductBlobKey(servingUrl);
+        productModel.setProductBlobKey(blobKey.getKeyString());
+        productModel.setProductImageUrl(servingUrl);
         Boolean isPersisted = productModel.getProductId() != null;
         Key userKey = Utils.getUserKey(owner);
         Entity product = null;
@@ -58,6 +59,20 @@ public class UploadServiceUtil {
 
         List<Entity> entityList = datastoreService.prepare(query).asList(FetchOptions.Builder.withDefaults());
         return Lists.transform(entityList, Utils.entityToProduct);
+    }
 
+    public static Collection<ProductModel> deleteProduct(String owner, Long productId){
+        DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
+        BlobstoreService blobStoreService = BlobstoreServiceFactory.getBlobstoreService();
+        Key userKey = Utils.getUserKey(owner);
+        Query query = new Query(Entities.PRODUCTS.getId(), userKey);
+        query.setFilter(new Query.FilterPredicate(ProductProperties.PRODUCT_ID.getId(), Query.FilterOperator.EQUAL, productId));
+        Entity entity = datastoreService.prepare(query).asSingleEntity();
+        ProductModel productModel = Lists.transform(Lists.newArrayList(entity),entityToProduct).get(0);
+
+        datastoreService.delete(entity.getKey());
+        blobStoreService.delete(new BlobKey(productModel.getProductBlobKey()));
+
+        return getAllProducts(owner);
     }
 }

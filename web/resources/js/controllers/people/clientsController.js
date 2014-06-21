@@ -15,13 +15,13 @@ angular
         $scope.selectedItems = [];
         initData();
 
-        $scope.onSelect = function (contact) {
-            if ($scope.selectedItems.indexOf(contact.id) != -1) {
-                var index = $scope.selectedItems.indexOf(contact.id);
+        $scope.onSelect = function (client) {
+            if ($scope.selectedItems.indexOf(client.id) != -1) {
+                var index = $scope.selectedItems.indexOf(client.id);
                 $scope.selectedItems.splice(index, 1);
                 return;
             }
-            $scope.selectedItems.push(contact.id);
+            $scope.selectedItems.push(client.id);
         };
 
         $scope.getRecomendedByName = function(recomendedBy){
@@ -48,7 +48,7 @@ angular
                     $scope.selectedItems = [];
                     $scope.clients = success;
                 }, function (error) {
-                    console.log('error loading contacts');
+                    console.log('error loading clients');
                 });
             }, function () {
                 console.log('modal dismissed');
@@ -171,6 +171,11 @@ angular
 
         $scope.title = title;
         $scope.item = {};
+//        $scope.size = '';
+//        $scope.$watch('size', function(value){
+//            var url = $scope.title.split("=")[0];
+//            $scope.title = value.length > 1 ? url + "=s"+value : url;
+//        });
 
         $scope.ok = function () {
             FileReaderService.createUploadUrl().then(function(success){

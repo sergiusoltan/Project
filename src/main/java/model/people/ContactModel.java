@@ -19,7 +19,7 @@ public class ContactModel {
     private Long height;
     private Long weight;
     private String contactImageUrl;
-    private BlobKey imageBlobKey;
+    private String imageBlobKey;
 
     public Long getId() {
         return id;
@@ -109,11 +109,11 @@ public class ContactModel {
         this.contactImageUrl = contactImageUrl;
     }
 
-    public BlobKey getImageBlobKey() {
+    public String getImageBlobKey() {
         return imageBlobKey;
     }
 
-    public void setImageBlobKey(BlobKey imageBlobKey) {
+    public void setImageBlobKey(String imageBlobKey) {
         this.imageBlobKey = imageBlobKey;
     }
 }

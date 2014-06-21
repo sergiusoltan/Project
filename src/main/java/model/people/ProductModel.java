@@ -1,5 +1,6 @@
 package main.java.model.people;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import main.java.util.Utils;
 
 /**
@@ -10,6 +11,7 @@ public class ProductModel {
     private String productName;
     private String description;
     private String productBlobKey;
+    private String productImageUrl;
     private String uploadUrl;
 
     public static ProductModel fromString(String model){
@@ -61,5 +63,13 @@ public class ProductModel {
 
     public void setUploadUrl(String uploadUrl) {
         this.uploadUrl = uploadUrl;
+    }
+
+    public String getProductImageUrl() {
+        return productImageUrl;
+    }
+
+    public void setProductImageUrl(String productImageUrl) {
+        this.productImageUrl = productImageUrl;
     }
 }

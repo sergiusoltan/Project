@@ -140,12 +140,15 @@ public class ContactServiceUtil {
         BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
         Map<String, List<BlobKey>> uploadedKeys = blobstoreService.getUploads(request);
         ContactModel contactModel = contactFromString(request.getParameter("item"));
+        if(contactModel.getImageBlobKey() != null){
+            BlobstoreServiceFactory.getBlobstoreService().delete(new BlobKey(contactModel.getImageBlobKey()));
+        }
         BlobKey blobKey = uploadedKeys.get("file").get(0);
         String servingUrl = ImagesServiceFactory.getImagesService().getServingUrl(ServingUrlOptions.Builder
                 .withBlobKey(blobKey)
                 .crop(false));
         contactModel.setContactImageUrl(servingUrl);
-        contactModel.setImageBlobKey(blobKey);
+        contactModel.setImageBlobKey(blobKey.getKeyString());
 
         return updateContacts(owner, contactModel);
     }
@@ -168,15 +171,18 @@ public class ContactServiceUtil {
     public static Collection<ClientModel> updateClient(String owner, HttpServletRequest request) {
         BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
         Map<String, List<BlobKey>> uploadedKeys = blobstoreService.getUploads(request);
-        ClientModel contactModel = clientFromString(request.getParameter("item"));
+        ClientModel clientModel = clientFromString(request.getParameter("item"));
+        if(clientModel.getImageBlobKey() != null){
+            BlobstoreServiceFactory.getBlobstoreService().delete(new BlobKey(clientModel.getImageBlobKey()));
+        }
         BlobKey blobKey = uploadedKeys.get("file").get(0);
         String servingUrl = ImagesServiceFactory.getImagesService().getServingUrl(ServingUrlOptions.Builder
                 .withBlobKey(blobKey)
                 .crop(false));
-        contactModel.setContactImageUrl(servingUrl);
-        contactModel.setImageBlobKey(blobKey);
+        clientModel.setContactImageUrl(servingUrl);
+        clientModel.setImageBlobKey(blobKey.getKeyString());
 
-        return updateClient(owner, contactModel);
+        return updateClient(owner, clientModel);
     }
 
     public static Collection<ClientModel> updateClient(String owner, ClientModel contactModel) {
@@ -197,15 +203,18 @@ public class ContactServiceUtil {
     public static Collection<MemberModel> updateMember(String owner, HttpServletRequest request) {
         BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
         Map<String, List<BlobKey>> uploadedKeys = blobstoreService.getUploads(request);
-        MemberModel contactModel = memberFromString(request.getParameter("item"));
+        MemberModel memberModel = memberFromString(request.getParameter("item"));
+        if(memberModel.getImageBlobKey() != null){
+            BlobstoreServiceFactory.getBlobstoreService().delete(new BlobKey(memberModel.getImageBlobKey()));
+        }
         BlobKey blobKey = uploadedKeys.get("file").get(0);
         String servingUrl = ImagesServiceFactory.getImagesService().getServingUrl(ServingUrlOptions.Builder
                 .withBlobKey(blobKey)
                 .crop(false));
-        contactModel.setContactImageUrl(servingUrl);
-        contactModel.setImageBlobKey(blobKey);
+        memberModel.setContactImageUrl(servingUrl);
+        memberModel.setImageBlobKey(blobKey.getKeyString());
 
-        return updateMember(owner, contactModel);
+        return updateMember(owner, memberModel);
     }
 
     public static Collection<MemberModel> updateMember(String owner, MemberModel memberModel) {
@@ -239,16 +248,13 @@ public class ContactServiceUtil {
         }));
 
         final BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-        Lists.transform(contactModels, new Function<ContactModel, Object>() {
-            @Override
-            public Object apply(main.java.model.people.ContactModel contactModel) {
-                blobstoreService.delete(contactModel.getImageBlobKey());
-                return null;
+        for (ContactModel contactModel : contactModels) {
+            if(contactModel.getImageBlobKey() != null){
+                blobstoreService.delete(new BlobKey(contactModel.getImageBlobKey()));
             }
-        });
-
+        }
         Query recomendedByUpdate = new Query(Entities.CONTACT.getId(), userKey);
-        query.setFilter(new Query.FilterPredicate(RECOMENDED_BY_ID.getKey(), Query.FilterOperator.IN, contactIds));
+        recomendedByUpdate.setFilter(new Query.FilterPredicate(RECOMENDED_BY_ID.getKey(), Query.FilterOperator.IN, contactIds));
         List<Entity> usages = datastoreService.prepare(recomendedByUpdate).asList(FetchOptions.Builder.withDefaults());
         datastoreService.put(Iterables.transform(usages, new Function<Entity, Entity>() {
             @Override

@@ -11,15 +11,8 @@ angular
     .module('mainApp')
     .controller('ProductsCtrl', ['$scope', '$modal', 'FileReaderService', function ($scope, $modal, FileReaderService) {
 
-        $scope.title = "Distributors Controller";
-        $scope.products = [
-//            {name:"Celulos", description:'Celulos description here'},
-//            {name:"Multivitamine", description:'Celulos description here'},
-//            {name:"Fibre", description:'Celulos description here'},
-//            {name:"Ceai", description:'Celulos description here'},
-//            {name:"Formula 1", description:'Celulos description here'},
-//            {name:"Batoane proteice", description:'Celulos description here'}
-        ];
+        $scope.title = "Products Controller";
+        $scope.products = [];
         init();
         function init(){
             FileReaderService.getAllProducts().then(function(products){
@@ -49,11 +42,34 @@ angular
             });
         };
 
+        $scope.removeProduct = function (product) {
+            var modalInstance = $modal.open({
+                templateUrl: 'confirmationPopup.html',
+                controller: 'ConfirmationPopup',
+                size: '',
+                resolve: {
+                    title: function () {
+                        return "Do you really want to remove " + product.productName;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                FileReaderService.deleteProduct(product.productId).then(function (success) {
+                    $scope.products = success;
+                }, function (error) {
+                    console.log('error loading contacts');
+                });
+            }, function () {
+                console.log('modal dismissed');
+            });
+        };
+
         $scope.openImage = function (url) {
             var modalInstance = $modal.open({
                 templateUrl: 'imageFullSized.html',
                 controller: 'UploadController',
-                size: 'lg',
+                size: 'sm',
                 resolve: {
                     title: function () {
                         return url;

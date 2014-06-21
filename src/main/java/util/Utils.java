@@ -198,6 +198,7 @@ public class Utils {
         entity.setProperty(ProductProperties.PRODUCT_DESCRIPTION.getId(), productModel.getDescription());
         entity.setProperty(ProductProperties.PRODUCT_NAME.getId(), productModel.getProductName());
         entity.setProperty(ProductProperties.PRODUCT_BLOB.getId(), productModel.getProductBlobKey());
+        entity.setProperty(ProductProperties.PRODUCT_IMAGE.getId(), productModel.getProductImageUrl());
     }
 
     public static Function<Entity, ContactModel> entityToContact = new Function<Entity, ContactModel>() {
@@ -215,7 +216,7 @@ public class Utils {
             contactModel.setWeight((Long) entity.getProperty(WEIGHT.getKey()));
             contactModel.setHeight((Long) entity.getProperty(HEIGHT.getKey()));
             contactModel.setContactImageUrl((String) entity.getProperty(IMAGE_URL.getKey()));
-            contactModel.setImageBlobKey((BlobKey) entity.getProperty(IMAGE_BLOB.getKey()));
+            contactModel.setImageBlobKey((String) entity.getProperty(IMAGE_BLOB.getKey()));
             return contactModel;
         }
     };
@@ -236,7 +237,7 @@ public class Utils {
             contactModel.setHeight((Long) entity.getProperty(HEIGHT.getKey()));
             contactModel.setEmail((String) entity.getProperty(EMAIL.getKey()));
             contactModel.setContactImageUrl((String) entity.getProperty(IMAGE_URL.getKey()));
-            contactModel.setImageBlobKey((BlobKey) entity.getProperty(IMAGE_BLOB.getKey()));
+            contactModel.setImageBlobKey((String) entity.getProperty(IMAGE_BLOB.getKey()));
             return contactModel;
         }
     };
@@ -258,7 +259,7 @@ public class Utils {
             contactModel.setHeight((Long) entity.getProperty(HEIGHT.getKey()));
             contactModel.setEmail((String) entity.getProperty(EMAIL.getKey()));
             contactModel.setContactImageUrl((String) entity.getProperty(IMAGE_URL.getKey()));
-            contactModel.setImageBlobKey((BlobKey) entity.getProperty(IMAGE_BLOB.getKey()));
+            contactModel.setImageBlobKey((String) entity.getProperty(IMAGE_BLOB.getKey()));
             return contactModel;
         }
     };
@@ -298,6 +299,7 @@ public class Utils {
             productModel.setProductName((String) entity.getProperty(ProductProperties.PRODUCT_NAME.getId()));
             productModel.setDescription((String) entity.getProperty(ProductProperties.PRODUCT_DESCRIPTION.getId()));
             productModel.setProductBlobKey((String) entity.getProperty(ProductProperties.PRODUCT_BLOB.getId()));
+            productModel.setProductImageUrl((String) entity.getProperty(ProductProperties.PRODUCT_IMAGE.getId()));
             return productModel;
         }
     };

@@ -8,6 +8,7 @@ import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
 import main.java.model.auth.Authorization;
 import main.java.model.people.ProductModel;
+import main.java.util.ContactServiceUtil;
 import main.java.util.UploadServiceUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import java.util.Collection;
 import static main.java.util.ContactServiceUtil.isAuthorizedRequest;
 import static main.java.util.Utils.noAuthResponse;
 import static main.java.util.Utils.oKResponse;
+import static main.java.util.Utils.response;
 
 /**
  * User: Sergiu Soltan
@@ -86,5 +88,18 @@ public class UploadService {
 
     }
 
-
+    @DELETE
+    @Path("/remove/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateCustomer(@HeaderParam("authorization") String authParam, @PathParam("id") Long id) {
+        Authorization auth = new Authorization(authParam);
+        if(!ContactServiceUtil.isAuthorizedRequest(auth)){
+            return noAuthResponse();
+        }
+        Collection response = UploadServiceUtil.deleteProduct(auth.getEmail(), id);
+        if(response == null){
+            return response("Failed to delete!", Response.Status.CONFLICT);
+        }
+        return oKResponse(response);
+    }
 }

@@ -112,18 +112,21 @@ div .Contact{
     border-radius: 15px !important;
     padding: 15px !important;
     margin: -10px !important;
+    white-space: nowrap !important;
 }
 div .Member{
     background-color: #A9F5A9 !important;
     border-radius: 15px !important;
     padding: 15px !important;
-    margin: -10px !important
+    margin: -10px !important;
+    white-space: nowrap !important;
 }
 div .Client{
     background-color: #F7BE81 !important;
     border-radius: 15px !important;
     padding: 15px !important;
-    margin: -10px !important
+    margin: -10px !important;
+    white-space: nowrap !important;
 }
 div .panel-body > .thumbnail {
     border: none !important;

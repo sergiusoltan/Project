@@ -26,7 +26,13 @@
     <section id="content" style="margin-top: 50px;" ng-view></section>
 
     <script type="text/ng-template" id="imageFullSized.html">
-        <img ng-src="{{title}}" style="max-width:800px !important; max-height:800px !important;">
+        <!--<select ng-model="size" name="image">-->
+            <!--<option value="">default</option>-->
+            <!--<option value="600">normal</option>-->
+            <!--<option value="800">large</option>-->
+            <!--<option value="1000">extra-large</option>-->
+        <!--</select>-->
+        <img ng-src="{{title}}">
     </script>
 
     <script type="text/ng-template" id="confirmationPopup.html">

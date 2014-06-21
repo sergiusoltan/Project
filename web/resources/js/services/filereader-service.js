@@ -13,6 +13,7 @@ angular
 
         var getUploadUrl = API_URL.rest + "uploads/url",
             getAllProductsUrl = API_URL.rest + "uploads/getAll",
+            deleteProduct = API_URL.rest + "uploads/remove/",
             FileReaderService = {};
 
         var onLoad = function(reader, deferred, scope) {
@@ -89,6 +90,17 @@ angular
             }).success(function (success) {
                 deferred.resolve(success);
             }).error(function (reason) {
+                    deferred.reject(reason);
+                });
+            return deferred.promise;
+        };
+
+        FileReaderService.deleteProduct = function(id){
+            var deferred = $q.defer();
+            var url = deleteProduct + id;
+            $http.delete(url).success(function (success) {
+                    deferred.resolve(success);
+                }).error(function (reason) {
                     deferred.reject(reason);
                 });
             return deferred.promise;

@@ -102,7 +102,7 @@ angular
                         item.uploadUrl = url;
                         ContactService.uploadWithImage(item, item.file).then(function(success){
                             ContactService.getContact($scope.id).then(function(success){
-                                $scope.member = success;
+                                $scope.contact = success;
                             }, function(error){
                                 console.log("failed to get member with" + error );
                             });

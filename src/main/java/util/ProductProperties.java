@@ -7,7 +7,8 @@ public enum ProductProperties {
     PRODUCT_ID("productId"),
     PRODUCT_NAME("productName"),
     PRODUCT_DESCRIPTION("description"),
-    PRODUCT_BLOB("productBlobKey");
+    PRODUCT_BLOB("productBlobKey"),
+    PRODUCT_IMAGE("productImageUrl");
 
     private String id;
 
