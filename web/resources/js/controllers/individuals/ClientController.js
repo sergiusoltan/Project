@@ -102,9 +102,9 @@ angular
                         item.uploadUrl = url;
                         ClientService.uploadWithImage(item, item.file).then(function(success){
                             ClientService.getClient($scope.id).then(function(success){
-                                $scope.member = success;
+                                $scope.client = success;
                             }, function(error){
-                                console.log("failed to get member with" + error );
+                                console.log("failed to get client with" + error );
                             });
                         });
                     });
@@ -118,7 +118,7 @@ angular
                         console.log("failed to get member with" + error );
                     });
                 }, function (error) {
-                    console.log('failed to update member with ' + error);
+                    console.log('failed to update client with ' + error);
                 });
             }, function () {
                 console.log('modal dismissed');
