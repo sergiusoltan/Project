@@ -1,15 +1,15 @@
 <div class="container-fluid" ng-controller="HierarchyCtrl">
-    <div class="page-header">
-        {{title}}
-    </div>
-
-    <div class="input-group">
-        <span class="input-group-addon">Hierarchy Root</span>
-        <select class="form-control" ng-model="selected">
-            <option value="{{user}}" ng-repeat="user in users">{{user.name}}</option>
-        </select>
-    </div>
-
-    <div hierarchy="dataTable"></div>
+    <!--<div class="panel panel-primary" style="margin-top: 10px">-->
+        <!--<div class="panel-heading">Hierarchy</div>-->
+        <div class="page-header">
+            <div class="input-group">
+                <span class="input-group-addon">Hierarchy Root</span>
+                <select class="input-sm" ng-model="selected">
+                    <option value="{{user}}" ng-repeat="user in users">{{user.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div hierarchy="dataTable"></div>
+    <!--</div>-->
 
 </div>
