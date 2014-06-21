@@ -9,12 +9,13 @@
 
 angular
     .module('core')
-    .factory('AuthFactory', [function () {
+    .factory('AuthFactory', ['$rootScope', function ($rootScope) {
     var currentUser;
     return{
         setUser:function (user) {
             sessionStorage.setItem('loggedUser',JSON.stringify(user));
             currentUser = user;
+            $rootScope.$emit(USER_EVENT, true);
         },
 
         getUser:function(){
@@ -40,6 +41,7 @@ angular
         clear:function(){
             currentUser = {};
             sessionStorage.clear();
+            $rootScope.$emit(USER_EVENT, false);
         }
     };
 }]);

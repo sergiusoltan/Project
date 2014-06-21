@@ -9,7 +9,7 @@
 
 angular
     .module('mainApp')
-    .controller('MainCtrl', ['$scope', 'UserFactory', 'AuthFactory', '$location', function ($scope, UserFactory, AuthFactory, $location) {
+    .controller('MainCtrl', ['$scope', '$rootScope', 'UserFactory', 'AuthFactory', '$location','$timeout', function ($scope, $rootScope ,UserFactory, AuthFactory, $location, $timeout) {
 
         init();
 
@@ -48,22 +48,14 @@ angular
             })
         };
 
-
-//        $scope.$on(LOADING_CONTENT_EVENT, function (e, value) {
-//            $scope.loading.content = value;
-//        });
-//
-//        $scope.$on(GOOGLE_LOGIN_EVENT, function (e, value) {
-////            loadUser();
-//        });
-
         function init() {
             $scope.title = 'Main Controller';
-//            $scope.$emit(LOADING_CONTENT_EVENT, true);
             $scope.loading = {
                 header: true,
                 content: true
             };
+//            $scope.alertAvailable = false;
+//            $scope.alertMessage = '';
             $scope.name = "test";
             $scope.email = "test@test.test";
             $scope.password = "testtest";
@@ -72,17 +64,21 @@ angular
             loadUser();
         }
 
+//        $rootScope.$on(USER_ALERT, function (event, message) {
+//            $scope.alertAvailable = true;
+//            $scope.alertMessage = message;
+//            $timeout(function(){
+//                $scope.alertAvailable = false;
+//                $scope.alertMessage = '';
+//            },1500);
+//        });
+
         function loadUser() {
             UserFactory.getUser().then(function (succes) {
                 $scope.user = succes;
-//                AuthFactory.setUser($scope.user);
             }, function(error){
                 alert(error);
             });
-//                .finally(function () {
-//                    $scope.$emit(LOADING_CONTENT_EVENT, false);
-//                    $scope.$emit(LOADING_HEADER_EVENT, false);
-//                });
         }
 
     }])
@@ -110,11 +106,13 @@ angular
     .run(['$rootScope', '$location', 'AuthFactory', '$window', 'API_URL', function ($rootScope, $location, AuthFactory, $window, API_URL) {
         $rootScope.$on("$routeChangeStart", function (event, nextRoute, currentRoute) {
             if ($location.path().indexOf(LOGIN) != -1 || $location.path().indexOf(SIGNIN) != -1) {
+                if(AuthFactory.isAuthenticated()){
+                    return $location.path(HOME);
+                }
                 return;
             }
             if (!AuthFactory.isAuthenticated()) {
                 if ($location.path().indexOf(API_URL.login) != -1 || $location.path().indexOf(API_URL.logout) != -1) {
-//                    $rootScope.$emit(GOOGLE_LOGIN_EVENT,true);
                     return $window.location.href = $location.absUrl();
                 }
                 event.preventDefault();
@@ -122,8 +120,8 @@ angular
             }
         });
     }])
-    .factory('MyAuthRequestInterceptor', [ '$q', '$location', 'AuthFactory',
-        function ($q, $location, AuthFactory) {
+    .factory('MyAuthRequestInterceptor', [ '$q', '$location', 'AuthFactory', '$rootScope',
+        function ($q, $location, AuthFactory, $rootScope) {
             return {
                 'request': function (config) {
                     if(AuthFactory.isAuthenticated()){
@@ -136,15 +134,14 @@ angular
                     response.headers()["Cache-Control"] = "no-store, max-age=0, must-revalidate, max-stale=0, post-check=0, pre-check=0"; //HTTP 1.1
                     response.headers()["Expires"] = "-1";
                     return response;
-                }
-//                responseError: function (rejection) {
-//                    console.log("Found responseError: ", rejection);
+                },
+                responseError: function (rejection) {
+                    console.log("Found responseError: ", rejection);
 //                    if (rejection.status == 401) {
-//                        console.log("Access denied (error 401), please login again");
-//                        $location.path(LOGIN);
+//                        $rootScope.$emit(USER_ALERT, "Access denied (error 401), please login again");
 //                    }
-//                    return $q.reject(rejection);
-//                }
+                    return $q.reject(rejection);
+                }
             }
     }])
 ;

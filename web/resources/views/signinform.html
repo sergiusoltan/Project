@@ -1,13 +1,13 @@
 <div class="container">
 
-    <form class="form-signin" role="form">
+    <form class="form-signin" role="form" name="loginForm" novalidate>
         <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="email" class="form-control" ng-model="email" placeholder="Email address" required autofocus>
-        <input type="text" class="form-control" ng-model="name" placeholder="Name">
-        <input type="password" class="form-control" ng-model="password" placeholder="Password" required>
-        <label class="checkbox">
-            <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <button class="btn btn-lg btn-primary btn-block" ng-click="signIn();"  type="submit">Sign in</button>
+        <input type="email" name="email" class="form-control" ng-model="email" placeholder="Email address" required autofocus>
+        <input type="text" name="name" class="form-control" ng-model="name" placeholder="Name">
+        <input type="password" name="password" class="form-control" ng-model="password" placeholder="Password" required>
+        <!--<label class="checkbox">-->
+            <!--<input type="checkbox" value="remember-me"> Remember me-->
+        <!--</label>-->
+        <button class="btn btn-lg btn-primary btn-block" ng-disabled="loginForm.$invalid" ng-click="signIn();"  type="submit">Sign in</button>
     </form>
 </div>

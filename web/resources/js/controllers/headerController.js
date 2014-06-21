@@ -7,18 +7,19 @@
  */
 angular
     .module('mainApp')
-    .controller('HeaderCtrl', ['$scope' , '$location', 'UserFactory', 'AuthFactory', function ($scope, $location, UserFactory, AuthFactory) {
+    .controller('HeaderCtrl', ['$scope', '$rootScope' , '$location', function ($scope, $rootScope, $location) {
 
         $scope.title = 'Header Controller';
+        $scope.isLogged = false;
 
         $scope.navClass = function (page) {
             var currentRoute = $location.path().substring(1) || '';
             return page === currentRoute ? 'active' : 'innactive';
         };
 
-        $scope.loggedUser = function(){
-            return AuthFactory.getUser().isLogged;
-        };
+        $rootScope.$on(USER_EVENT, function (e, value) {
+            $scope.isLogged = value;
+        });
 
         $scope.$on(LOADING_HEADER_EVENT, function (e, value) {
             $scope.loading.header = value;
