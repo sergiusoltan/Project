@@ -72,6 +72,7 @@ angular
             modalInstance.result.then(function (item) {
                 EvaluationService.saveEvaluation($scope.id, item.instance).then(function (success) {
                     $scope.evaluations = success;
+                    createData();
                 }, function (error) {
                     console.log('failed to save evaluation with ' + error);
                 });
