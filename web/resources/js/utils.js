@@ -11,6 +11,7 @@ LOADING_CONTENT_EVENT = "application.loading.content";
 GOOGLE_LOGIN_EVENT = "application.google.login";
 USER_EVENT = "application.user.event";
 USER_ALERT = "application.user.alert";
+SESSION_EXPIRED = "application.session.expired";
 
 //PATHS
 HOME = '/';

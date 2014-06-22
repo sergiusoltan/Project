@@ -145,3 +145,10 @@ div .panel > .thumbnail {
     max-height: 250px !important;
     cursor: pointer;
 }
+.alertRight{
+    position: absolute;
+    top: 50px;
+    margin: 10px;
+    width: 30%;
+    right: 10px;
+}

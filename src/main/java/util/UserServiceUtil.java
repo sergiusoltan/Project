@@ -39,7 +39,7 @@ public class UserServiceUtil {
     }
 
     public static Boolean isAuthorized(String sessionToken, String savedToken){
-        return savedToken.equals(sessionToken);
+        return savedToken != null && savedToken.equals(sessionToken);
     }
 
     public static UserStatus findUser(String userEmail, List<String> errors){
@@ -120,7 +120,7 @@ public class UserServiceUtil {
             userEntity = getEntity(Entities.USER, model.getEmail());
             userEntity.setProperty(SESSION_TOKEN.getKey(), null);
             updateEntity(userEntity);
-        }catch (EntityNotFoundRuntimeException e){
+        }catch (RuntimeException e){
             responses.add(e.getMessage());
         }
 

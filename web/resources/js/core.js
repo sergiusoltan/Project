@@ -75,3 +75,26 @@ angular
         }
     });
 
+angular
+    .module('googleCharts')
+    .directive('notification',['$rootScope','$compile', function($rootScope, $compile){
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                ngModel: '='
+            },
+            link: function(scope, element, attrs ) {
+                $rootScope.$on(USER_ALERT, function(event, data){
+                    var html = "<div></div>";
+                    if(data){
+                        html = "<div class='alert alert-info alertRight'>"+data+"" + "</div>";
+                    }
+                    var e = $compile(html)(scope);
+                    element.empty();
+                    element.append(e);
+                });
+            }
+        }
+}]);
+

@@ -9,7 +9,7 @@
 
 angular
     .module('core')
-    .factory('AuthFactory', ['$rootScope', function ($rootScope) {
+    .factory('AuthFactory', ['$rootScope','$timeout', function ($rootScope, $timeout) {
     var currentUser;
     return{
         setUser:function (user) {
@@ -36,6 +36,14 @@ angular
                 return 'Basic ' + currentUser.email + ":" + currentUser.sessionToken;
             }
             return '';
+        },
+
+        showAlert : function(data, time){
+            var alertMessage = data.replace(/[\[\]]/g,"");
+            $rootScope.$emit(USER_ALERT, alertMessage);
+            $timeout(function(){
+                $rootScope.$emit(USER_ALERT, "");
+            },time);
         },
 
         clear:function(){

@@ -9,7 +9,7 @@
 
 angular
     .module('mainApp')
-    .controller('MainCtrl', ['$scope', '$rootScope', 'UserFactory', 'AuthFactory', '$location','$timeout', function ($scope, $rootScope ,UserFactory, AuthFactory, $location, $timeout) {
+    .controller('MainCtrl', ['$scope', '$rootScope', 'UserFactory', 'AuthFactory', '$location', function ($scope, $rootScope ,UserFactory, AuthFactory, $location) {
 
         init();
 
@@ -36,7 +36,10 @@ angular
             UserFactory.loginUser(JSON.stringify(properties)).then(function (success) {
                 $scope.user = success.myHashMap.data;
                 AuthFactory.setUser($scope.user);
-                $location.path(HOME);
+                if(AuthFactory.isAuthenticated()){
+                    $location.path(HOME);
+                }
+                AuthFactory.showAlert(success.myHashMap.messages, 2500);
             });
         };
 
@@ -54,8 +57,6 @@ angular
                 header: true,
                 content: true
             };
-//            $scope.alertAvailable = false;
-//            $scope.alertMessage = '';
             $scope.name = "test";
             $scope.email = "test@test.test";
             $scope.password = "testtest";
@@ -64,14 +65,10 @@ angular
             loadUser();
         }
 
-//        $rootScope.$on(USER_ALERT, function (event, message) {
-//            $scope.alertAvailable = true;
-//            $scope.alertMessage = message;
-//            $timeout(function(){
-//                $scope.alertAvailable = false;
-//                $scope.alertMessage = '';
-//            },1500);
-//        });
+        $rootScope.$on(SESSION_EXPIRED, function (event, message) {
+            $scope.logout();
+            AuthFactory.showAlert("Session expired due to inactivity!", 4000);
+        });
 
         function loadUser() {
             UserFactory.getUser().then(function (succes) {
@@ -118,6 +115,14 @@ angular
                 event.preventDefault();
                 return $location.path(LOGIN);
             }
+        });
+        var lastDigestRun = new Date();
+        $rootScope.$watch(function detectIdle() {
+            var now = new Date();
+            if (now - lastDigestRun > 5*60*1000) {
+                $rootScope.$emit(SESSION_EXPIRED);
+            }
+            lastDigestRun = now;
         });
     }])
     .factory('MyAuthRequestInterceptor', [ '$q', '$location', 'AuthFactory', '$rootScope',
