@@ -119,7 +119,7 @@ angular
         var lastDigestRun = new Date();
         $rootScope.$watch(function detectIdle() {
             var now = new Date();
-            if (now - lastDigestRun > 0.1*60*1000) {
+            if (now - lastDigestRun > 5*60*1000) {
                 if($location.path().indexOf(LOGIN) != -1 && $location.path().indexOf(SIGNIN) != -1){
                     $rootScope.$emit(SESSION_EXPIRED);
                 }
