@@ -9,7 +9,7 @@
 
 angular
     .module('core')
-    .factory('UserFactory', ['$http', '$q', 'API_URL', function ($http, $q, API_URL) {
+    .factory('UserFactory', ['$http', '$q', 'API_URL', '$location', function ($http, $q, API_URL, $location) {
 
         var loginUrl = API_URL.rest + "auth/find",
             saveUserUrl = API_URL.rest + "auth/save",
@@ -56,8 +56,8 @@ angular
 
         UserFactory.logoutUser = function (properties) {
             var deferred = $q.defer();
-
-            $http['post'](logoutUserUrl, properties)
+            var url = this.getHost() + logoutUserUrl;
+            $http['post'](url, properties)
                 .success(function (success) {
                     deferred.resolve(success);
                 }).error(function (error) {
@@ -65,6 +65,15 @@ angular
                 });
 
             return deferred.promise;
+        };
+
+        UserFactory.getHost = function(){
+            var port = $location.port();
+            var host = $location.protocol() + "://" + $location.host();
+            if(port){
+                host = host + ":" + port;
+            }
+            return host+"/";
         };
 
         return UserFactory;
