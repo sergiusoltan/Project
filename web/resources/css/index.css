@@ -2,6 +2,10 @@
     background-color: lightgrey;
 }
 
+.nav > li {
+    display: inline-block !important;
+}
+
 .form-signin {
     max-width: 330px;
     padding: 15px;

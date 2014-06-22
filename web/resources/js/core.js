@@ -55,6 +55,7 @@ angular
                 $scope.$watch(target, function (value) {
                     var chart = new google.visualization.AnnotationChart($elm[0]);
                     if(value){
+                        $elm[0].html = "";
                         chart.draw(value.data, value.options);
                     }
                 }, true);
