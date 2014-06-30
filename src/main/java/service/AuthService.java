@@ -54,8 +54,8 @@ public class AuthService {
     public Response saveUser(String formData) throws JSONException {
         AuthModel authModel = AuthModel.getAuthModel(formData);
         List<String> messages = newArrayList();
-        trySave(authModel, messages);
-        return oKResponse(messages);
+        Boolean success = trySave(authModel, messages);
+        return success ? oKResponse(messages) : response(messages, Response.Status.CONFLICT);
     }
 
     @POST

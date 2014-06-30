@@ -39,7 +39,12 @@ angular
         },
 
         showAlert : function(data, time){
-            var alertMessage = data.replace(/[\[\]]/g,"");
+            var alertMessage = data;
+            try{
+                alertMessage = data.replace(/[\[\]]/g,"");
+            }catch (e){
+                alertMessage = data;
+            }
             $rootScope.$emit(USER_ALERT, alertMessage);
             $timeout(function(){
                 $rootScope.$emit(USER_ALERT, "");
