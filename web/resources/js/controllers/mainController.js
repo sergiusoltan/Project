@@ -60,11 +60,6 @@ angular
                 header: true,
                 content: true
             };
-            $scope.name = "test";
-            $scope.email = "test@test.test";
-            $scope.password = "testtest";
-            $scope.rememberme = false;
-
             loadUser();
         }
 
