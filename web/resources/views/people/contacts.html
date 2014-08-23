@@ -98,7 +98,7 @@
                 <span class="input-group-addon">Name</span>
                 <input type="text" class="form-control" name="personName"
                        ng-maxlength="50" ng-minlength="3"
-                       ng-pattern="/^[a-zA-Z ]*$/"
+                       ng-pattern="/^[a-zA-Z1-9 ]*$/"
                        ng-class="{'alert-success':form.personName.$dirty && form.personName.$valid, 'alert-danger':form.personName.$invalid && !form.personName.$pristine}"
                        value="{{item.name}}" ng-model="item.name" placeholder="Insert name here" required>
             </div>
@@ -107,7 +107,7 @@
                     <input name="phoneNumber" type="number" class="form-control"
                            ng-minlength="9" ng-maxlength="15" ng-pattern="/^\d+$/"
                            ng-class="{'alert-success':form.phoneNumber.$dirty && form.phoneNumber.$valid,'alert-danger':form.phoneNumber.$invalid && !form.phoneNumber.$pristine}"
-                           value="{{item.phone}}" ng-model="item.phone" placeholder="Insert phone here" required>
+                           value="{{item.phone}}" ng-model="item.phone" placeholder="Insert phone here">
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Recomended By</span>
@@ -135,7 +135,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="ok()">OK</button>
+            <button class="btn btn-primary" ng-disabled="form.personName.$invalid || form.typeOption.$invalid" ng-click="ok()">OK</button>
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
     </form>
